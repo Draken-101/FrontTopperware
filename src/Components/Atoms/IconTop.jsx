@@ -4,8 +4,8 @@ const Icon = styled.img`
     height: ${props => props.Height || "5vw"};
     object-fit: cover;
 `;
-export function IconTop(){
+export function IconTop({Src}){
     return(
-        <Icon src='src/assets/Icons/icons8-corona-96.png'/>
+        <Icon src={Src} />
     )
 }

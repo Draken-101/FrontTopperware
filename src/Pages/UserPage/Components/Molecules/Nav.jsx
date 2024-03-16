@@ -12,18 +12,12 @@ const Container = styled.nav`
 export function Nav({ Data, OC }) {
     return (
         <Container>
-            {
-                Data.map((data) => {
-                    return (
-                        <ButtonIcon onClick={OC}>
-                            <Label>
-                                {data.name ? data.name : "Name none &"}
-                            </Label>
-                            <img src={data.icon ? data.icon : ""}/>
-                        </ButtonIcon>
-                    )
-                })
-            }
+            <ButtonIcon onClick={OC}>
+                <Label>
+                    {Data.name ? Data.name : "Name none &"}
+                </Label>
+                <img src={Data.icon ? Data.icon : ""} />
+            </ButtonIcon>
         </Container>
     )
 }
