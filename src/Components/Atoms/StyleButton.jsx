@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 export const StyleButton = styled.button`
     padding: 1vw 2vw;
+    margin-top: 1vw;
+    margin-right: 1vw;
     background-color: ${props => props.clicked ? "#641f99" : "#9755c9"};
     font-size: 1.5vw;
     color: rgba(255, 247, 243, 1);

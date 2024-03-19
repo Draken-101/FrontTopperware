@@ -5,19 +5,11 @@ import { useState } from 'react';
 const Container = styled.div`
     width: calc(100% - 2vw);
     padding: 0.4vw 1vw;
-    div{
-        margin-top: 1vw;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1vw;
-    }
 `;
 export function ProductStyles({ Data }) {
     const [id, setId] = useState(1)
     const [clickedButton, setClickedButton] = useState(null);
-    const handleButtonClick = (buttonId) => {
-        setClickedButton(buttonId);
-    };
+    const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     return (
         <Container>
             <Label Size={"1.5vw"} Justify={"center"}> Elige tu estilo </Label>
