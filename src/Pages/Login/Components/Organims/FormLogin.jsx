@@ -23,7 +23,8 @@ const Container = styled.div`
 export function FormLogin() {
     return (
         <Container>
-            <Formik initialValues={Valores}
+            <Formik 
+                initialValues={Valores}
                 validate={(v) => Validaciones(v)}
                 onSubmit={({ resetForm }) => {
                     resetForm();

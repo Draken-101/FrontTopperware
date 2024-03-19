@@ -15,20 +15,25 @@ const Input = styled.input`
 `;
 const Div = styled.div`
     display: flex;
-    img{
-        border-top-right-radius: .3vw;
-        border-top-left-radius: .3vw;
-        width: calc(2.5vw - .1vw);
-        height: calc(2.5vw - 1px);
+    button{
+        border-radius: 0 !important;
+        border-top-right-radius: .3vw !important;
+        border-top-left-radius: .3vw !important;
+        width: calc(3vw - .1vw);
+        height: calc(100% + 1px);
         padding: 0.25vw;
         border: 0.1vw solid rgba(186, 0, 123, 1);
+        background-color: transparent;
+        background-image: url("src/assets/Icons/icons8-búsqueda-96.png");
+        background-size: 90%;
+        background-position: center;
     }
 `;
 export function InputSearchBar({ Placeholder }) {
     return (
         <Div>
             <Input placeholder={Placeholder ? Placeholder : "Buscar"} />
-            <img src="src/assets/Icons/icons8-búsqueda-96.png" alt="" />
+            <button/>
         </Div>
     )
 }

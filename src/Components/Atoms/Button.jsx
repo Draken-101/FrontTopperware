@@ -3,7 +3,7 @@ export const Button = styled.button`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${props => props.Color || "rgba(87, 0, 155, 0.61)"};
+    background-color: ${props => props.Color || "#9755c9"};
     padding: ${props => props.Padding || "1vw"};
     width: ${props => props.Width || "fit-content"};
     height: ${props => props.Height || "fit-content"};
@@ -12,6 +12,7 @@ export const Button = styled.button`
     font-weight: normal;
     letter-spacing: ${props => props.LetterSpacing || "0%"};
     &:hover{
-        background-color: ${props => props.Hover || "rgba(88, 0, 155, 0.816)"};
+        filter: drop-shadow(0.5vw 0.5vw 0vw rgba(0, 0, 0, 0.3)) ;
+        transform: translate( -.5vw, -.5vw);
     }
 `;

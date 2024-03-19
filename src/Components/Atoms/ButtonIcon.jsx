@@ -1,31 +1,16 @@
 import styled from 'styled-components';
-
 export const ButtonIcon = styled.button`
-    position: relative;
     padding: .2vw;
-    display: flex;
-    width: fit-content;
-    justify-content: end;
-    align-items: center;
+    width: 3vw;
     background-color: white;
-    border: .2vw solid rgba(87, 0, 155, 0.61);
-    transition: width .3s; /* Añadimos la transición para el color del borde y el ancho */
-    img {
-        width: 3vw;
-        height: 3vw;
-    }
-    label {
-        justify-content: center;
-        overflow: hidden;
-        width: 0vw;
-        transition:  .7s; 
-        margin: 0vw;
-        cursor: pointer;
-        opacity: 0; 
-    }
-    &:hover label {
-        width: calc( ( 100vw / 4 ) - .5vw );
-        margin: 0vw 1vw; 
-        opacity: 1;
-    }
+    border: .15vw solid rgba(87, 0, 155, 0.61);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+    transition: width .3s;
+    background-image: ${props => `url("${props.Img}")` || ""};
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 85%;
+    transition: .3s ;
 `;

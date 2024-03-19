@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ButtonIcon } from '../../../../Components/Atoms/ButtonIcon';
+import { ButtonIconHeader } from '../../../../Components/Atoms/ButtonIconHeader';
 import { Label } from '../../../../Components/Atoms/Label';
 const Container = styled.nav`
     display: flex;
@@ -12,12 +12,7 @@ const Container = styled.nav`
 export function Nav({ Data, OC }) {
     return (
         <Container>
-            <ButtonIcon onClick={OC}>
-                <Label>
-                    {Data.name ? Data.name : "Name none &"}
-                </Label>
-                <img src={Data.icon ? Data.icon : ""} />
-            </ButtonIcon>
+            <ButtonIconHeader Data={Data} OC={OC}/>
         </Container>
     )
 }

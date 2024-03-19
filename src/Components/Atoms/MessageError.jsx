@@ -6,10 +6,11 @@ const Error = styled.span`
     color: red;
     font-size: 1.5vw;
     font-weight: 300;
-    margin-top: 1vw;
+    margin-top: ${props => props.Aling ? "0px" : "1vw"};
+    text-align: ${props => props.Aling ? props.Aling : "start"};
 `;
-export function MessageError ({message}){
+export function MessageError ({message, aling}){
     return (
-         <Error> { message } </Error>
+         <Error Aling={aling}> { message } </Error>
     )
 }
