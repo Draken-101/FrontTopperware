@@ -29,9 +29,9 @@ const Button = styled.button`
         opacity: 1;
     }
 `;
-export function ButtonIconHeader({ Data, OC }) {
+export function ButtonIconHeader({ Data, OnClick }) {
     return (
-        <Button onClick={OC}>
+        <Button onClick={OnClick}>
             <Label> {Data.name ? Data.name : "Name none &"} </Label>
             <img src={Data.icon ? Data.icon : ""} />
         </Button>

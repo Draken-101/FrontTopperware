@@ -12,6 +12,7 @@ const Container = styled.div`
     width: calc(100% - 2vw);
     height: 42.5vw;
     margin: 1vw;
+    padding-bottom: 1vw;
     background-color: rgba(255, 247, 243, 1);
     .Form{
         display: flex;
@@ -21,7 +22,7 @@ const Container = styled.div`
         height: 100%;
     }
 `;
-export function ProductInfo({ DataProduct }) {
+export function ProductInfo({ DataProduct, Volver, AgregarCarrito }) {
     return (
         <Container>
             <Img src={DataProduct ? DataProduct.img : "src/assets/Img/Minnie2.jpg"} Width={"100%"} Height={"100%"} />
@@ -35,7 +36,7 @@ export function ProductInfo({ DataProduct }) {
                 }}>
                 <Form className="Form">
                     <PrintDataProduct Data={DataProduct} />
-                    <Buttons/>
+                    <Buttons Volver={Volver} AgregarCarrito={AgregarCarrito}/>
                 </Form>
             </Formik>
         </Container>

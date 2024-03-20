@@ -9,10 +9,10 @@ const Container = styled.nav`
     height: 100%;
     padding-right: 2vw;
 `;
-export function Nav({ Data, OC }) {
+export function Nav({ Data, OnClick }) {
     return (
         <Container>
-            <ButtonIconHeader Data={Data} OC={OC}/>
+            <ButtonIconHeader Data={Data} OnClick={OnClick}/>
         </Container>
     )
 }

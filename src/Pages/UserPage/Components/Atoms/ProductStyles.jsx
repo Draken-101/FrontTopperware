@@ -24,12 +24,12 @@ export function ProductStyles({ Data }) {
                     })
                     :
                     <>
-                        {[1, 2, 3, 4, 5].map((buttonId) => (
+                        {["Rosa", "Rojo", "Verde", "Cian", "Cafe"].map((buttonName) => (
                             <StyleButton
-                                key={buttonId}
-                                onClick={() => handleButtonClick(buttonId)}
-                                clicked={clickedButton === buttonId} >
-                                Bote
+                                key={buttonName}
+                                onClick={() => handleButtonClick(buttonName)}
+                                clicked={clickedButton === buttonName} >
+                                {buttonName}
                             </StyleButton>
                         ))}
                     </>

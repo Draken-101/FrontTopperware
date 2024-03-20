@@ -15,10 +15,14 @@ export const Cambio = (page) => {
         })
     }
 }
-export const ProductSwitch = (seeProduct) => {
-    if (seeProduct) {
+export function Switch(see){
+    if (see) {
         return(false)
     } else {
         return(true)
     }
+}
+export const Tienda = {
+    name: "Top",
+    icon: "src/assets/Icons/icons8-corona-96.png"
 }
