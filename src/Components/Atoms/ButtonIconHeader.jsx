@@ -32,8 +32,8 @@ const Button = styled.button`
 export function ButtonIconHeader({ Data, OnClick }) {
     return (
         <Button onClick={OnClick}>
-            <Label> {Data.name ? Data.name : "Name none &"} </Label>
-            <img src={Data.icon ? Data.icon : ""} />
+            <Label> {Data.nameButton} </Label>
+            <img src={Data.iconButton} />
         </Button>
     )
 }

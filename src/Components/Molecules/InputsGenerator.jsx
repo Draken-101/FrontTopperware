@@ -5,22 +5,26 @@ import { ErrorMessage, Field, useFormikContext } from 'formik';
 import { MessageError } from '../Atoms/MessageError';
 import './InputsGenerator.css'
 const Div = styled.div`
-    width: 100%;
+    width: ${props => props.Width};
     gap: 0vw;
     height: fit-content;
     display: flex;
     flex-direction: column;
 `;
-export function InputsGenerator({  RegisterInputs }) {
+export function InputsGenerator({  Inputs }) {
     const { errors } = useFormikContext();
     return (
         <>
             {
-                RegisterInputs.fields.map((date, index) => {
+                Inputs.fields.map((date, index) => {
                     return (
-                        <Div key={index}>
+                        <Div key={index} Width={date.width ? date.width : "100%"}>
                             <Label htmlFor={ date.valor } > { date.label } </Label>
-                            <Field className='Field' placeholder={ date.placeholder } id={ date.valor } name={ date.valor } type={ date.type }/>
+                            { date.type !== "textarea" ? 
+                            <Field className='Field' placeholder={ date.placeholder } id={ date.valor } name={ date.valor } type={ date.type }/> 
+                            : 
+                            <Field className='Field' placeholder={ date.placeholder } id={ date.valor } name={ date.valor } as={ date.type }/> 
+                            }
                             <ErrorMessage name={ date.valor } component={() => (<MessageError message={errors[ date.valor ]} />)} />
                         </Div>
                     )

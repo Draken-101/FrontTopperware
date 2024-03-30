@@ -25,7 +25,7 @@ export function StockPriceQuantity({ Data }) {
                 </div>
                 <div>
                     <label className='LabelData Purple'> Cantidad </label>
-                    <Field className='Field' id={"cantidad"} name={"cantidad"} type={"number"} min={0} max={ Data ? Data.existencias : 1}/>
+                    <Field className='Count' id={"cantidad"} name={"cantidad"} type={"number"} min={0} max={ Data ? Data.existencias : 1}/>
                 </div>
             </Container>
     )

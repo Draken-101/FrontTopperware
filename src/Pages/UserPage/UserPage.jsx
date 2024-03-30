@@ -1,32 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconTop } from "../../Components/Atoms/IconTop";
 import { HeaderUser } from "./Components/Organims/HeaderUser";
 import { Top } from "./Components/Organims/Top";
 import { Shop } from "./Components/Organims/Shop";
-import { Cambio, Valor, Tienda, Switch } from "./Functions";
+import { Cambio, tienda, Switch, top, productInfo, shoppingCart, shippingForm, confirmOrder } from "./Functions";
 import { ProductInfo } from "./Components/Organims/ProductInfo";
 import { ShoppingCart } from "./Components/Organims/ShoppingCart";
+import { Products } from "./Datos/Datos.Products";
+import { ShippingForm } from "./Components/Organims/ShippingForm";
+import { ConfirmOrder } from "./Components/Organims/ConfirmOrder";
 export function UserPage() {
-    const [page, setPage] = useState(Valor)
-    const [seeProduct, setSeeProduct] = useState(false)
-    const [seeShoppingCart, setSeeShoppingCart] = useState(false)
+    const [page, setPage] = useState(top)
+    const [activeHeader, setActiveHeader] = useState(true)
     return (
         <>
-            <HeaderUser Icon={<IconTop Src={page.name === "Tienda" ? "src/assets/Icons/icons8-corona-96.png" : seeShoppingCart ? "src/assets/Icons/icons8-carrito-de-compras-64.png" : "src/assets/Icons/icons8-tienda-96.png"} />} Data={page} OnClick={() => { setPage(Cambio(page)); setSeeProduct(false); setSeeShoppingCart(false)}} />
-            {
-
-            }
-            {
-                seeProduct ?
-                    <ProductInfo Volver={() => { setSeeProduct(false); setPage(Tienda) }} />
-                    :
-                    seeShoppingCart ?
-                        <ShoppingCart seeShoppingCart={() => setSeeShoppingCart(Switch(seeShoppingCart))}/>
-                        :
-                        <div className="Container">{
-                            page.name === "Top" ? <Shop seeShoppingCart={() => setSeeShoppingCart(Switch(seeShoppingCart))} SeeProduct={() => setSeeProduct(Switch(seeProduct))} /> : <Top />
-                        }</div>
-            }
+            {activeHeader ? <HeaderUser Icon={<IconTop Src={page.icon} />} Data={page} OnClick={() => setPage(Cambio(page))} /> : ""}
+            {(() => {
+                switch (page.pageName) {
+                    case 'Tienda':
+                        return <Shop seeShoppingCart={() => setPage(shoppingCart)} SeeProduct={() => setPage(productInfo)} />;
+                    case 'Top':
+                        return <Top />;
+                    case 'ProductInfo':
+                        return <ProductInfo Volver={() => setPage(tienda)} />;
+                    case 'ShoppingCart':
+                        return <ShoppingCart seeShoppingCart={() => setPage(tienda)} Products={Products} PlaceAnOrder={()=> { setActiveHeader(false); setPage(shippingForm); }}/>;
+                    case 'ShippingForm':
+                        return <ShippingForm Cancelar={() => { setActiveHeader(true); setPage(tienda)}} SaveData={() => setPage(confirmOrder)}/>;
+                    case 'ConfirmOrder':
+                        return <ConfirmOrder Cancelar={() => { setActiveHeader(true); setPage(tienda)}} Products={Products}/>;
+                    default:
+                        return null;
+                }
+            })()}
         </>
     )
 }

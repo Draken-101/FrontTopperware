@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import './Card.css'
+import './Card.styl'
 import { DataCard } from '../../../../Components/Atoms/DataCard';
 const Container = styled.div`
     position: relative;

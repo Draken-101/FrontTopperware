@@ -1,11 +1,3 @@
-.Container {
-    display: flex;
-    flex-direction: column;
-    gap: 1vw;
-    padding: .5vw 2vw;
-    width: calc(100% - 4vw);
-    height: calc(100vh - 9vw);
-}
 
 .ContainerCards {
     position: relative;

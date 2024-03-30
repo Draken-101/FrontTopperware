@@ -7,10 +7,10 @@ import { Validaciones } from '../../Datos/Datos.Validaciones';
 import { Buttons } from '../Molecules/Buttons';
 const Container = styled.div`
     display: grid;
-    grid-template-columns: 42.5vw calc(100% - 42.5vw);
+    grid-template-columns: 40vw calc(100% - 42.5vw);
     grid-template-rows: 100%;
     width: calc(100% - 2vw);
-    height: 42.5vw;
+    height: 40vw;
     margin: 1vw;
     padding-bottom: 1vw;
     background-color: rgba(255, 247, 243, 1);

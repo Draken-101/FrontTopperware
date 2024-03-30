@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Button } from '../../../../Components/Atoms/Button';
+import {ButtonPurple } from '../../../../Components/Atoms/ButtonPurple';
+import { ButtonPinkRed } from '../../../../Components/Atoms/ButtonPinkRed';
 const Container = styled.div`
     display: grid !important;
     grid-template-columns: 35% 65%;
@@ -15,8 +16,8 @@ const Container = styled.div`
 export function Buttons({ Volver, AgregarCarrito }){
     return(
         <Container>
-            <Button onClick={Volver} Width={"95%"} Color={"rgba(186, 0, 123, 1)"}> Volver </Button>
-            <Button onClick={AgregarCarrito} Width={"97%"}> Agregar al Carrito </Button>
+            <ButtonPinkRed onClick={Volver} Width={"95%"} > Volver </ButtonPinkRed>
+            <ButtonPurple onClick={AgregarCarrito} Width={"97%"}> Agregar al Carrito </ButtonPurple>
         </Container>
     )
 }

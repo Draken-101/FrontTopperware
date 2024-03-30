@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
-import './Card.css'
+import './Card.styl'
 import { DataCard } from '../../../../Components/Atoms/DataCard';
 const Container = styled.div`
     background-color: rgba(231, 185, 188, 1);

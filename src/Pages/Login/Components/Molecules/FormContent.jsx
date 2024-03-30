@@ -1,4 +1,5 @@
-import { Button } from '../../../../Components/Atoms/Button';
+
+import { ButtonPurple } from '../../../../Components/Atoms/ButtonPurple';
 import { Label } from '../../../../Components/Atoms/Label';
 import { InputsGenerator } from '../../../../Components/Molecules/InputsGenerator';
 import { Inputs } from '../../Datos/Datos.Inputs';
@@ -10,8 +11,8 @@ export function FormContent() {
             Justify={"center"} 
             Weight={"700"}
             > Iniciar sesion</Label>
-            <InputsGenerator RegisterInputs={Inputs} />
-            <Button Width={"100%"}> Ingresar </Button>
+            <InputsGenerator Inputs={Inputs} />
+            <ButtonPurple Width={"100%"}> Ingresar </ButtonPurple>
         </>
     )
 }
