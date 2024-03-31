@@ -12,11 +12,11 @@ const Container = styled.div`
         letter-spacing: .3vw;
     }
 `;
-export default function ButtonsOrder({Cancelar}){
+export default function ButtonsOrder({Cancelar, PlaceAnOrder}){
     return(
         <Container>
             <ButtonPinkRed onClick={Cancelar} Width={"45%"}> Cancelar </ButtonPinkRed>
-            <ButtonPurple Width={"50%"}> Hacer Pedido </ButtonPurple>
+            <ButtonPurple onClick={PlaceAnOrder} Width={"50%"}> Hacer Pedido </ButtonPurple>
         </Container>
     )
 }

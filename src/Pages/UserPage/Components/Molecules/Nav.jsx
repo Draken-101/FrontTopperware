@@ -12,7 +12,7 @@ const Container = styled.nav`
 export function Nav({ Data, OnClick }) {
     return (
         <Container>
-            <ButtonIconHeader Data={Data} OnClick={OnClick}/>
+            <ButtonIconHeader NameButton={Data.nameButton} IconButton={Data.iconButton} OnClick={OnClick}/>
         </Container>
     )
 }

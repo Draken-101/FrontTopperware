@@ -42,3 +42,6 @@ export const shippingForm = {
 export const confirmOrder = {
     pageName:"ConfirmOrder",
 }
+export const purchaseTracking = {
+    pageName:"PurchaseTracking",
+}

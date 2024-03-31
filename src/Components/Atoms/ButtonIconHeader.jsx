@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Label } from './Label';
 const Button = styled.button`
     position: relative;
-    padding: .2vw;
+    padding: .7vw;
     display: flex;
     justify-content: end;
     align-items: center;
@@ -29,11 +29,11 @@ const Button = styled.button`
         opacity: 1;
     }
 `;
-export function ButtonIconHeader({ Data, OnClick }) {
+export function ButtonIconHeader({ NameButton, IconButton, OnClick }) {
     return (
         <Button onClick={OnClick}>
-            <Label> {Data.nameButton} </Label>
-            <img src={Data.iconButton} />
+            <Label> {NameButton} </Label>
+            <img src={IconButton} />
         </Button>
     )
 }

@@ -30,14 +30,14 @@ const Count = styled.span`
     background-color: rgba(255, 247, 243, 1);
     border-bottom-right-radius: 100%;
 `;
-export function TopExistenciaCard({Name, Number}){
+export function TopExistenciaCard({title, count}){
     return(
         <Container>
             <Header>
-                {Name ? Name : "Name"}
+                {title}
             </Header>
             <Count>
-                {Number ? Number : "1"}
+                {count}
             </Count>
         </Container>
     )

@@ -3,12 +3,13 @@ import { IconTop } from "../../Components/Atoms/IconTop";
 import { HeaderUser } from "./Components/Organims/HeaderUser";
 import { Top } from "./Components/Organims/Top";
 import { Shop } from "./Components/Organims/Shop";
-import { Cambio, tienda, Switch, top, productInfo, shoppingCart, shippingForm, confirmOrder } from "./Functions";
+import { Cambio, tienda, Switch, top, productInfo, shoppingCart, shippingForm, confirmOrder, purchaseTracking } from "./Functions";
 import { ProductInfo } from "./Components/Organims/ProductInfo";
 import { ShoppingCart } from "./Components/Organims/ShoppingCart";
 import { Products } from "./Datos/Datos.Products";
 import { ShippingForm } from "./Components/Organims/ShippingForm";
 import { ConfirmOrder } from "./Components/Organims/ConfirmOrder";
+import { PurchaseTracking } from "./Components/Organims/PurchaseTracking";
 export function UserPage() {
     const [page, setPage] = useState(top)
     const [activeHeader, setActiveHeader] = useState(true)
@@ -28,7 +29,9 @@ export function UserPage() {
                     case 'ShippingForm':
                         return <ShippingForm Cancelar={() => { setActiveHeader(true); setPage(tienda)}} SaveData={() => setPage(confirmOrder)}/>;
                     case 'ConfirmOrder':
-                        return <ConfirmOrder Cancelar={() => { setActiveHeader(true); setPage(tienda)}} Products={Products}/>;
+                        return <ConfirmOrder Cancelar={() => { setActiveHeader(true); setPage(tienda)}} Products={Products} PlaceAnOrder={()=> { setActiveHeader(false); setPage(purchaseTracking); }}/>;
+                    case "PurchaseTracking":
+                        return <PurchaseTracking Volver={() => { setPage(tienda); setActiveHeader(true)}}/>
                     default:
                         return null;
                 }

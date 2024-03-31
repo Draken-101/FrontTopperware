@@ -19,7 +19,7 @@ export function CardTop({ Img, OnClick, ProductoData }) {
             onClick={OnClick}
             className="Card">
             <Fondo >
-                <TopExistenciaCard Name={"Top"} Number={"1"} />
+                <TopExistenciaCard title={"Top"} count={"1"} />
                 <DataCard Data={ProductoData} />
             </Fondo>
         </Container>

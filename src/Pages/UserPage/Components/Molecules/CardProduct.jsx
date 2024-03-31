@@ -18,7 +18,7 @@ export function CardProduct({ Img, OnClick, ProductoData }) {
     return (
         <Container onClick={OnClick} className={"Card Product"}>
             <Fondo>
-                <DataCard DisableClave={1} Data={ProductoData} />
+                <DataCard DisableClave={"1"} Data={ProductoData} />
             </Fondo>
         </Container>
     )
