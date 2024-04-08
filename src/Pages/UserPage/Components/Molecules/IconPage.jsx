@@ -5,10 +5,10 @@ const Container = styled.div`
     justify-content: space-around;
     background-color: white;
     align-items: center;
-    width: calc( (100% / 3 ) - .4vw);
+    width: calc( (100% / 3 ) - .3vw);
     height: 100%;
-    border-left: 0.2vw solid rgba(87, 0, 155, 0.61);
-    border-right: 0.2vw solid rgba(87, 0, 155, 0.61);
+    border-left: 0.15vw solid rgba(87, 0, 155, 0.61);
+    border-right: 0.15vw solid rgba(87, 0, 155, 0.61);
 `;
 export function IconPage({Icon}) {
     return (

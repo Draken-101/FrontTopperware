@@ -1,16 +1,24 @@
 import styled from 'styled-components';
 const Container = styled.div`
-    height: 28% !important;
+    height: 30% !important;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: .2vw;
     background-color: rgba(87, 0, 155, 0.61);
     span{
-        margin: 0vw .7vw;
+        width: 70%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: .1vw .7vw;
         color: rgba(255, 247, 243, 1);
         font-size: 1vw;
         font-weight: 400;
+        &:last-child{
+            border-radius: .2vw;
+            margin-left: .7vw;
+            width: fit-content;
+            background-color: rgba(0, 155, 132, 0.61);
+        }
     }
     .name{
         font-size: 1.5vw !important;
@@ -20,8 +28,8 @@ const Container = styled.div`
 export function DataCard({Data}){
     return(
         <Container>
-            <span className='name'> {Data.nombre} </span>
-            <span> {Data.clave} </span>
+            <span className='name'> {`${Data.nombres} ${Data.apellidos}`} </span>
+            <span> #{Data.numeroCliente} </span>
             <span> {`$${Data.totalVenta}`} </span>
         </Container>
     )

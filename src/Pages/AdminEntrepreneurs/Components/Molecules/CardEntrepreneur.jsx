@@ -14,7 +14,7 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardEntrepreneur({ OnClick, OnClickEditButton, EntrepreneurData }) {
+export function CardEntrepreneur({Editar, OnClick, EntrepreneurData, handleButtonClick, clickedButton }) {
     return (
         <Container
             onClick={OnClick}
@@ -22,7 +22,12 @@ export function CardEntrepreneur({ OnClick, OnClickEditButton, EntrepreneurData 
             Img={ EntrepreneurData.img}>
             <Fondo>
                 <TopExistenciaCard title={"Top"} count={EntrepreneurData.top} />
-                <ButtonEditCard onClick={OnClickEditButton}/>
+                <ButtonEditCard onClick={()=> {
+                    Editar(EntrepreneurData);
+                    handleButtonClick(EntrepreneurData.top);
+                }}
+                clicked={EntrepreneurData.top == clickedButton}
+                />
                 <DataCard Data={EntrepreneurData} />
             </Fondo>
         </Container>

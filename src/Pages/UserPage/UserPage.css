@@ -1,16 +1,15 @@
 
 .ContainerCards {
-    position: relative;
+    margin-top: 1vw;
     display: grid ;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-gap: 1vw 0;
+    grid-gap: 1vw;
     grid-template-rows: repeat(auto-fill, 19vw);
     justify-items: center;
     align-items: end;
     width: 100%;
     height: fit-content;
-    max-height: calc(100% - 3vw);
-    overflow: hidden;
+    max-height: calc(100% - 4vw);
     overflow-y: scroll;
 }
 

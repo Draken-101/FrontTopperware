@@ -1,26 +1,26 @@
 import styled from 'styled-components';
-import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
 import './Card.styl'
-import { DataCard } from '../../../../Components/Atoms/DataCard';
+import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
+import { DataCardEntrepreneur } from '../Atoms/DataCardEntrepreneur';
 const Container = styled.div`
     background-color: rgba(231, 185, 188, 1);
-    width: calc( ( 96vw - 4vw ) / 5 );
-    height: calc( ( 96vw - 4vw ) / 5 );
-    background-image: url("src/assets/Img/Minnie-perfil.png");
+    width: calc( ( 100vw - 8vw ) / 5 );
+    height: calc( ( 100vw - 8vw ) / 5 );
+    background-image: ${props => `url("${props.Img}")`};
 `;
 const Fondo = styled.div`
     position: relative;
     display: flex;
     align-items: end;
 `;
-export function CardTop({ Img, OnClick, ProductoData }) {
+export function CardTop({ EntrepreneurData }) {
     return (
         <Container
-            onClick={OnClick}
-            className="Card">
-            <Fondo >
-                <TopExistenciaCard title={"Top"} count={"1"} />
-                <DataCard Data={ProductoData} />
+            className={`Card`}
+            Img={ EntrepreneurData.img}>
+            <Fondo>
+                <TopExistenciaCard title={"Top"} count={EntrepreneurData.top} />
+                <DataCardEntrepreneur Data={EntrepreneurData} />
             </Fondo>
         </Container>
     )

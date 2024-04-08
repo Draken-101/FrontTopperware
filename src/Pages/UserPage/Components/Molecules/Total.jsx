@@ -14,7 +14,7 @@ const Container = styled.div`
         color: ${props => props.Color};
     }
 `;
-export default function Total({totalProducts, Color, Title}) {
+export function Total({totalProducts, Color, Title}) {
     return (
         <Container Color={Color}>
             <span> { Title } </span>

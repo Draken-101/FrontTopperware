@@ -6,10 +6,10 @@ const Container = styled.div`
     width: 100%;
     height: 3vw;
 `;
-export function SearchBar({Buttons}){
+export function SearchBar({ Buttons, Buscar }){
     return(
         <Container>
-            <InputSearchBar/>
+            <InputSearchBar Buscar={Buscar}/>
             { Buttons }
         </Container>
     )

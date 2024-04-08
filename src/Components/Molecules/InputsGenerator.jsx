@@ -6,12 +6,12 @@ import { MessageError } from '../Atoms/MessageError';
 import './InputsGenerator.css'
 const Div = styled.div`
     width: ${props => props.Width};
-    gap: 0vw;
+    margin-top: 1vw;
     height: fit-content;
     display: flex;
     flex-direction: column;
 `;
-export function InputsGenerator({  Inputs }) {
+export function InputsGenerator({  Inputs, Data }) {
     const { errors } = useFormikContext();
     return (
         <>
@@ -20,8 +20,8 @@ export function InputsGenerator({  Inputs }) {
                     return (
                         <Div key={index} Width={date.width ? date.width : "100%"}>
                             <Label htmlFor={ date.valor } > { date.label } </Label>
-                            { date.type !== "textarea" ? 
-                            <Field className='Field' placeholder={ date.placeholder } id={ date.valor } name={ date.valor } type={ date.type }/> 
+                            { date.type !== "textarea" ?
+                            <Field className='Field'  placeholder={ date.placeholder } id={ date.valor } name={ date.valor } type={ date.type }/>
                             : 
                             <Field className='Field' placeholder={ date.placeholder } id={ date.valor } name={ date.valor } as={ date.type }/> 
                             }

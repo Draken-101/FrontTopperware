@@ -13,11 +13,11 @@ const Container = styled.div`
     height: 15%;
     border-top: 0.15vw solid rgba(136, 0, 139, 0.22);
 `;
-export function Buttons({ Volver, AgregarCarrito }){
+export function Buttons({ Volver }){
     return(
         <Container>
-            <ButtonPinkRed onClick={Volver} Width={"95%"} > Volver </ButtonPinkRed>
-            <ButtonPurple onClick={AgregarCarrito} Width={"97%"}> Agregar al Carrito </ButtonPurple>
+            <ButtonPinkRed onClick={() => Volver()} Width={"95%"} type="button" > Volver </ButtonPinkRed>
+            <ButtonPurple Width={"97%"} type='submit'> Agregar al Carrito </ButtonPurple>
         </Container>
     )
 }

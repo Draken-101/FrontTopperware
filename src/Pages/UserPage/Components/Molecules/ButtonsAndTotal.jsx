@@ -22,9 +22,9 @@ const Container = styled.div`
 export function ButtonsAndTotal({Volver, Total, RemoveAll, PlaceAnOrder}){
     return(
         <Container>
-            <ButtonPinkRed onClick={RemoveAll}> Vaciar carrito </ButtonPinkRed>
-            <ButtonPinkRed onClick={Volver}> Volver </ButtonPinkRed>
-            <ButtonPurple onClick={PlaceAnOrder}> Hacer Pedido </ButtonPurple>
+            <ButtonPinkRed onClick={() => RemoveAll()}> Vaciar carrito </ButtonPinkRed>
+            <ButtonPinkRed onClick={() => Volver()}> Volver </ButtonPinkRed>
+            <ButtonPurple onClick={() => PlaceAnOrder()}> Hacer Pedido </ButtonPurple>
             <TotalProducts Total={Total}/>
         </Container>
     )

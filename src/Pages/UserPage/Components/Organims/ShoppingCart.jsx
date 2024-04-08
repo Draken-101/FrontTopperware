@@ -1,41 +1,33 @@
 import './ShoppingCart.styl'
-import '../Molecules/ProductShoppingCart.jsx';
+import '../Molecules/ProductShoppingCard.jsx';
 import { ButtonsAndTotal } from '../Molecules/ButtonsAndTotal';
-import { useEffect, useState } from 'react';
 import { ButtonRemove } from '../../../../Components/Atoms/ButtonRemove';
-import  ProductShoppingCart  from '../Molecules/ProductShoppingCart.jsx';
+import { ProductShoppingCard } from '../Molecules/ProductShoppingCard.jsx';
 
-export function ShoppingCart({ seeShoppingCart, Products, PlaceAnOrder }) {
-    const [products, setProducts] = useState(Products);
-    const [total, setTotal] = useState(0);
-    useEffect(() => {
-        calcTotal();
-    }, [products]);
-    const calcTotal = () => {
-        let total = 0;
-        for (const product of products) {
-            total += product.price;
-        }
-        setTotal(total);
-    };
-    const handleDelete = (productToDelete) => {
-        const updatedProducts = products.filter(product => product !== productToDelete);
-        console.log("a")
-        setProducts(updatedProducts);
-    };
+export function ShoppingCart({ seeShoppingCart, Car, PlaceAnOrder, RemoveAll, handleDelete, Increment, Decrement }) {
     return (
         <div className='ShoppingCart'>
             <div className='Products'>
                 {
-                products.map((product) => (
-                    <ProductShoppingCart Product={product} Borrar={
-                        <div className='Btn Border'>
-                            <ButtonRemove Borrar={() => handleDelete(product)} />
-                        </div>
-                    }/>
-                ))}
+                    Car ?
+                    Array.isArray(Car.car) ?
+                        Car.car.map((product) => (
+                            <ProductShoppingCard Increment={Increment} Decrement={Decrement} TotalPrecio={product.totalPrecio} Product={product} Borrar={
+                                <div className='Btn Border'>
+                                    <ButtonRemove Borrar={() => handleDelete(product.product)} />
+                                </div>
+                            } />
+                        ))
+                        :
+                        <ProductShoppingCard Increment={Increment} Decrement={Decrement} TotalPrecio={Car.car.totalPrecio} Product={Car.car.product} Borrar={
+                            <div className='Btn Border'>
+                                <ButtonRemove Borrar={() => handleDelete(Car.car.product)} />
+                            </div>
+                        } />
+                        : ''
+                }
             </div>
-            <ButtonsAndTotal PlaceAnOrder={PlaceAnOrder} Volver={seeShoppingCart} Total={total} RemoveAll={() => setProducts([])}/>
+            <ButtonsAndTotal PlaceAnOrder={PlaceAnOrder} Volver={seeShoppingCart} Total={Car ? Car.totalPrecio : 0 } RemoveAll={RemoveAll} />
         </div>
     );
 }

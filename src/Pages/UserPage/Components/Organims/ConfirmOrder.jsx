@@ -1,9 +1,9 @@
 import './ConfirmOrder.styl'
 import { LoginLogo } from '../../../../Components/Molecules/LoginLogo';
-import ProductShoppingCart from '../Molecules/ProductShoppingCart';
+import { ProductShoppingCard } from '../Molecules/ProductShoppingCard';
 import { useEffect, useState } from 'react';
-import Total from '../Molecules/Total';
-import ButtonsOrder from '../Molecules/ButtonsOrder';
+import { Total } from '../Molecules/Total';
+import { ButtonsOrder } from '../Molecules/ButtonsOrder';
 export function ConfirmOrder({ Products, Cancelar, PlaceAnOrder }) {
     const [totalProducts, setTotalProducts] = useState(0)
     const [totalPrice, setTotalPrice] = useState(0)
@@ -25,7 +25,7 @@ export function ConfirmOrder({ Products, Cancelar, PlaceAnOrder }) {
                 <div className='ContainerOrderProducts'>
                     {
                         Products.map((product) => (
-                            <ProductShoppingCart Product={product} />
+                            <ProductShoppingCard Product={product} />
                         ))
                     }
                 </div><hr />

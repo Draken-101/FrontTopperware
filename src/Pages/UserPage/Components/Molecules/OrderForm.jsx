@@ -5,9 +5,9 @@ import { ValidacionesShippingForm } from '../../Datos/Datos.ValidacionesShipping
 import { Form, Formik } from 'formik';
 import { InputsGenerator } from '../../../../Components/Molecules/InputsGenerator';
 import { InputsShippingForm } from '../../Datos/Datos.InputsShippingForm';
-import { Label } from '../../../../Components/Atoms/Label';
 import { ButtonPinkRed } from '../../../../Components/Atoms/ButtonPinkRed';
 import { ButtonPurple } from '../../../../Components/Atoms/ButtonPurple';
+import { Countries } from '../../../../Datos/Datos.Countries';
 const Container = styled.div`
     width: calc(50% - 4vw);
     height: calc( 100% - 4vw);
@@ -19,15 +19,16 @@ export function OrderForm({Cancelar, SaveData}){
             <Formik 
                     initialValues={ValoresShippingForm}
                     validate={(v) => ValidacionesShippingForm(v)}
-                    onSubmit={({ resetForm }) => {
+                    onSubmit={(values, { resetForm }) => {
+                        
+                        console.log("a");
                         resetForm();
-                        console.log('Formulario enviado');
                     }}>
                     <Form className='ContainerOrderForm'>
                         <h1>Datos de envio</h1>
                         <InputsGenerator Inputs={InputsShippingForm} />
-                        <ButtonPinkRed onClick={Cancelar} className='Pink'> Cancelar </ButtonPinkRed>
-                        <ButtonPurple onClick={SaveData} className='Purple'> Guardar datos </ButtonPurple>
+                        <ButtonPinkRed onClick={() => Cancelar()} type="button" className='Pink'> Cancelar </ButtonPinkRed>
+                        <ButtonPurple type='submit' className='Purple'> Guardar datos </ButtonPurple>
                     </Form>
                 </Formik>
         </Container>

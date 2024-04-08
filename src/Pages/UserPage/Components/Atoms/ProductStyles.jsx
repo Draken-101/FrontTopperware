@@ -6,34 +6,22 @@ const Container = styled.div`
     width: calc(100% - 2vw);
     padding: 0.4vw 1vw;
 `;
-export function ProductStyles({ Data }) {
-    const [id, setId] = useState(1)
-    const [clickedButton, setClickedButton] = useState(null);
-    const handleButtonClick = (buttonId) => setClickedButton(buttonId);
+export function ProductStyles({ Data, handleButtonClick, clickedButton }) {
     return (
         <Container>
             <Label Size={"1.5vw"} Justify={"center"}> Elige tu estilo </Label>
-            <div>{
-                Data ?
-                    Data.map((data) => {
+            <div>
+                {
+                    Data.map((data, index) => 
                         <StyleButton
-                            onClick={() => { setId(id+1); handleButtonClick(id)}}
-                            clicked={clickedButton === id}> 
-                        {data.name}
+                            type='button'
+                            onClick={() => handleButtonClick(data)}
+                            clicked={clickedButton === data.clave}>
+                            {data.nombre}
                         </StyleButton>
-                    })
-                    :
-                    <>
-                        {["Rosa", "Rojo", "Verde", "Cian", "Cafe"].map((buttonName) => (
-                            <StyleButton
-                                key={buttonName}
-                                onClick={() => handleButtonClick(buttonName)}
-                                clicked={clickedButton === buttonName} >
-                                {buttonName}
-                            </StyleButton>
-                        ))}
-                    </>
-            }</div>
+                    )
+                }
+            </div>
         </Container>
     )
 }

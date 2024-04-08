@@ -9,7 +9,7 @@ const Container = styled.div`
     span{
         margin: 0vw .7vw;
         color: rgba(255, 247, 243, 1);
-        font-size: 1vw;
+        font-size: .8vw;
         font-weight: 400;
     }
     .name{

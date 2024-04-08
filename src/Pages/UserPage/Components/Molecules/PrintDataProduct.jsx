@@ -1,39 +1,30 @@
-import styled from 'styled-components';
 import { Label } from '../../../../Components/Atoms/Label';
 import { Paragraph } from '../Atoms/Paragraph';
 import { Category } from '../Atoms/Category';
 import { Type } from '../Atoms/Type';
 import { StockPriceQuantity } from '../Atoms/StockPriceQuantity';
 import { ProductStyles } from '../Atoms/ProductStyles';
-const Container = styled.div`
-    height: 85%;
-    padding: 1vw;
-    overflow-y: scroll;
-    &::-webkit-scrollbar {
-        width: 0px;
-    }
-`;
-export function PrintDataProduct({ Data }) {
+import { ErrorMessage, useFormikContext } from 'formik';
+import { MessageError } from '../../../../Components/Atoms/MessageError';
+export function PrintDataProduct({ Data, styleData, handleButtonClick, clickedButton }) {
+    const { errors } = useFormikContext();
     return (
-        <Container>
-            <Label
-                Width={"fit-content"}
-                Size={"3vw"}
-                Margin={"0vw 1vw"}>
-                Nombre-Producto
+        <div className='PrintDataProduct'>
+            <Label Width={"fit-content"} Size={"3vw"} Margin={"0vw 1vw"}>
+                {Data.nombre}
             </Label>
             <Paragraph>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae similique, dignissimos laborum dolore alias laudantium 
-                assumenda ducimus fugit aut dolores autem architecto ratione omnis! Quos officiis alias quisquam culpa. Aut.
+                {styleData.descripcion}
             </Paragraph>
             <hr/>
-            <Category/>
+            <Category CategoryData={styleData.categoria}/>
             <hr/>
-            <Type/>
+            <Type TypeData={Data.tipo}/>
             <hr/>
-            <StockPriceQuantity/>
-            <hr/>
-            <ProductStyles/>
-        </Container>
+            <StockPriceQuantity Data={styleData}/>
+            <hr />
+            <ErrorMessage className='ErrorMsj' name={'cantidad'} component={() => (<MessageError Padding={'.5vw 0vw'} Content={'center'} aling={'center'}  message={errors[ 'cantidad' ]} />)} />
+            <ProductStyles Data={Data.estilos} handleButtonClick={handleButtonClick} clickedButton={styleData.clave}/>
+        </div>
     )
 }

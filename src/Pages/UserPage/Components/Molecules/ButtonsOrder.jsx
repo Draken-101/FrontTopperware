@@ -12,7 +12,7 @@ const Container = styled.div`
         letter-spacing: .3vw;
     }
 `;
-export default function ButtonsOrder({Cancelar, PlaceAnOrder}){
+export function ButtonsOrder({Cancelar, PlaceAnOrder}){
     return(
         <Container>
             <ButtonPinkRed onClick={Cancelar} Width={"45%"}> Cancelar </ButtonPinkRed>

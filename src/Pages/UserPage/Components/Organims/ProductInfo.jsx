@@ -3,17 +3,23 @@ import { Img } from '../../../../Components/Atoms/Img';
 import { PrintDataProduct } from '../Molecules/PrintDataProduct';
 import { Form, Formik } from 'formik';
 import { Valores } from '../../Datos/Datos.Valores';
-import { Validaciones } from '../../Datos/Datos.Validaciones';
+import { ValidacionesAddCar } from '../../Datos/Datos.ValidacionesAddCar';
 import { Buttons } from '../Molecules/Buttons';
+import {  useState } from 'react';
 const Container = styled.div`
     display: grid;
-    grid-template-columns: 40vw calc(100% - 42.5vw);
+    grid-template-columns: 40vw 58vw;
     grid-template-rows: 100%;
     width: calc(100% - 2vw);
-    height: 40vw;
+    height: calc( 100vh - 8.6vw);
+    align-items: center;
+    justify-items: center;
     margin: 1vw;
-    padding-bottom: 1vw;
     background-color: rgba(255, 247, 243, 1);
+    img{
+        border-right: .15vw solid rgba(136, 0, 139, 0.22);
+        padding: 1vw 3.5%;
+    }
     .Form{
         display: flex;
         flex-direction: column;
@@ -22,21 +28,29 @@ const Container = styled.div`
         height: 100%;
     }
 `;
-export function ProductInfo({ DataProduct, Volver, AgregarCarrito }) {
+export function ProductInfo({ Product, Volver, AgregarCarrito }) {
+    const [styleData, setStyleData] = useState(Product.estilos[0]);
+    const handleButtonClick = (style) => {
+        setStyleData(style);
+    };
     return (
         <Container>
-            <Img src={DataProduct ? DataProduct.img : "src/assets/Img/Minnie2.jpg"} Width={"100%"} Height={"100%"} />
+            <Img src={styleData.img} Width={"90%"} Height={"90%"} />
             <Formik
                 className="Form"
                 initialValues={Valores}
-                validate={(v) => Validaciones(v)}
-                onSubmit={({ resetForm }) => {
-                    resetForm();
+                validate={(v) => ValidacionesAddCar(v, styleData.cantidad)}
+                onSubmit={(values, { resetForm }) => {
+                    let p = { ...styleData, cantidad:values.cantidad};
+                    console.log(p);
+                    AgregarCarrito(p, Product.nombre)
                     console.log('Formulario enviado');
+                    Volver()
+                    resetForm();
                 }}>
                 <Form className="Form">
-                    <PrintDataProduct Data={DataProduct} />
-                    <Buttons Volver={Volver} AgregarCarrito={AgregarCarrito}/>
+                    <PrintDataProduct styleData={styleData} Data={Product} handleButtonClick={handleButtonClick}/>
+                    <Buttons Volver={Volver}/>
                 </Form>
             </Formik>
         </Container>

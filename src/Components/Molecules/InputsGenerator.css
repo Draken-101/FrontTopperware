@@ -1,5 +1,4 @@
 .Field{
-    
     display: flex;
     align-items: center;
     width: 100%;
@@ -9,7 +8,7 @@
     font-weight: 300;
     font-size: 2vw;
     color: rgba(87, 0, 155, 0.94);
-    padding: 1vw 0px;
+    padding: .5vw 0px;
 }
 .Field::placeholder{
     font-size: 2vw;

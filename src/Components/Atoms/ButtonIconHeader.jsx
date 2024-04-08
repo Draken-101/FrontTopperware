@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { Label } from './Label';
+
 const Button = styled.button`
     position: relative;
-    padding: .7vw;
     display: flex;
-    justify-content: end;
-    align-items: center;
     background-color: white;
-    border: .15vw solid rgba(87, 0, 155, 0.61);
-    transition: .3s;
+    align-items: center;
+    justify-content: center;
+    border: 0.1vw solid rgba(87, 0, 155, 0.61);
+    filter: drop-shadow(0vw 0vw 0vw rgba(109, 41, 173, 0));
+    transition: .3s ease-in-out; 
+    padding: 0.5vw;
+    overflow: hidden;
     img {
         width: 2.3vw;
         height: 2.3vw;
@@ -18,22 +21,26 @@ const Button = styled.button`
         justify-content: center;
         overflow: hidden;
         width: 0vw;
-        transition:  .7s; 
+        opacity: 0;
         margin: 0vw;
         cursor: pointer;
-        opacity: 0; 
     }
-    &:hover label {
-        width: calc( ( 100vw / 10 ) - .5vw );
-        margin: 0vw 1vw; 
-        opacity: 1;
+    &:hover{ 
+        filter: drop-shadow(.2vw .2vw 0vw rgba(109, 41, 173, 0.285));
+        transform: translate(-.2vw, -.2vw);
+        label {
+            width: ${props => props.Width};
+            opacity: 1;
+            margin: 0vw 1vw;
+        }
     }
 `;
-export function ButtonIconHeader({ NameButton, IconButton, OnClick }) {
+
+export function ButtonIconHeader({ NameButton, IconButton, OnClick, Width}) {
     return (
-        <Button onClick={OnClick}>
-            <Label> {NameButton} </Label>
-            <img src={IconButton} />
+        <Button onClick={OnClick} Width={Width}>
+            <Label>{NameButton}</Label>
+            <img src={IconButton} alt="Icon" />
         </Button>
-    )
+    );
 }

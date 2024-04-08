@@ -7,14 +7,14 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
 `;
-export function CardsEntrepreneurs({ Entrepreneurs }){
+export function CardsEntrepreneurs({Editar, Entrepreneurs, handleButtonClick, clickedButton, Buscar }){
     return (
         <Container>
-            <SearchBar/>
+            <SearchBar Buscar={Buscar}/>
             <div className='ContainerCardsAdminEntrepreneurs'>
                 {
                     Entrepreneurs.map((data, index) => 
-                        <CardEntrepreneur EntrepreneurData={data} />
+                        <CardEntrepreneur Editar={Editar} EntrepreneurData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton}/>
                     )
                 }
             </div>

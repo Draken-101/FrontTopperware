@@ -6,11 +6,14 @@ const Error = styled.span`
     color: red;
     font-size: 1.5vw;
     font-weight: 300;
-    margin-top: ${props => props.Aling ? "0px" : "1vw"};
+    padding: ${props => props.Padding};
+    justify-content: ${props => props.Content};
+    border-bottom: ${props => props.Content ? '0.15vw solid rgba(136, 0, 139, 0.22)' : ""};
+    margin-top: ${props => props.Aling ? "0px !important" : "1vw"};
     text-align: ${props => props.Aling ? props.Aling : "start"};
 `;
-export function MessageError ({message, aling}){
+export function MessageError ({message, aling, Content, Padding}){
     return (
-         <Error Aling={aling}> { message } </Error>
+         <Error Padding={Padding} Content={Content} Aling={aling}> { message } </Error>
     )
 }
