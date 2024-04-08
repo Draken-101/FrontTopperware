@@ -1,36 +1,63 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import './InputSearchBar.styl';
+
 const Input = styled.input`
     display: flex;
     align-items: center !important;
     width: 30vw;
-    height: 3vw;
-    border-bottom: 0.1vw solid rgba(186, 0, 123, 1);
+    height: 2.99vw;
     color: rgba(186, 0, 123, 0.45);
     font-size: 2vw;
-    &::placeholder{
+    &::placeholder {
         font-size: 2vw;
         font-weight: 400;
         color: rgba(186, 0, 123, 0.45);
     }
 `;
-export function InputSearchBar({ Placeholder, Buscar }) {
-    const [valor, setValor] = useState('')
-    const Validar = (e) => {
-        if(/^#/.test(e.target.value)){
-            console.log("----------");
-            console.log("clave");
-            // Buscar()
-        } else if(/^\$/.test(e.target.value)) {
-            console.log("----------");
-            console.log("totalVenta");
-        } else if(/^\*/.test(e.target.value)){
-            console.log("----------");
-            console.log("top");
-        }
-
+const Div = styled.div`
+    .active{
+        background-color: white;
+        transform: translate(0vw, -.5vw);
+        border: 0.1vw solid rgba(186, 0, 123, 1);
+        filter: drop-shadow(0vw .5vw 0vw #ba007c49);
     }
+`;
+
+export function InputSearchBar({ Placeholder, Buscar }) {
+    const [clickedButton, setClickedButton] = useState('');
+    const [valor, setValor] = useState('');
+
+    const Validar = (e) => {
+        const value = e.target.value;
+        if (/^#/.test(value)) {
+            console.log("Clave");
+            // Lógica para buscar por clave
+        } else if (/^\$/.test(value)) {
+            console.log("TotalVenta");
+            // Lógica para buscar por totalVenta
+        } else if (/^\*/.test(value)) {
+            console.log("Top");
+            // Lógica para buscar por top
+        } else {
+            console.log("Búsqueda por defecto");
+            // Lógica para búsqueda por defecto
+        }
+        setValor(value);
+    }
+
     return (
-        <Input placeholder={Placeholder ? Placeholder : "Buscar"} onChange={(e) => Validar(e)} />
-    )
+        <Div className='InputSearchBar'>
+            <Input placeholder={Placeholder ? Placeholder : "Buscar"} onChange={Validar} />
+            <button
+                className={clickedButton === 'Clave' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
+                onClick={() => setClickedButton('Clave')} />
+            <button
+                className={clickedButton === 'Top' ? 'TopSearchButton active' : 'TopSearchButton'}
+                onClick={() => setClickedButton('Top')} />
+            <button
+                className={clickedButton === 'Venta' ? 'VentaSearchButton active' : 'VentaSearchButton'}
+                onClick={() => setClickedButton('Venta')} />
+        </Div>
+    );
 }
