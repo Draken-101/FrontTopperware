@@ -12,15 +12,18 @@ import { Entrepreneur } from "../../../../Datos/Datos.Entrepreneurs";
 export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
     const [img, setImg] = useState('')
     const change = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            setImg(reader.result)
-            console.log(img);
-        };
+        let reader = new FileReader();
+
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
-        } else
-            setImg('');
+
+            reader.onload = () => {
+                const imageDataUrl = reader.result;
+                setImg(imageDataUrl); 
+            };
+        } else {
+            setImg(''); 
+        }
     }
     return (
         <Formik
@@ -28,11 +31,12 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={(values, { resetForm }) => {
                 const Tip = {
-                            tip: TipActual,
-                            semana1: values.semana1,
-                            semana2: values.semana2,
-                            semana3: values.semana3,
-                        };
+                    tip: TipActual,
+                    semana1: values.semana1,
+                    semana2: values.semana2,
+                    semana3: values.semana3,
+                };
+                console.log(img)
                 const newEntrepreneur = new Entrepreneur(
                     // nombres, apellidos, numeroCliente, top, totalVenta, tips, img
                     values.nombres,
@@ -40,7 +44,7 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                     values.numeroCliente,
                     0,
                     [Tip],
-                    img || "src/assets/Img/Minnie-perfil.png"
+                    img
 
                 )
                 newEntrepreneur.CalcularTotalVenta(Tip)

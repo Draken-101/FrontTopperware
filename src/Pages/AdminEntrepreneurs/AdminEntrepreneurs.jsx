@@ -18,19 +18,30 @@ export function AdminEntrepreneurs() {
     const [tipActual, setTipActual] = useState(Tip);
     const [userEdit, setUserEdit] = useState(null);
     const Buscar = (value, type) => {
-        if (value === "")
-            setEntrepreneurs([...entrepreneursBuscar])
-        const Entrepreneurs =
-            type === "Numero de Cliente"
-                ? [...entrepreneursBuscar.filter(({ numeroCliente }) => numeroCliente === value)]
-                : type === "Top"
-                    ? [...entrepreneursBuscar.filter(({ top }) => top === value)]
-                    : type === "Total Venta"
-                        ? [...entrepreneursBuscar.filter(({ totalVenta }) => totalVenta === value)]
-                        : [...entrepreneursBuscar.filter(({ nombres, apellidos }) => {
-                            const V = new RegExp(`${value}`, "i");
-                            return V.test(`${nombres} ${apellidos}`);
-                        })]
+        if (value === ""){
+            setEntrepreneurs([...entrepreneursBuscar]);
+            return;
+          }  
+        let Entrepreneurs = [];
+        switch (type) {
+            case "Numero de Cliente":
+                Entrepreneurs = [...entrepreneursBuscar.filter(({ numeroCliente }) => numeroCliente === value)];
+                break;
+            case "Top":
+                Entrepreneurs = [...entrepreneursBuscar.filter(({ top }) => top === value)];
+                break;
+            case "Total Venta":
+                Entrepreneurs = [...entrepreneursBuscar.filter(({totalVenta}) => totalVenta <= value )];
+                console.log(value)
+                break;
+            default:
+                Entrepreneurs = [...entrepreneursBuscar.filter((e) => {
+                        const V = new RegExp(value, "i");
+                        console.log(V)
+                        return V.test(`${e.nombres} ${e.apellidos}`);
+                    })];
+                break;
+        }
         setEntrepreneurs([...Entrepreneurs]);
     }
     const Editar = (entrepreneur) => {
@@ -45,7 +56,7 @@ export function AdminEntrepreneurs() {
         setEntrepreneursBuscar([...AcomodarEntrepreneurs(newEntrepreneurs)])
     }
     const updateEntrepreneur = (newEntrepreneur) => {
-        let newEntrepreneurs = [...entrepreneurs.map((e) => {
+        let newEntrepreneurs = [...entrepreneurs.filter((e) => {
             if (e.numeroCliente === newEntrepreneur.numeroCliente) {
                 e.updateEntrepreneur(
                     // nombres, apellidos, totalVenta, tips, img
@@ -81,7 +92,7 @@ export function AdminEntrepreneurs() {
                                 Entrepreneur={userEdit.user} Tip={userEdit.tip} />
                             :
                             <FormAddEntrepreneur TipActual={tipActual} AddEntrepreneur={(Entrepreneur) => {
-                                let E = [...entrepreneurs, Entrepreneur];
+                                let E = [...entrepreneursBuscar, Entrepreneur];
                                 setEntrepreneurs([...AcomodarEntrepreneurs([...E])])
                             }} />} />
             </div>

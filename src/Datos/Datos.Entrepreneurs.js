@@ -4,7 +4,7 @@ export class Entrepreneur {
         this.apellidos = apellidos;
         this.numeroCliente = numeroCliente;
         this.top = top;
-        this.tips = tips;
+        this.tips = [...tips];
         this.totalVenta = totalVenta;
         this.img = img;
     }
@@ -19,7 +19,6 @@ export class Entrepreneur {
     
     CalcularTotalVenta(Tips) {
         this.totalVenta = 0; 
-        console.log(Tips);
         if(Tips){
             if (Array.isArray(Tips)) {
                 this.tips = [...Tips]

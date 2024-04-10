@@ -40,16 +40,14 @@ export function InputSearchBar({ Placeholder, Buscar }) {
     const onOff = (type) => {
         if(type !== clickedButton){
             setClickedButton(type);
-            setValor(type)
         }else {
             setClickedButton("");
-            setValor(null)
         }
     }
 
     return (
         <Div className='InputSearchBar'>
-            <Input ref={inputRef} onKeyDown={Validar} placeholder={valor ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => setValor(e.target.value)} />
+            <Input ref={inputRef} onKeyDown={Validar} placeholder={clickedButton ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => setValor(e.target.value)} />
             <button
                 className={clickedButton === 'Numero de Cliente' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
                 onClick={() => onOff('Clave')} />
