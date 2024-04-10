@@ -4,7 +4,7 @@ import { ButtonsAndTotal } from '../Molecules/ButtonsAndTotal';
 import { ButtonRemove } from '../../../../Components/Atoms/ButtonRemove';
 import { ProductShoppingCard } from '../Molecules/ProductShoppingCard.jsx';
 
-export function ShoppingCart({ seeShoppingCart, Car, PlaceAnOrder, RemoveAll, handleDelete, Increment, Decrement }) {
+export function ShoppingCart({ Products, seeShoppingCart, Car, PlaceAnOrder, RemoveAll, handleDelete, Increment, Decrement }) {
     return (
         <div className='ShoppingCart'>
             <div className='Products'>
@@ -12,7 +12,7 @@ export function ShoppingCart({ seeShoppingCart, Car, PlaceAnOrder, RemoveAll, ha
                     Car ?
                     Array.isArray(Car.car) ?
                         Car.car.map((product) => (
-                            <ProductShoppingCard Increment={Increment} Decrement={Decrement} TotalPrecio={product.totalPrecio} Product={product} Borrar={
+                            <ProductShoppingCard Increment={Increment}  Decrement={Decrement} TotalPrecio={product.totalPrecio} Product={product} Borrar={
                                 <div className='Btn Border'>
                                     <ButtonRemove Borrar={() => handleDelete(product.product)} />
                                 </div>

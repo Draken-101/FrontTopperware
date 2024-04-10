@@ -1,17 +1,19 @@
 .InputSearchBar
     display: flex;
     width: 40vw;
+    height: 3vw
     border-bottom: 0.1vw solid rgba(186, 0, 123, 1);
     justify-content: space-between;
     button
-        background-color: transparent;
+        background-color: white;
         border-radius: 0vw;
-        width: 3vw !important;
+        width: 2.9vw !important;
         height: 3vw !important;
         border: 0.1vw solid rgba(186, 0, 124, 0);
         &:hover
             transform: translate(0vw, -.5vw)
-            border: 0.1vw solid rgba(186, 0, 123, 1);
+            border: 0.1vw solid rgb(186, 0, 124);
+            filter: drop-shadow(0vw .5vw 0vw rgba(186, 0, 124, 0.446));
 
 .ClaveSearchButton
     background-image: url('src/assets/Icons/IconHash.svg');

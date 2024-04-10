@@ -14,11 +14,15 @@ export function AdminEntrepreneurs() {
     const [clickedButton, setClickedButton] = useState(0);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [entrepreneurs, setEntrepreneurs] = useState([...Entrepreneurs()]);
-    const [entrepreneurBuscar, setEntrepreneurBuscar] = useState('');
+    const [entrepreneursBuscar, setEntrepreneursBuscar] = useState('');
     const [tipActual, setTipActual] = useState(Tip);
     const [userEdit, setUserEdit] = useState(null);
     const Buscar = (value) => {
-        
+        if(value === "")
+            setEntrepreneurs([...entrepreneursBuscar])
+        else
+            setEntrepreneursBuscar([...entrepreneurs])
+
         console.log(value);
     }
     const Editar = (entrepreneur) => {

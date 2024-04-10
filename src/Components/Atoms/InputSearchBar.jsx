@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import './InputSearchBar.styl';
+import { type } from 'os';
 
 const Input = styled.input`
     display: flex;
@@ -8,6 +9,7 @@ const Input = styled.input`
     width: 30vw;
     height: 2.99vw;
     color: rgba(186, 0, 123, 0.45);
+    background-color: transparent;
     font-size: 2vw;
     &::placeholder {
         font-size: 2vw;
@@ -17,47 +19,53 @@ const Input = styled.input`
 `;
 const Div = styled.div`
     .active{
-        background-color: white;
         transform: translate(0vw, -.5vw);
-        border: 0.1vw solid rgba(186, 0, 123, 1);
-        filter: drop-shadow(0vw .5vw 0vw #ba007c49);
+        border: 0.1vw solid rgb(186, 0, 124);
+        filter: drop-shadow(0vw .5vw 0vw rgba(186, 0, 124, 0.446));
     }
 `;
 
 export function InputSearchBar({ Placeholder, Buscar }) {
     const [clickedButton, setClickedButton] = useState('');
     const [valor, setValor] = useState('');
+    const inputRef = useRef(null);
 
     const Validar = (e) => {
-        const value = e.target.value;
-        if (/^#/.test(value)) {
-            console.log("Clave");
-            // Lógica para buscar por clave
-        } else if (/^\$/.test(value)) {
-            console.log("TotalVenta");
-            // Lógica para buscar por totalVenta
-        } else if (/^\*/.test(value)) {
-            console.log("Top");
-            // Lógica para buscar por top
+        // const value = e.target.value;
+    }
+
+    const handleKeyDown = (event) => {
+        
+        if (event.key === 'Enter') {
+            console.log(event.key)
+          // Evita que se realice la acción por defecto de presionar Enter en un formulario
+          event.preventDefault();
         } else {
-            console.log("Búsqueda por defecto");
-            // Lógica para búsqueda por defecto
+            console.log("no enter")
         }
-        setValor(value);
+      };
+    const onOff = (type) => {
+        if(type !== clickedButton){
+            setClickedButton(type);
+            setValor(type)
+        }else {
+            setClickedButton("");
+            setValor(null)
+        }
     }
 
     return (
         <Div className='InputSearchBar'>
-            <Input placeholder={Placeholder ? Placeholder : "Buscar"} onChange={Validar} />
+            <Input ref={inputRef} onKeyDown={handleKeyDown} placeholder={valor ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => Validar(e)} />
             <button
                 className={clickedButton === 'Clave' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
-                onClick={() => setClickedButton('Clave')} />
+                onClick={() => onOff('Clave')} />
             <button
                 className={clickedButton === 'Top' ? 'TopSearchButton active' : 'TopSearchButton'}
-                onClick={() => setClickedButton('Top')} />
+                onClick={() => onOff('Top')} />
             <button
-                className={clickedButton === 'Venta' ? 'VentaSearchButton active' : 'VentaSearchButton'}
-                onClick={() => setClickedButton('Venta')} />
+                className={clickedButton === 'Total Venta' ? 'VentaSearchButton active' : 'VentaSearchButton'}
+                onClick={() => onOff('Total Venta')} />
         </Div>
     );
 }

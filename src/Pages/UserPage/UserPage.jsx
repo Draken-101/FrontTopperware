@@ -48,6 +48,7 @@ export function UserPage() {
                         return <ProductInfo AgregarCarrito={(producto, nombre) => setCar(addCar(producto, car, nombre))} Product={products} Volver={() => { setPage(tienda); setProduts(Products) }} />;
                     case 'ShoppingCart':
                         return <ShoppingCart
+                            Products={products}
                             Increment={(product) => {
                                 let p = incrementDecrement(product, true);
                                 if (p.cantidad !== product.product.cantidad) {
