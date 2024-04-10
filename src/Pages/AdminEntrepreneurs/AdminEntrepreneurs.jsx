@@ -14,16 +14,24 @@ export function AdminEntrepreneurs() {
     const [clickedButton, setClickedButton] = useState(0);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [entrepreneurs, setEntrepreneurs] = useState([...Entrepreneurs()]);
-    const [entrepreneursBuscar, setEntrepreneursBuscar] = useState('');
+    const [entrepreneursBuscar, setEntrepreneursBuscar] = useState([...entrepreneurs]);
     const [tipActual, setTipActual] = useState(Tip);
     const [userEdit, setUserEdit] = useState(null);
-    const Buscar = (value) => {
-        if(value === "")
+    const Buscar = (value, type) => {
+        if (value === "")
             setEntrepreneurs([...entrepreneursBuscar])
-        else
-            setEntrepreneursBuscar([...entrepreneurs])
-
-        console.log(value);
+        const Entrepreneurs =
+            type === "Numero de Cliente"
+                ? [...entrepreneursBuscar.filter(({ numeroCliente }) => numeroCliente === value)]
+                : type === "Top"
+                    ? [...entrepreneursBuscar.filter(({ top }) => top === value)]
+                    : type === "Total Venta"
+                        ? [...entrepreneursBuscar.filter(({ totalVenta }) => totalVenta === value)]
+                        : [...entrepreneursBuscar.filter(({ nombres, apellidos }) => {
+                            const V = new RegExp(`${value}`, "i");
+                            return V.test(`${nombres} ${apellidos}`);
+                        })]
+        setEntrepreneurs([...Entrepreneurs]);
     }
     const Editar = (entrepreneur) => {
         setUserEdit({
@@ -32,8 +40,9 @@ export function AdminEntrepreneurs() {
         });
     }
     const RemoveUser = (entrepreneurDelete) => {
-        const newEntrepreneurs = [...entrepreneurs.filter(ente => ente.numeroCliente !== entrepreneurDelete.numeroCliente)];
-        setEntrepreneurs([...newEntrepreneurs]);
+        const newEntrepreneurs = [...entrepreneursBuscar.filter(ente => ente.numeroCliente !== entrepreneurDelete.numeroCliente)];
+        setEntrepreneurs([...AcomodarEntrepreneurs(newEntrepreneurs)]);
+        setEntrepreneursBuscar([...AcomodarEntrepreneurs(newEntrepreneurs)])
     }
     const updateEntrepreneur = (newEntrepreneur) => {
         let newEntrepreneurs = [...entrepreneurs.map((e) => {

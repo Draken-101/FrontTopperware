@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import './InputSearchBar.styl';
-import { type } from 'os';
 
 const Input = styled.input`
     display: flex;
@@ -30,19 +29,13 @@ export function InputSearchBar({ Placeholder, Buscar }) {
     const [valor, setValor] = useState('');
     const inputRef = useRef(null);
 
-    const Validar = (e) => {
-        // const value = e.target.value;
-    }
 
-    const handleKeyDown = (event) => {
+    const Validar = (event) => {
         
         if (event.key === 'Enter') {
-            console.log(event.key)
-          // Evita que se realice la acción por defecto de presionar Enter en un formulario
           event.preventDefault();
-        } else {
-            console.log("no enter")
-        }
+          Buscar(valor, clickedButton);
+         }
       };
     const onOff = (type) => {
         if(type !== clickedButton){
@@ -56,9 +49,9 @@ export function InputSearchBar({ Placeholder, Buscar }) {
 
     return (
         <Div className='InputSearchBar'>
-            <Input ref={inputRef} onKeyDown={handleKeyDown} placeholder={valor ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => Validar(e)} />
+            <Input ref={inputRef} onKeyDown={Validar} placeholder={valor ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => setValor(e.target.value)} />
             <button
-                className={clickedButton === 'Clave' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
+                className={clickedButton === 'Numero de Cliente' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
                 onClick={() => onOff('Clave')} />
             <button
                 className={clickedButton === 'Top' ? 'TopSearchButton active' : 'TopSearchButton'}
