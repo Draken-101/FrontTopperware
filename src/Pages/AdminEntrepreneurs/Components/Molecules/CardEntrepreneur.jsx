@@ -17,6 +17,7 @@ const Fondo = styled.div`
 export function CardEntrepreneur({Editar, OnClick, EntrepreneurData, handleButtonClick, clickedButton }) {
     return (
         <Container
+            key={EntrepreneurData.numeroCliente}
             onClick={OnClick}
             className={`Card`}
             Img={ EntrepreneurData.img}>

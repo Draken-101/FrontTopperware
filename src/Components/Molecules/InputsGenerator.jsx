@@ -10,6 +10,9 @@ const Div = styled.div`
     height: fit-content;
     display: flex;
     flex-direction: column;
+    textarea{
+        resize: none;
+    }
 `;
 export function InputsGenerator({  Inputs, Data }) {
     const { errors } = useFormikContext();

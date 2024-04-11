@@ -2,14 +2,14 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from 'react';
 import './FormAddEntrepreneur.styl'
 import { InputsGenerator } from "../../../../Components/Molecules/InputsGenerator";
-import { InputsAddEntrepreneurs } from "../../../../Datos/Datos.InputsAddEntrepreneurs";
-import { InputsAddEntrepreneursTip } from "../../../../Datos/Datos.InputsAddEntrepreneursTip";
+import { InputsAddEntrepreneurs } from "../../Datos/Datos.InputsAddEntrepreneurs";
+import { InputsAddEntrepreneursTip } from "../../Datos/Datos.InputsAddEntrepreneursTip";
 import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
-import { ValidacionesAddEntrepreneurs } from "../../../../Datos/Datos.ValidacionesAddEntrepreneurs";
+import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
 import { ButtonPinkRed } from "../../../../Components/Atoms/ButtonPinkRed";
-import { ValoresEditEntrepreneurs } from "../../../../Datos/Datos.ValoresEditEntrepreneurs";
-import { CalcularUltimoTip } from "../../../../Datos/Datos.FunctionsEntrepeneur";
+import { ValoresEditEntrepreneurs } from "../../Datos/Datos.ValoresEditEntrepreneurs";
+import { CalcularUltimoTip } from "../../Datos/Datos.FunctionsEntrepeneur";
 export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Update, Tip }) {
     const [img, setImg] = useState(null)
     useEffect(() => {
@@ -19,7 +19,6 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
         const reader = new FileReader();
         reader.onload = () => {
             setImg(reader.result)
-            console.log(1)
         };
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
@@ -63,7 +62,7 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
                 resetForm();
                 console.log('Formulario enviado');
             }}>
-            <Form className="FormAdminControls" id="form">
+            <Form className="FormAdminControlsEntrepreneur" id="form">
                 <InputsGenerator Inputs={InputsAddEntrepreneurs} />
                 <h2>Tip {TipActual}</h2>
                 <InputsGenerator Inputs={InputsAddEntrepreneursTip} />

@@ -14,17 +14,16 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProductStyle({Editar, OnClick, ProductData, handleButtonClick, clickedButton }) {
+export function CardProductStyle({Editar, ProductData, handleButtonClick, clickedButton }) {
     return (
         <Container
-            onClick={OnClick}
             className={`Card`}
             Img={ ProductData.img}>
             <Fondo>
                 <TopExistenciaCard title={"Existencias"} count={ProductData.cantidad} />
                 <ButtonEditCard onClick={()=> {
-                    Editar(EntrepreneurData);
-                    handleButtonClick(EntrepreneurData.clave);
+                    Editar(ProductData);
+                    handleButtonClick(ProductData.clave);
                 }}
                 clicked={ProductData.clave == clickedButton}
                 />

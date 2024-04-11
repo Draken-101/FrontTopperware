@@ -14,24 +14,30 @@ const Container = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProduct({ Editar, OnClick, ProductData, handleButtonClick, clickedButton }) {
+export function CardProduct({ Fondos, SeeProductStyles, Editar, ProductData, handleButtonClick, clickedButton }) {
     const [imgFondo, setImgFondo] = useState(null);
     useEffect(() => {
-        const FondoCard = ProductData.estilos.map(product => product.img);
-        let currentIndex = 1;
-        setImgFondo(FondoCard[0]);
-        const intervalId = setInterval(() => {
-            setImgFondo(FondoCard[currentIndex]);
-            currentIndex = (currentIndex + 1) % FondoCard.length;
-        }, (Math.random() * (20000 - 10000) + 10000));
+        if (Fondos[0] === undefined) {
+            setImgFondo('https://cdn-icons-png.flaticon.com/512/1809/1809992.png')
+        } else {
+            const FondoCard = [...Fondos];
+            let currentIndex = 1;
+            setImgFondo(FondoCard[0]);
+            const intervalId = setInterval(() => {
+                setImgFondo(FondoCard[currentIndex]);
+                currentIndex = (currentIndex + 1) % FondoCard.length;
+            }, (Math.random() * (20000 - 10000) + 10000));
 
-        return () => clearInterval(intervalId);
+            return () => clearInterval(intervalId);
+        }
     }, [ProductData]);
     return (
         <Container
             className={`Card Product`}
             Img={imgFondo}>
-            <div onClick={() => OnClick(ProductData.estilos)} className='FondoCardProduct'/>
+            <div
+                onClick={() => SeeProductStyles(ProductData.clave)}
+                className='FondoCardProduct' />
             <TopExistenciaCard title={"Existencias"} count={ProductData.cantidad} />
             <ButtonEditCard onClick={() => {
                 Editar(ProductData);
@@ -39,7 +45,7 @@ export function CardProduct({ Editar, OnClick, ProductData, handleButtonClick, c
             }}
                 clicked={ProductData.clave === clickedButton}
             />
-            <DataCardProduct onClick={ () => OnClick} Data={ProductData} />
+            <DataCardProduct onClick={() => OnClick} Data={ProductData} />
         </Container>
     )
 }

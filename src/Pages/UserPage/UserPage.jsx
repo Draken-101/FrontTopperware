@@ -3,15 +3,15 @@ import { IconTop } from "../../Components/Atoms/IconTop";
 import { HeaderUser } from "./Components/Organims/HeaderUser";
 import { Top } from "./Components/Organims/Top";
 import { Shop } from "./Components/Organims/Shop";
-import { Cambio, tienda, top, productInfo, shoppingCart, shippingForm, confirmOrder, purchaseTracking, addCar, calcularTotalCarrito, incrementDecrement } from "./Functions";
+import {  tienda, top, productInfo, shoppingCart, shippingForm, confirmOrder, purchaseTracking, addCar, calcularTotalCarrito, incrementDecrement, Cambio } from "./Functions";
 import { ProductInfo } from "./Components/Organims/ProductInfo";
 import { ShoppingCart } from "./Components/Organims/ShoppingCart";
 import { ShippingForm } from "./Components/Organims/ShippingForm";
 import { ConfirmOrder } from "./Components/Organims/ConfirmOrder";
 import { PurchaseTracking } from "./Components/Organims/PurchaseTracking";
-import { Entrepreneurs } from "../../Datos/Datos.Entrepreneurs";
 import { Products } from "../../Datos/Datos.Products";
 import { Car } from "../../Datos/Datos.Car";
+import { Entrepreneurs } from "../../Datos/Datos.Entrepreneurs";
 
 export function UserPage() {
     const [entrepreneurs, setEntrepreneurs] = useState(Entrepreneurs);

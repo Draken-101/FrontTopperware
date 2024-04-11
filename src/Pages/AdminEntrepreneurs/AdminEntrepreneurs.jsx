@@ -7,9 +7,10 @@ import { AdminControls } from "../../Components/Organims/AdminControls";
 import { ButtonAdd } from "../../Components/Molecules/ButtonAdd";
 import { FormAddEntrepreneur } from "./Components/Organims/FormAddEntrepreneur";
 import { FormEditEntrepreneur } from "./Components/Organims/FormEditEntrepreneur";
-import { AcomodarEntrepreneurs, CalcularUltimoTip } from "../../Datos/Datos.FunctionsEntrepeneur";
+import { AcomodarEntrepreneurs, CalcularUltimoTip } from "./Datos/Datos.FunctionsEntrepeneur";
 import { Entrepreneurs } from "../../Datos/Datos.Entrepreneurs";
 import { Tip } from "../../Datos/Datos.Tips";
+import { SearchBar } from "../../Components/Molecules/SearchBar";
 export function AdminEntrepreneurs() {
     const [clickedButton, setClickedButton] = useState(0);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
@@ -17,6 +18,21 @@ export function AdminEntrepreneurs() {
     const [entrepreneursBuscar, setEntrepreneursBuscar] = useState([...entrepreneurs]);
     const [tipActual, setTipActual] = useState(Tip);
     const [userEdit, setUserEdit] = useState(null);
+    
+    const Btns = [
+        {
+            type:"numero de cliente",
+            icon:"/assets/Icons/IconHash.svg"
+        },
+        {
+            type:"Top",
+            icon:"/assets/Icons/icons8-corona-96.png"
+        },
+        {
+            type:"Total Venta",
+            icon:"/assets/Icons/icons8-banco-96.png"
+        },
+    ]
     const Buscar = (value, type) => {
         if (value === ""){
             setEntrepreneurs([...entrepreneursBuscar]);
@@ -24,11 +40,14 @@ export function AdminEntrepreneurs() {
           }  
         let Entrepreneurs = [];
         switch (type) {
-            case "Numero de Cliente":
-                Entrepreneurs = [...entrepreneursBuscar.filter(({ numeroCliente }) => numeroCliente === value)];
+            case "numero de cliente":
+                Entrepreneurs = [...entrepreneursBuscar.filter(({ numeroCliente }) => numeroCliente === value )];
                 break;
             case "Top":
-                Entrepreneurs = [...entrepreneursBuscar.filter(({ top }) => top === value)];
+                Entrepreneurs = [...entrepreneursBuscar.filter(({ top }) => {
+                    console.log(top == value);
+                    return top == value
+                })];
                 break;
             case "Total Venta":
                 Entrepreneurs = [...entrepreneursBuscar.filter(({totalVenta}) => totalVenta <= value )];
@@ -36,9 +55,8 @@ export function AdminEntrepreneurs() {
                 break;
             default:
                 Entrepreneurs = [...entrepreneursBuscar.filter((e) => {
-                        const V = new RegExp(value, "i");
-                        console.log(V)
-                        return V.test(`${e.nombres} ${e.apellidos}`);
+                        let Nombres = e.getNombreCompleto();
+                        return Nombres.toLowerCase().includes(value.toLowerCase());
                     })];
                 break;
         }
@@ -52,8 +70,8 @@ export function AdminEntrepreneurs() {
     }
     const RemoveUser = (entrepreneurDelete) => {
         const newEntrepreneurs = [...entrepreneursBuscar.filter(ente => ente.numeroCliente !== entrepreneurDelete.numeroCliente)];
+        setEntrepreneursBuscar([...AcomodarEntrepreneurs(newEntrepreneurs)]);
         setEntrepreneurs([...AcomodarEntrepreneurs(newEntrepreneurs)]);
-        setEntrepreneursBuscar([...AcomodarEntrepreneurs(newEntrepreneurs)])
     }
     const updateEntrepreneur = (newEntrepreneur) => {
         let newEntrepreneurs = [...entrepreneurs.filter((e) => {
@@ -71,29 +89,31 @@ export function AdminEntrepreneurs() {
         })]
         setEntrepreneurs([...AcomodarEntrepreneurs(newEntrepreneurs)]);
         setUserEdit(null)
-        setClickedButton(0)
+        setClickedButton('Add')
     }
     return (
         <>
             <HeaderAdmin
                 Title={"Administracion de Emprendedoras"}
-                icon={"src/assets/Icons/icons8-usuario-femenino-en-círculo-96.png"}
+                icon={"/assets/Icons/icons8-usuario-femenino-en-círculo-96.png"}
                 Nav={<NavEntrepreneurs />}
             />
+            <SearchBar Buscar={Buscar} SearchButtons={Btns} Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeFormAdd={() => setUserEdit('')} clickedButton={clickedButton} />}/>
             <div className="ContentAdmin">
-                <CardsEntrepreneurs Buscar={Buscar} key={entrepreneurs} Editar={Editar} Entrepreneurs={entrepreneurs} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                <CardsEntrepreneurs key={entrepreneurs} Editar={Editar} Entrepreneurs={entrepreneurs} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
                     title={userEdit ? "Editar Emprendedora" : "Agregar Emprendedora"}
-                    Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeForm={() => setUserEdit('')} clickedButton={clickedButton} />}
                     Content={
                         userEdit ?
-                            <FormEditEntrepreneur TipActual={tipActual} Update={updateEntrepreneur}
-                                DeleteUser={() => { RemoveUser(userEdit.user); setUserEdit(''); setClickedButton(0); }}
+                            <FormEditEntrepreneur TipActual={tipActual} 
+                                Update={updateEntrepreneur}
+                                DeleteUser={() => { RemoveUser(userEdit.user); setUserEdit(''); setClickedButton('Add'); }}
                                 Entrepreneur={userEdit.user} Tip={userEdit.tip} />
                             :
                             <FormAddEntrepreneur TipActual={tipActual} AddEntrepreneur={(Entrepreneur) => {
                                 let E = [...entrepreneursBuscar, Entrepreneur];
-                                setEntrepreneurs([...AcomodarEntrepreneurs([...E])])
+                                setEntrepreneursBuscar([...E]);
+                                setEntrepreneurs([...AcomodarEntrepreneurs([...E])]);
                             }} />} />
             </div>
         </>

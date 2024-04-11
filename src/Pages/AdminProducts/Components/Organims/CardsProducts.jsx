@@ -1,30 +1,28 @@
-import styled from 'styled-components';
+
 import './CardsProducts.styl'
-import { SearchBar } from '../../../../Components/Molecules/SearchBar';
 import { CardProduct } from '../Molecules/CardProduct';
 import { CardProductStyle } from '../Molecules/CardProductStyle';
-const Container = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-`;
-export function CardsProducts({ProductStyles, Editar, Products, handleButtonClick, clickedButton, SeeProductStyles }) {
+export function CardsProducts({ ProductsStyles, TypeCards, Editar, Products, handleButtonClick, clickedButton, SeeProductStyles }) {
     return (
-        <Container>
-            <SearchBar />
-            <div className='ContainerCardsAdminEntrepreneurs'>
-                {
-                    ProductStyles ?
-                        Products.map((data, index) =>
-                            <CardProduct OnClick={ SeeProductStyles } Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
-                        )
-                        :
-                        Products.map((data, index) =>
-                            <CardProductStyle Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
-                        )
-                        
-                }
-            </div>
-        </Container>
+        <div className='ContainerCardsAdminEntrepreneurs'>
+            {
+                TypeCards === "Normal" ?
+                    //SeeProductStyles, Editar, ProductData, handleButtonClick, clickedButton 
+                    Products.map((data, index) => {
+                        let Fondos = [...ProductsStyles.map((PS) => {
+                            if(PS.getClave() === data.getClave())
+                                return PS.getImg();
+                        })]
+                        Fondos = [...Fondos.filter((fondo) => fondo !== undefined )];
+                        return <CardProduct SeeProductStyles={SeeProductStyles} Fondos={Fondos} Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                    }
+                    )
+                    :
+                    //Editar, OnClick, ProductData, handleButtonClick, clickedButton 
+                    Products.map((data, index) =>
+                        <CardProductStyle Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                    )
+            }
+        </div>
     );
 }

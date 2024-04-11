@@ -14,14 +14,17 @@ const Container = styled.div`
     background-color: rgba(255, 247, 243, 1);
 `;
 export function FormLogin() {
+
     return (
         <>
             <Container>
                 <Formik 
                     initialValues={Valores}
                     validate={(v) => Validaciones(v)}
-                    onSubmit={({ resetForm }) => {
+                    onSubmit={(values, { resetForm }) => {
+                        localStorage.setItem('token', 'dfjnhalifna')
                         resetForm();
+                        
                         console.log('Formulario enviado');
                     }}>
                     <Form className='ContainerFormLogin'>

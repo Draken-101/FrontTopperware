@@ -1,7 +1,14 @@
 import { ButtonIcon } from "../Atoms/ButtonIcon";
 
-export function ButtonAdd({handleButtonClick, SeeForm, clickedButton}){
+export function ButtonAdd({handleButtonClick, SeeFormAdd, clickedButton}){
     return(
-        <ButtonIcon onClick={()=>{handleButtonClick(0); SeeForm()}} clicked={clickedButton == 0 } Img={"src/assets/Icons/icons8-más-96.png"}/>
+        <ButtonIcon onClick={()=>{
+            if(clickedButton !== "Add"){
+                handleButtonClick('Add'); 
+                SeeFormAdd()
+            } else {
+                handleButtonClick('');
+            }
+        }} clicked={clickedButton === 'Add' } Img={"/assets/Icons/icons8-más-96.png"}/>
     )
 }

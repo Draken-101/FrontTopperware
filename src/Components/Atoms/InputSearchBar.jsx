@@ -11,7 +11,7 @@ const Input = styled.input`
     background-color: transparent;
     font-size: 2vw;
     &::placeholder {
-        font-size: 2vw;
+        font-size: 1.8vw;
         font-weight: 400;
         color: rgba(186, 0, 123, 0.45);
     }
@@ -23,40 +23,36 @@ const Div = styled.div`
         filter: drop-shadow(0vw .5vw 0vw rgba(186, 0, 124, 0.446));
     }
 `;
+const Button = styled.button`
+    background-image: url(${props => props.Img});
+    background-size: 70% 70%; 
+    background-repeat: no-repeat;
+    background-position: center;
+`;
 
-export function InputSearchBar({ Placeholder, Buscar }) {
+export function InputSearchBar({ Buscar, Btns }) {
     const [clickedButton, setClickedButton] = useState('');
-    const [valor, setValor] = useState('');
     const inputRef = useRef(null);
 
-
-    const Validar = (event) => {
-        
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          Buscar(valor, clickedButton);
-         }
-      };
     const onOff = (type) => {
-        if(type !== clickedButton){
+        if (type !== clickedButton) {
             setClickedButton(type);
-        }else {
+        } else {
             setClickedButton("");
         }
     }
-
+    
     return (
         <Div className='InputSearchBar'>
-            <Input ref={inputRef} onKeyDown={Validar} placeholder={clickedButton ?`Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => setValor(e.target.value)} />
-            <button
-                className={clickedButton === 'Numero de Cliente' ? 'ClaveSearchButton active' : 'ClaveSearchButton'}
-                onClick={() => onOff('Clave')} />
-            <button
-                className={clickedButton === 'Top' ? 'TopSearchButton active' : 'TopSearchButton'}
-                onClick={() => onOff('Top')} />
-            <button
-                className={clickedButton === 'Total Venta' ? 'VentaSearchButton active' : 'VentaSearchButton'}
-                onClick={() => onOff('Total Venta')} />
+            <Input ref={inputRef} placeholder={clickedButton ? `Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => Buscar(e.target.value, clickedButton)} />
+            {
+                Btns.map((Btn) => 
+                    <Button
+                        className={clickedButton === Btn.type ? 'active' : ''}
+                        Img = {Btn.icon}
+                        onClick={() => onOff(Btn.type)} />
+                )
+            }
         </Div>
     );
 }

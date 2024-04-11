@@ -8,7 +8,7 @@ export const ButtonPinkRed = styled.button`
     width: ${props => props.Width };
     height: ${props => props.Height };
     color: rgba(255, 247, 243, 1);
-    font-size: 2vw;
+    font-size: ${props => props.Size || "2vw"};
     font-weight: normal;
     letter-spacing: ${props => props.LetterSpacing };
     &:hover{

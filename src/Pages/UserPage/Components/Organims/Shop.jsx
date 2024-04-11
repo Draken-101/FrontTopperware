@@ -14,6 +14,7 @@ const Container = styled.div`
     height: calc(100vh - 8.6vw);
 `;
 export function Shop({ seeShoppingCart, SeeProduct, Products }) {
+
     return (
         <Container>
             <SearchBar Buttons={<CarShopButton OnClick={seeShoppingCart} />} />

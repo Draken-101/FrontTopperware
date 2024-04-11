@@ -1,0 +1,15 @@
+[
+    {
+        "clave": "VJ8W9E",
+        "nombre": "Eco twist",
+        "cantidad": 12,
+        "tipo":"Bote"
+    },
+    {
+        "clave": "FK321DF",
+        "nombre": "Practivaso",
+        "cantidad": 10,
+        "tipo":"Vaso"
+
+    }
+]

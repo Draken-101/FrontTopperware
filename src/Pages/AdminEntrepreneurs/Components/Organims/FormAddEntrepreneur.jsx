@@ -1,29 +1,25 @@
 import { Form, Formik } from "formik";
-import { ValoresAddEntrepreneurs } from "../../../../Datos/Datos.ValoresAddEntrepreneurs";
+import { ValoresAddEntrepreneurs } from "../../Datos/Datos.ValoresAddEntrepreneurs";
 import './FormAddEntrepreneur.styl'
 import { InputsGenerator } from "../../../../Components/Molecules/InputsGenerator";
-import { InputsAddEntrepreneurs } from "../../../../Datos/Datos.InputsAddEntrepreneurs";
-import { InputsAddEntrepreneursTip } from "../../../../Datos/Datos.InputsAddEntrepreneursTip";
+import { InputsAddEntrepreneurs } from "../../Datos/Datos.InputsAddEntrepreneurs";
+import { InputsAddEntrepreneursTip } from "../../Datos/Datos.InputsAddEntrepreneursTip";
 import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
-import { ValidacionesAddEntrepreneurs } from "../../../../Datos/Datos.ValidacionesAddEntrepreneurs";
+import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
 import { useState } from "react";
 import { Entrepreneur } from "../../../../Datos/Datos.Entrepreneurs";
 export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
-    const [img, setImg] = useState('')
+    const [img, setImg] = useState(null)
     const change = (e) => {
         let reader = new FileReader();
-
+        reader.onload = () => {
+            setImg(reader.result)
+        };
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
-
-            reader.onload = () => {
-                const imageDataUrl = reader.result;
-                setImg(imageDataUrl); 
-            };
-        } else {
-            setImg(''); 
-        }
+        } else
+            setImg('');
     }
     return (
         <Formik
@@ -43,17 +39,18 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                     values.apellidos,
                     values.numeroCliente,
                     0,
+                    0,
                     [Tip],
-                    img
+                    img || "src/assets/Img/Minnie.jpg"
 
                 )
-                newEntrepreneur.CalcularTotalVenta(Tip)
-                console.log(newEntrepreneur);
+                newEntrepreneur.CalcularTotalVenta(Tip);
                 AddEntrepreneur(newEntrepreneur)
+                setImg(null)
                 resetForm();
                 console.log('Formulario enviado');
             }}>
-            <Form className="FormAdminControls">
+            <Form className="FormAdminControlsEntrepreneur">
                 <InputsGenerator Inputs={InputsAddEntrepreneurs} />
                 <h2>Tip {TipActual}</h2>
                 <InputsGenerator Inputs={InputsAddEntrepreneursTip} />

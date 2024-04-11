@@ -14,9 +14,11 @@ const Container = styled.div`
         text-overflow: ellipsis;
         padding: .1vw .7vw;
         color: rgba(255, 247, 243, 1);
-        font-size: .8vw;
+        font-size: 1vw;
         font-weight: 400;
         &:last-child{
+            font-size: .8vw;
+            margin-top: .2vw;
             border-radius: .2vw;
             margin-left: .7vw;
             width: fit-content;
@@ -32,6 +34,7 @@ export function DataCardProduct({Data}){
     return(
         <Container>
             <span className='name'> {Data.nombre} </span>
+            <span> {Data.tipo} </span>
             <span> #{Data.clave} </span>
         </Container>
     )

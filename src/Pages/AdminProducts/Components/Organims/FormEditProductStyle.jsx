@@ -12,7 +12,7 @@ import { ValoresAddProductStyle } from "../../Data/Datos.ValoresAddProductStyle"
 import { useState } from "react";
 import { InputsAddProductStyle } from "../../Data/Datos.InputsAddProductStyle";
 import { ProductStyle } from "../../../../Datos/Datos.ProductsStyles";
-export function FormEditProduct({ ProductE, DeleteProduct, Update, TypeCards }) {
+export function FormEditProductStyle({ ProductE, DeleteProduct, Update }) {
     const [img, setImg] = useState(ProductE.img || null)
     const change = (e) => {
         let reader = new FileReader();
@@ -27,51 +27,34 @@ export function FormEditProduct({ ProductE, DeleteProduct, Update, TypeCards }) 
     return (
         <Formik
             key={Product.clave}
-            initialValues={TypeCards === 'Normal' ?
-                ValoresAddProduct(ProductE.nombre, ProductE.clave, ProductE.tipo)
-                :
-                ValoresAddProductStyle(
-                    ProductE.nombre,
-                    ProductE.cantidad,
-                    ProductE.precio,
-                    ProductE.categoria,
-                    ProductE.descripcion
-                )}
+            initialValues={ValoresAddProductStyle(
+                ProductE.nombre,
+                ProductE.cantidad,
+                ProductE.precio,
+                ProductE.categoria,
+                ProductE.descripcion
+            )}
             validate={(v) => ValidacionesAddProduct(v)}
             onSubmit={(values, { resetForm }) => {
-                if (TypeCards === 'Normal') {
-                    let newProduct = new Product(
-                        values.clave,
-                        values.nombre,
-                        ProductE.cantidad,
-                        values.tipo
-                    )
-                    Update(newProduct, ProductE.getClave())
-                } else {
-                    let newStyle = new ProductStyle(
-                        values.clave, 
-                        values.nombre, 
-                        values.cantidad, 
-                        values.precio, 
-                        values.categoria, 
-                        values.descripcion, 
-                        img || 'https://cdn01.tupp.win/img/p/es-default-default_md.jpg'
-                    )
-                    Update(newStyle, newStyle.getClave())
-                }
+                let newStyle = new ProductStyle(
+                    `${ProductE.getClave()}-${values.nombre}`,
+                    values.nombre,
+                    values.cantidad,
+                    values.precio,
+                    values.categoria,
+                    values.descripcion,
+                    img || 'https://cdn01.tupp.win/img/p/es-default-default_md.jpg'
+                )
+                console.log(newStyle);
+                Update(newStyle, newStyle.getClave())
+
                 resetForm();
                 console.log('Formulario enviado');
             }}>
             <Form className="FormAdminControlsProducts" id="form">
-                <InputsGenerator Inputs={TypeCards === 'Normal' ? InputsAddProduct : InputsAddProductStyle} />
-                {
-                    TypeCards === 'Normal' ? ''
-                        :
-                        <>
+                <InputsGenerator Inputs={InputsAddProductStyle} />
                             <h2> Agregar foto </h2>
                             <InputAddProfile Change={change} Img={img} />
-                        </>
-                }
                 <div className="B-Form EditForm">
                     <ButtonPurple type="submit" className="EditBtn" >
                         Modificar

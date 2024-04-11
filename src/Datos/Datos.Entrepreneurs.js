@@ -37,7 +37,7 @@ export class Entrepreneur {
     }
 
     getNombreCompleto() {
-        return `${this.nombres} ${this.apellidos}`.trim();
+        return `${this.nombres} ${this.apellidos}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 }
 
