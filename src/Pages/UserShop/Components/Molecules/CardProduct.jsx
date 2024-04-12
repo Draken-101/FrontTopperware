@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import './Card.styl'
 import { DataCardProduct } from '../Atoms/DataCardProduct';
 import { useEffect, useState } from 'react';
 const Container = styled.div`
@@ -15,10 +14,10 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProduct({ OnClick, ProductData, Existencias }) {
+export function CardProduct({ OnClick, ProductData, Existencias, Fondos }) {
     const [imgFondo, setImgFondo] = useState(null);
     useEffect(() => {
-        const FondoCard = ProductData.estilos.map(product => product.img);
+        const FondoCard = Fondos || "";
         let currentIndex = 1;
         setImgFondo(FondoCard[0]);
         const intervalId = setInterval(() => {

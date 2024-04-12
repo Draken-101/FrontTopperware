@@ -4,36 +4,26 @@ import { AdminEntrepreneurs } from "./Pages/AdminEntrepreneurs/AdminEntrepreneur
 import { AdminProducts } from "./Pages/AdminProducts/AdminProducts";
 import { useEffect, useState } from "react";
 import { PrivateRoute } from "./Components/Atoms/PrivateRoute";
-import { UserPage } from "./Pages/UserPage/UserPage";
+import { UserTop } from "./Pages/UserTop/UserTop";
+import { Entrepreneurs } from "./Datos/Datos.Entrepreneurs";
+import { Products } from "./Datos/Datos.Products";
+import { ProductsStyles } from "./Datos/Datos.ProductsStyles";
+import { UserShop } from "./Pages/UserShop/UserShop";
 function App() {
+  const [entrepreneurs, setEntrepreneurs] = useState([...Entrepreneurs()]);
+  const [entrepreneurTop1, setEntrepreneurTop1] = useState({...Entrepreneurs().filter((entrepreneur) => entrepreneur.top == 1)});
+  const [products, setProducts] = useState([...Products()]);
+  const [productsStyles, setProductsStyles] = useState([...ProductsStyles()]);
   const [token, setToken] = useState('');
   useEffect(() => {
-    if (token) {
-      fetch('api/products/post', {
-        headers:{
-          atentify: token
-        },
-        body: JSON.stringify({
-          a:"a"
-        })
-      }).then(res => res.json()).then((data) => {
-        data.body
-      })
-    }
-    const newToken = localStorage.getItem('token');
-    if (newToken) {
-      setToken(newToken);
-    }
   }, []);
   document.title = "Topperware";
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/User" element={<UserPage/>}/>
-
-        <Route path="/AdminProducts" element={
-            <AdminProducts />
-        } />
+        <Route path="/UserTop" element={ <UserTop Entrepreneurs={entrepreneurs} EntrepreneurTop1={entrepreneurTop1}/> }/>
+        <Route path="/UserShop" element={ <UserShop Products={products} ProductsStyles={productsStyles} EntrepreneurTop1={entrepreneurTop1}/> }/>
+        <Route path="/AdminProducts" element={<AdminProducts />} />
         <Route path={'/AdminEntrepreneurs'} element={<AdminEntrepreneurs />}/>
         <Route path="/Login" element={<Login />} />
       </Routes>

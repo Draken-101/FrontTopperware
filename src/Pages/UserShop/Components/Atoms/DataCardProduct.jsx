@@ -28,11 +28,11 @@ const Container = styled.div`
         font-weight: 500 !important;
     }
 `;
-export function DataCardProduct({Data}){
+export function DataCardProduct({Data, }){
     return(
         <Container>
             <span className='name'> {Data.nombre} </span>
-            <span> {Data.estilos.length} estilos diferentes </span>
+            <span> {''} estilos diferentes </span>
         </Container>
     )
 }

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import './Card.styl'
 import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
-import { DataCardEntrepreneur } from '../Atoms/DataCardEntrepreneur';
+import { DataCardEntrepreneur } from '../../../UserPage/Components/Atoms/DataCardEntrepreneur';
 const Container = styled.div`
     background-color: rgba(231, 185, 188, 1);
     width: calc( ( 100vw - 8vw ) / 5 );

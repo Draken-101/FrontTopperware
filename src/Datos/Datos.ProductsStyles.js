@@ -54,6 +54,5 @@ export const ProductsStyles = () => {
         productStyle.descripcion,
         productStyle.img
     ))];
-
     return PS2;
 }

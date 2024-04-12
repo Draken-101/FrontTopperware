@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Label } from './Label';
+import { useNavigate } from "react-router-dom";
 
 const Button = styled.button`
     position: relative;
@@ -36,9 +37,10 @@ const Button = styled.button`
     }
 `;
 
-export function ButtonIconHeader({ NameButton, IconButton, OnClick, Width}) {
+export function ButtonIconHeader({ NameButton, IconButton, path, Width}) {
+    const navigate = useNavigate();
     return (
-        <Button onClick={OnClick} Width={Width}>
+        <Button onClick={() => navigate(path)} Width={Width}>
             <Label>{NameButton}</Label>
             <img src={IconButton} alt="Icon" />
         </Button>

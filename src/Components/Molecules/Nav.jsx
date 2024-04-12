@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { ButtonIconHeader } from '../../../../Components/Atoms/ButtonIconHeader';
-import { Label } from '../../../../Components/Atoms/Label';
+import { ButtonIconHeader } from '../Atoms/ButtonIconHeader';
 const Container = styled.nav`
     background-color: white;
     display: flex;
@@ -10,10 +9,10 @@ const Container = styled.nav`
     height: 100%;
     padding-right: 2vw;
 `;
-export function Nav({ Data, OnClick }) {
+export function Nav({ Data, path }) {
     return (
         <Container>
-            <ButtonIconHeader Width={'5vw'} NameButton={Data.nameButton} IconButton={Data.iconButton} OnClick={OnClick}/>
+            <ButtonIconHeader path={path} Width={'5vw'} NameButton={Data.nameButton} IconButton={Data.iconButton}/>
         </Container>
     )
 }

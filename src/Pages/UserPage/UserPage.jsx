@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { IconTop } from "../../Components/Atoms/IconTop";
 import { HeaderUser } from "./Components/Organims/HeaderUser";
-import { Top } from "./Components/Organims/Top";
-import { Shop } from "./Components/Organims/Shop";
+import { Top } from "../UserTop/Components/Organims/Top";
+import { Shop } from "../UserShop/Components/Organims/Shop";
 import {  tienda, top, productInfo, shoppingCart, shippingForm, confirmOrder, purchaseTracking, addCar, calcularTotalCarrito, incrementDecrement, Cambio } from "./Functions";
 import { ProductInfo } from "./Components/Organims/ProductInfo";
 import { ShoppingCart } from "./Components/Organims/ShoppingCart";
