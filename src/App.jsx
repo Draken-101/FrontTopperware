@@ -4,6 +4,7 @@ import { AdminEntrepreneurs } from "./Pages/AdminEntrepreneurs/AdminEntrepreneur
 import { AdminProducts } from "./Pages/AdminProducts/AdminProducts";
 import { useEffect, useState } from "react";
 import { PrivateRoute } from "./Components/Atoms/PrivateRoute";
+import { UserPage } from "./Pages/UserPage/UserPage";
 function App() {
   const [token, setToken] = useState('');
   useEffect(() => {
@@ -28,18 +29,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/" element={<UserPage/>}/> */}
+        <Route path="/User" element={<UserPage/>}/>
 
         <Route path="/AdminProducts" element={
-          <PrivateRoute token={token}>
             <AdminProducts />
-          </PrivateRoute>
         } />
-        <Route path={'/AdminEntrepreneurs/:token'} element={
-          <PrivateRoute token={token}>
-            <AdminEntrepreneurs />
-          </PrivateRoute>} />
-        <Route path="/" element={<Login />} />
+        <Route path={'/AdminEntrepreneurs'} element={<AdminEntrepreneurs />}/>
+        <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   )

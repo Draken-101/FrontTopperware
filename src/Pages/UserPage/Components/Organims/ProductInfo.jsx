@@ -28,7 +28,7 @@ const Container = styled.div`
         height: 100%;
     }
 `;
-export function ProductInfo({ Product, Volver, AgregarCarrito }) {
+export function ProductInfo({ Product, Styles, Volver, AgregarCarrito }) {
     const [styleData, setStyleData] = useState(Product.estilos[0]);
     const handleButtonClick = (style) => {
         setStyleData(style);

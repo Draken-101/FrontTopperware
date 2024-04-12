@@ -5,7 +5,7 @@ export function CarShopButton({OnClick}){
         <ButtonIconHeader 
         Width={'5vw'} 
         NameButton={"Carrito"} 
-        IconButton={"src/assets/Icons/icons8-carrito-de-compras-64.png"}
+        IconButton={"/assets/Icons/icons8-carrito-de-compras-64.png"}
         OnClick={OnClick}
         />
     )

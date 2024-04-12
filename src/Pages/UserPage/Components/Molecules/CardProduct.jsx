@@ -15,7 +15,7 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProduct({ OnClick, ProductData }) {
+export function CardProduct({ OnClick, ProductData, Existencias }) {
     const [imgFondo, setImgFondo] = useState(null);
     useEffect(() => {
         const FondoCard = ProductData.estilos.map(product => product.img);

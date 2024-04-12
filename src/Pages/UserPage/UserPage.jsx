@@ -12,12 +12,17 @@ import { PurchaseTracking } from "./Components/Organims/PurchaseTracking";
 import { Products } from "../../Datos/Datos.Products";
 import { Car } from "../../Datos/Datos.Car";
 import { Entrepreneurs } from "../../Datos/Datos.Entrepreneurs";
+import { SearchBar } from "../../Components/Molecules/SearchBar";
+import { CarShopButton } from "./Components/Molecules/CarShopButton";
+import { ProductsStyles } from "../../Datos/Datos.ProductsStyles";
 
 export function UserPage() {
     const [entrepreneurs, setEntrepreneurs] = useState(Entrepreneurs);
     const [car, setCar] = useState(Car);
     // const [productPrice, setProductPrice] =([])
-    const [products, setProduts] = useState(Products);
+    const [products, setProduts] = useState([...Products()]);
+    const [productsBuscar, setProdutsBuscar] = useState([...products]);
+    const [productsStyles, setProdutsStyles] = useState([...ProductsStyles()]);
     const [page, setPage] = useState(top)
     const [activeHeader, setActiveHeader] = useState(true)
     const [total, setTotal] = useState(0);
@@ -37,15 +42,16 @@ export function UserPage() {
     };
     return (
         <>
-            {activeHeader ? <HeaderUser Entrepreneur={entrepreneurs[0]} Icon={<IconTop Src={page.icon} />} Data={page} OnClick={() => setPage(Cambio(page))} /> : ""}
+            {activeHeader ? <HeaderUser Entrepreneur={entrepreneurs[0]} Icon={<IconTop Src={page.icon} />} Data={page} OnClick={() => setPage(Cambio(page))} /> : ""} 
+            <SearchBar SearchButtons={[]} Buttons={<CarShopButton OnClick={() => setPage(shoppingCart)} />} />
             {(() => {
                 switch (page.pageName) {
                     case 'Tienda':
-                        return <Shop Products={products} seeShoppingCart={() => setPage(shoppingCart)} SeeProduct={(p) => { setProduts(p); setPage(productInfo) }} />;
+                        return <Shop Products={products} Styles={productsStyles} SeeProduct={(p) => { setProduts(p); setPage(productInfo) }} />;
                     case 'Top':
                         return <Top Entepreneurs={entrepreneurs} />;
                     case 'ProductInfo':
-                        return <ProductInfo AgregarCarrito={(producto, nombre) => setCar(addCar(producto, car, nombre))} Product={products} Volver={() => { setPage(tienda); setProduts(Products) }} />;
+                        return <ProductInfo AgregarCarrito={(producto, nombre) => setCar(addCar(producto, car, nombre))} Product={products} Styles={productsStyles} Volver={() => { setPage(tienda); setProduts(Products) }} />;
                     case 'ShoppingCart':
                         return <ShoppingCart
                             Products={products}

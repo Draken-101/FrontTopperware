@@ -13,15 +13,19 @@ const Container = styled.div`
     gap: 1vw;
     height: calc(100vh - 8.6vw);
 `;
-export function Shop({ seeShoppingCart, SeeProduct, Products }) {
+export function Shop({ Styles, seeShoppingCart, SeeProduct, Products }) {
 
     return (
         <Container>
-            <SearchBar Buttons={<CarShopButton OnClick={seeShoppingCart} />} />
             <div className='ContainerCards'>
                 {
                     Products.map((data, index) => 
-                        <CardProduct ProductData={data}  OnClick={SeeProduct}/>
+                        <CardProduct ProductData={data} Existencias={Styles.reduce((S, total) => {
+                            if(Styles.getClave() === S.getClave()){
+                                return total + S.cantidad;
+                            }
+                            return total;
+                        }, 0)}  OnClick={SeeProduct}/>
                     )
                 }
             </div>

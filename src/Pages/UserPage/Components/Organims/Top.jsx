@@ -14,7 +14,6 @@ const Container = styled.div`
 export function Top({ Entepreneurs }){
     return(
         <Container>
-            <SearchBar/>
             <div className='ContainerCards'>
                 {
                     Entepreneurs.map((data, index) => 
