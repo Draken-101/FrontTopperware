@@ -14,10 +14,10 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProduct({ OnClick, ProductData, Existencias, Fondos }) {
+export function CardProduct({ OnClick, ProductData, StylesCount, Fondos }) {
     const [imgFondo, setImgFondo] = useState(null);
     useEffect(() => {
-        const FondoCard = Fondos || "";
+        const FondoCard = [...Fondos] || "";
         let currentIndex = 1;
         setImgFondo(FondoCard[0]);
         const intervalId = setInterval(() => {
@@ -33,7 +33,7 @@ export function CardProduct({ OnClick, ProductData, Existencias, Fondos }) {
             className={"Card Product"}
             Img={imgFondo}>
             <Fondo >
-                <DataCardProduct Data={ProductData} />
+                <DataCardProduct Data={ProductData} StylesCount={StylesCount}/>
             </Fondo>
         </Container>
     )
