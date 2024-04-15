@@ -8,9 +8,11 @@ import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfil
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
 import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
 import { useState } from "react";
-import { Entrepreneur } from "../../../../Datos/Datos.Entrepreneurs";
+import { CalcularTotalVenta } from "../../../../Datos/Datos.Entrepreneurs";
+import { uploadImg } from "../../../../fireBase/config";
 export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
-    const [img, setImg] = useState(null)
+    const [img, setImg] = useState(null);
+    const [imgFile, setImgFile] = useState(null);
     const change = (e) => {
         let reader = new FileReader();
         reader.onload = () => {
@@ -18,34 +20,32 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
         };
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
-        } else
+            setImgFile(e.target.files[0]);
+        } else{
             setImg('');
+            setImgFile(null);
+        }
     }
     return (
         <Formik
             initialValues={ValoresAddEntrepreneurs}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
-            onSubmit={(values, { resetForm }) => {
+            onSubmit={ async (values, { resetForm }) => {
+                const urlImg = await uploadImg(imgFile, values.numeroCliente);
                 const Tip = {
                     tip: TipActual,
-                    semana1: values.semana1,
-                    semana2: values.semana2,
-                    semana3: values.semana3,
+                    semana1: values.semana1 || 0,
+                    semana2: values.semana2 || 0,
+                    semana3: values.semana3 || 0
                 };
-                console.log(img)
-                const newEntrepreneur = new Entrepreneur(
-                    // nombres, apellidos, numeroCliente, top, totalVenta, tips, img
-                    values.nombres,
-                    values.apellidos,
-                    values.numeroCliente,
-                    0,
-                    0,
-                    [Tip],
-                    img || "src/assets/Img/Minnie.jpg"
-
-                )
-                newEntrepreneur.CalcularTotalVenta(Tip);
-                AddEntrepreneur(newEntrepreneur)
+                AddEntrepreneur({
+                    nombres: values.nombres,
+                    numeroCliente: values.numeroCliente,
+                    apellidos: values.apellidos,
+                    tips:[Tip],
+                    totalVenta: CalcularTotalVenta([Tip]),
+                    img: urlImg || "/assets/Img/Minnie.jpg"
+                })
                 setImg(null)
                 resetForm();
                 console.log('Formulario enviado');

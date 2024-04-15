@@ -33,7 +33,6 @@ const Button = styled.button`
 export function InputSearchBar({ Buscar, Btns }) {
     const [clickedButton, setClickedButton] = useState('');
     const inputRef = useRef(null);
-
     const onOff = (type) => {
         if (type !== clickedButton) {
             setClickedButton(type);

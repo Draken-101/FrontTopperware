@@ -1,12 +1,11 @@
-
-import './CardsEntrepreneurs.styl'
 import { CardEntrepreneur } from '../Molecules/CardEntrepreneur';
-export function CardsEntrepreneurs({ Editar, Entrepreneurs, handleButtonClick, clickedButton, Buscar }) {
+import './CardsEntrepreneurs.styl'
+export function CardsEntrepreneurs({ Editar, Entrepreneurs, handleButtonClick, clickedButton }) {
     return (
         <div className='ContainerCardsAdminEntrepreneurs'>
             {
-                Entrepreneurs.map((data, index) =>
-                    <CardEntrepreneur Editar={Editar} EntrepreneurData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                Entrepreneurs.map((entrepreneur) => 
+                    <CardEntrepreneur key={entrepreneur.numeroCliente} Editar={Editar} Top={entrepreneur.top} EntrepreneurData={entrepreneur} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 )
             }
         </div>

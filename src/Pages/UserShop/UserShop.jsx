@@ -3,23 +3,16 @@ import { IconTop } from '../../Components/Atoms/IconTop';
 import { SearchBar } from '../../Components/Molecules/SearchBar';
 import { HeaderUser } from '../../Components/Organims/HeaderUser';
 import { Btns, tienda } from './Datos/Datos.Valores';
-import { useBuscarEntrepreneurs } from '../../CustomiseHooks/useBuscarEntrepreneurs';
 import { Shop } from './Components/Organims/Shop';
+import { CarShopButton } from './Components/Atoms/CarShopButton';
+import { buscarProduct } from '../../Datos/Datos.Products';
 export function UserShop({ Products, EntrepreneurTop1, ProductsStyles }) {
     const [products, setProducts] = useState([...Products]);
-    const [productsBuscar, setProductsBuscar] = useState([...products]);
-    const Buscar = (value, type) => {
-        if (value === "") {
-            setProducts([...productsBuscar]);
-            return;
-        }
-        setProducts(useBuscarEntrepreneurs(value, type, setProductsBuscar));
-    }
     return (
         <>
             <HeaderUser Entrepreneur={EntrepreneurTop1} Icon={<IconTop Src={tienda.icon} />} Data={tienda} path={'/UserTop'}/>
-            <SearchBar Buscar={Buscar} SearchButtons={Btns} />
-            <Shop Products={products} Styles={ProductsStyles} SeeProduct={''} />
+            <SearchBar Buscar={( value, type ) => setProducts(buscarProduct( value, type, Products ))} SearchButtons={Btns} Buttons={<CarShopButton path={'/CarShop'} />}/>
+            <Shop Products={products} Styles={ProductsStyles} />
         </>
     )
 }

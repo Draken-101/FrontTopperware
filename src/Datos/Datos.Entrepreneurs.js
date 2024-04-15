@@ -1,55 +1,95 @@
-export class Entrepreneur {
-    constructor(nombres, apellidos, numeroCliente, top, totalVenta, tips, img) {
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.numeroCliente = numeroCliente;
-        this.top = top;
-        this.tips = [...tips];
-        this.totalVenta = totalVenta;
-        this.img = img;
-    }
 
-    updateEntrepreneur(nombres, apellidos, totalVenta, tips, img) {
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.tips = [...tips];
-        this.totalVenta = totalVenta;
-        this.img = img;
-    }
-    
-    CalcularTotalVenta(Tips) {
-        this.totalVenta = 0; 
-        if(Tips){
-            if (Array.isArray(Tips)) {
-                this.tips = [...Tips]
-                Tips.map((tip) => {
-                    this.totalVenta += tip.semana1 + tip.semana2 + tip.semana3;
-                })
 
-            } else {
-                this.tips = Tips;
-                this.totalVenta = Tips.semana1 + Tips.semana2 + Tips.semana3;
-            }
+// export function updateEntrepreneur(nombres, apellidos, totalVenta, tips, img) {
+//     this.nombres = nombres;
+//     this.apellidos = apellidos;
+//     this.tips = [...tips];
+//     this.totalVenta = totalVenta;
+//     this.img = img;
+// }
+
+export const updateEntrepreneur = (newEntrepreneur, Entrepreneurs) => {
+    return [...Entrepreneurs.filter((entrepreneur) => {
+        if (entrepreneur.numeroCliente === newEntrepreneur.numeroCliente) {
+            entrepreneur.nombres = newEntrepreneur.nombres;
+            entrepreneur.apellidos = newEntrepreneur.apellidos;
+            entrepreneur.totalVenta = newEntrepreneur.totalVenta;
+            entrepreneur.tips = newEntrepreneur.tips;
+            entrepreneur.img = newEntrepreneur.img;
         }
-    }
-    updateTop(top) {
-        this.top = top;
-    }
+        return entrepreneur;
+    })]
+}
+export function CalcularTotalVenta(Tips) {
+    return Tips.reduce((totalVenta, tip) => {
+        return totalVenta += totalVenta + tip.semana1 + tip.semana2 + tip.semana3
+    }, 0);
+}
 
-    getNombreCompleto() {
-        return `${this.nombres} ${this.apellidos}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+export function CalcularUltimoTip(Tips, actualTip) {
+    let newTip = {
+        ...Tips.filter((tip) => {
+            if (tip.tip == actualTip) {
+                return tip;
+            }
+        })
+    }[0];
+    return newTip ||
+    {
+        tip: actualTip,
+        semana1: 0,
+        semana2: 0,
+        semana3: 0
+    };
+}
+
+export const removeEntrepreneur = (entrepreneurDelete, Entrepreneurs) => {
+    return [...Entrepreneurs.filter(entrepreneur => entrepreneur.numeroCliente !== entrepreneurDelete.numeroCliente)];
+}
+
+export const editarEntrepreneur = (entrepreneur, actualTip) => {
+    return {
+        user: entrepreneur,
+        tip: CalcularUltimoTip(entrepreneur.tips, actualTip)
+    };
+}
+
+export function ordenarEntrepreneurs(Entrepreneurs) {
+    Entrepreneurs.sort((a, b) => b.totalVenta - a.totalVenta)
+    return [...Entrepreneurs.map((entrepreneur, top) => {
+        top += 1;
+        entrepreneur.top = top;
+        return entrepreneur
+    }, 0)]
+}
+
+export function getNombreCompleto(entrepreneur) {
+    return `${entrepreneur.nombres} ${entrepreneur.apellidos}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+export const buscarEntrepreneur = (value, type, Entrepreneurs) => {
+    if (value === "") {
+        return Entrepreneurs;
+    }
+    switch (type) {
+        case "numero de cliente":
+            return [...Entrepreneurs.filter(({ numeroCliente }) => numeroCliente === value)];
+        case "Top":
+            return [...Entrepreneurs.filter((entrepreneur) => entrepreneur.top == value)];
+        case "Total Venta":
+            return [...Entrepreneurs.filter(({ totalVenta }) => totalVenta <= value)];
+        default:
+            return [...Entrepreneurs.filter((entrepreneur) => {
+                let Nombres = getNombreCompleto(entrepreneur);
+                return Nombres.toLowerCase().includes(value.toLowerCase());
+            })];
     }
 }
 
-import E from './Entrepreneurs.json';
-export const Entrepreneurs = () => {
-    let E2 = [...E.map((ente) => new Entrepreneur(ente.nombres, ente.apellidos, ente.numeroCliente, ente.top, ente.totalVenta, ente.tips, ente.img))];
-
-    let EntrepreneurOrdenados = [...E2.sort((a, b) => b.totalVenta - a.totalVenta)];
-    EntrepreneurOrdenados.map((e, top) => {
-        top += 1;
-        e.updateTop(top)
-        return e;
-    }, 0)
-    return EntrepreneurOrdenados
+import { getData } from '../Fetching/getData';
+// import Entrepreneurs from './Entrepreneurs.json';
+export const getEntrepreneurs = async () => {
+    const entrepreneurs = await getData('http://localhost:3000/api/emprendedoras');
+    const entrepreneurOrdenados = ordenarEntrepreneurs(entrepreneurs);
+    return [...entrepreneurOrdenados];
 }

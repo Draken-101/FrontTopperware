@@ -6,10 +6,9 @@ import { InputsAddEntrepreneurs } from "../../Datos/Datos.InputsAddEntrepreneurs
 import { InputsAddEntrepreneursTip } from "../../Datos/Datos.InputsAddEntrepreneursTip";
 import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
-import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
 import { ButtonPinkRed } from "../../../../Components/Atoms/ButtonPinkRed";
 import { ValoresEditEntrepreneurs } from "../../Datos/Datos.ValoresEditEntrepreneurs";
-import { CalcularUltimoTip } from "../../Datos/Datos.FunctionsEntrepeneur";
+import { ValidacionesEditEntrepreneurs } from "../../Datos/Datos.ValidacionesEditEntrepreneurs";
 export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Update, Tip }) {
     const [img, setImg] = useState(null)
     useEffect(() => {
@@ -29,23 +28,19 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
         <Formik
             key={Entrepreneur.numeroCliente}
             initialValues={ValoresEditEntrepreneurs(Entrepreneur, Tip)}
-            validate={(v) => ValidacionesAddEntrepreneurs(v)}
+            validate={(v) => ValidacionesEditEntrepreneurs(v)}
             onSubmit={(values, { resetForm }) => {
                 let newTip = {
                     tip: TipActual,
-                    semana1: values.semana1 || 0,
-                    semana2: values.semana2 || 0,
-                    semana3: values.semana3 || 0
+                    semana1: values.semana1,
+                    semana2: values.semana2,
+                    semana3: values.semana3
                 }
-                let totalVenta = 0;
-                let Tips = []
-                if (Entrepreneur.tips.length > 1) {
+                let totalVenta = (values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0);
+                let Tips = [];
+                if (Entrepreneur.tips.length > 0) {
                     Tips = [...Entrepreneur.tips.filter((tip) => tip.tip !== TipActual)]
-                    totalVenta = Tips.reduce((total, tip) => {
-                        return total + tip.semana1 + tip.semana2 + tip.semana3;
-                    }, 0)
                 } else {
-                    console.log(totalVenta);
                     totalVenta = newTip.semana1 + newTip.semana2 + newTip.semana3;
                 }
                 Tips.push({ ...newTip })
@@ -58,7 +53,7 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
                     numeroCliente: Entrepreneur.numeroCliente,
                     tips: [...Tips],
                     img: img
-                })
+                }, Entrepreneur.numeroCliente)
                 resetForm();
                 console.log('Formulario enviado');
             }}>

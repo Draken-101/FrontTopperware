@@ -1,9 +1,6 @@
-export const Btns =[
-    {
-        type: "clave de producto",
-        icon: "/assets/Icons/IconHash.svg"
-    }
-]
+export function ValoresForm() {
+    return { cantidad: 0 }
+}
 
 export const tienda = {
     pageName: "Tienda",

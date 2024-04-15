@@ -1,17 +1,18 @@
 import { Label } from '../../../../Components/Atoms/Label';
-import { Paragraph } from '../Atoms/Paragraph';
-import { Category } from '../Atoms/Category';
-import { Type } from '../Atoms/Type';
-import { StockPriceQuantity } from '../Atoms/StockPriceQuantity';
-import { ProductStyles } from '../Atoms/ProductStyles';
+import { Paragraph } from '../../../UserPage/Components/Atoms/Paragraph';
+import { Category } from '../../../UserPage/Components/Atoms/Category';
+import { Type } from '../../../UserPage/Components/Atoms/Type';
+import { StockPriceQuantity } from '../../../UserPage/Components/Atoms/StockPriceQuantity';
+import { ProductStyles } from '../../../UserPage/Components/Atoms/ProductStyles';
 import { ErrorMessage, useFormikContext } from 'formik';
 import { MessageError } from '../../../../Components/Atoms/MessageError';
-export function PrintDataProduct({ Data, styleData, handleButtonClick, clickedButton }) {
+import { useState } from 'react';
+export function PrintDataProduct({ Product, styleData, Styles, handleButtonClick }) {
     const { errors } = useFormikContext();
     return (
         <div className='PrintDataProduct'>
-            <Label Width={"fit-content"} Size={"3vw"} Margin={"0vw 1vw"}>
-                {Data.nombre}
+            <Label Width={"fit-content"} Size={"3vw"} Margin={"1vw 1vw"}>
+                {Product.nombre}
             </Label>
             <Paragraph>
                 {styleData.descripcion}
@@ -19,12 +20,12 @@ export function PrintDataProduct({ Data, styleData, handleButtonClick, clickedBu
             <hr/>
             <Category CategoryData={styleData.categoria}/>
             <hr/>
-            <Type TypeData={Data.tipo}/>
+            <Type TypeData={Product.tipo}/>
             <hr/>
             <StockPriceQuantity Data={styleData}/>
             <hr />
             <ErrorMessage className='ErrorMsj' name={'cantidad'} component={() => (<MessageError Padding={'.5vw 0vw'} Content={'center'} aling={'center'}  message={errors[ 'cantidad' ]} />)} />
-            <ProductStyles Data={Data.estilos} handleButtonClick={handleButtonClick} clickedButton={styleData.clave}/>
+            <ProductStyles Data={Styles} handleButtonClick={handleButtonClick} clickedButton={styleData.clave}/>
         </div>
     )
 }

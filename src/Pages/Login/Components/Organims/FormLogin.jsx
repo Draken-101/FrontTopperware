@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import './FormLogin.styl'
 import { FormContent } from '../Molecules/FormContent';
-import { Form, Formik } from 'formik';
+import { ErrorMessage, Form, Formik } from 'formik';
 import { Valores } from '../../Datos/Datos.Valores'
-import { Validaciones } from '../../Datos/Datos.Validaciones'; 
+import { Validaciones } from '../../Datos/Datos.Validaciones';
 import { LoginLogo } from '../../../../Components/Molecules/LoginLogo';
+import { getToken } from '../../../../Fetching/getToken';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
     display: flex;
     justify-content: center;
@@ -14,25 +17,34 @@ const Container = styled.div`
     background-color: rgba(255, 247, 243, 1);
 `;
 export function FormLogin() {
-
+    const [messageErrorSesion, setMessageErrorSesion] = useState('');
+    const navigate = useNavigate();
     return (
         <>
             <Container>
-                <Formik 
+                <Formik
                     initialValues={Valores}
                     validate={(v) => Validaciones(v)}
-                    onSubmit={(values, { resetForm }) => {
-                        localStorage.setItem('token', 'dfjnhalifna')
+                    onSubmit={async (values, { resetForm }) => {
+                        let token = await getToken(values.email, values.password);
+                        console.log(token.message);
+                        setMessageErrorSesion('')
+                        if (token.error) {
+                            console.log(token.message);
+                            setMessageErrorSesion(token.message);
+                        } else {
+                            localStorage.setItem('token', token.token);
+                            navigate('/AdminEntrepreneurs')
+                        }
                         resetForm();
-                        
                         console.log('Formulario enviado');
                     }}>
                     <Form className='ContainerFormLogin'>
-                        <FormContent />
+                        <FormContent Error={messageErrorSesion} />
                     </Form>
                 </Formik>
             </Container>
-            <LoginLogo Width={"50%"}/>
+            <LoginLogo Width={"50%"} />
         </>
     )
 }

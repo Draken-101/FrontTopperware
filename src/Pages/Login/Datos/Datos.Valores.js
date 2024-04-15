@@ -1,4 +1,5 @@
 export const Valores = {
-    user: "",
-    password: ""
+    email: "",
+    password: "",
+    errorSesion: ''
 }

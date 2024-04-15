@@ -8,7 +8,7 @@ const Image = styled.div`
     width: ${props => props.Img ? "100%" : "8vw"};
     height: ${props => props.Img ? "20vw" : "8vw"};
     border-radius: ${props => props.Img ? ".5vw" : "50%"};
-    background-image: ${props => props.Img ? `url(${props.Img})` : `url('src/assets/Icons/icons8-más-96.png')`};
+    background-image: ${props => props.Img ? `url(${props.Img})` : `url('/assets/Icons/icons8-más-96.png')`};
     background-size: ${props => props.Img ? 'cover' : '80% 80%'};
 `;
 export function InputAddProfile({ Img, Change }) {

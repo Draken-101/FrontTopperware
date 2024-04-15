@@ -23,8 +23,24 @@ export class Product {
         return this.clave;
     }
 }
+
+export const buscarProduct = (value, type, Products) => {
+    if (value === "") {
+        return Products;
+    }
+    switch (type) {
+        case "clave de producto":
+            return [...Products.filter(({ clave }) => clave === value)];
+        default:
+            return [...Products.filter((product) => {
+                return product.nombre.toLowerCase().includes(value.toLowerCase());
+            })];
+    } 
+}
+
 import P from './Products.json';
 export const Products = () => {
-    let P2 = [...P.map((product) => new Product(product.clave, product.nombre, product.cantidad, product.tipo))];
+    //                                              clave,         nombre,         cantidad,         tipo
+    let P2 = [...P.map((product) => product)];
     return P2;
 }

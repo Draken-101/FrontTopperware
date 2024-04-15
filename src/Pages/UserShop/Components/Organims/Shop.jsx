@@ -14,24 +14,18 @@ const Container = styled.div`
     max-height: calc(100% - 4vw);
     overflow-y: scroll;
 `;
-export function Shop({ Styles, SeeProduct, Products }) {
+export function Shop({ Styles, Products }) {
 
     return (
         <Container>
             {
                 Products?.map((data, index) =>
-                    <CardProduct ProductData={data} StylesCount={
-                        Styles?.reduce((total, style) => {
-                            if (style.getClave() == data.getClave())
-                                return total + 1
-                            return total;
-                        }, 0)}
-                        Fondos={[...Styles?.filter((style) => {
-                            if(style.getClave() === data.getClave())
-                                console.log(style.img)
-                                return style.img;
-                        })]}
-                        OnClick={SeeProduct} />
+                    <CardProduct 
+                        key={data.clave}
+                        ProductData={data} Styles={[...Styles.filter((styles) => styles.getClave() === data.clave )]}
+                        Fondos={[...Styles?.filter(style => {
+                            return style.getClave() === data.clave;
+                        }).map(style => style.img)]} />
                 )
             }
         </Container>

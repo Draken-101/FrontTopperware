@@ -4,7 +4,8 @@ import { ButtonPurple } from '../../../../Components/Atoms/ButtonPurple';
 import { Label } from '../../../../Components/Atoms/Label';
 import { InputsGenerator } from '../../../../Components/Molecules/InputsGenerator';
 import { Inputs } from '../../Datos/Datos.Inputs';
-export function FormContent({}) {
+import { MessageError } from '../../../../Components/Atoms/MessageError';
+export function FormContent({Error}) {
     return (
         <>
             <Label 
@@ -13,6 +14,7 @@ export function FormContent({}) {
             Weight={"700"}
             > Iniciar sesion</Label>
             <InputsGenerator Inputs={Inputs} />
+            <MessageError message={Error} />
             <ButtonPurple Width={"100%"} type='submit'> Ingresar </ButtonPurple>
         </>
     )

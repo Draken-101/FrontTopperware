@@ -11,7 +11,7 @@ export const ButtonEditCard = styled.button`
     border-top-left-radius: 100% ;
     border-bottom-right-radius: 0.5vw;
     background-color: white;
-    background-image: url('src/assets/Icons/icons8-lápiz-96.png');
+    background-image: url('/assets/Icons/icons8-lápiz-96.png');
     background-position: 70% 70%;
     background-size: 60%;
     background-repeat: no-repeat;

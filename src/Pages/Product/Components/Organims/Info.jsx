@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { Form, Formik } from 'formik';
+import { useState } from 'react';
 import { Img } from '../../../../Components/Atoms/Img';
 import { PrintDataProduct } from '../Molecules/PrintDataProduct';
-import { Form, Formik } from 'formik';
-import { Valores } from '../../Datos/Datos.Valores';
-import { ValidacionesAddCar } from '../../Datos/Datos.ValidacionesAddCar';
 import { Buttons } from '../Molecules/Buttons';
-import {  useState } from 'react';
+import { ValidacionesAddCar } from '../../Datos/Datos.ValidacionesAddCar';
+import { useNavigate } from 'react-router-dom';
+import { ValoresForm } from '../../Datos/Datos.Valores';
 const Container = styled.div`
     display: grid;
     grid-template-columns: 40vw 58vw;
@@ -28,29 +29,28 @@ const Container = styled.div`
         height: 100%;
     }
 `;
-export function ProductInfo({ Product, Styles, Volver, AgregarCarrito }) {
-    const [styleData, setStyleData] = useState(Product.estilos[0]);
+export function Info({ AgregarCarrito, Styles, Product }) {
+    const [style, setStyle] = useState(...Styles.filter((style, index) => index === 0));
+    const navigate = useNavigate();
     const handleButtonClick = (style) => {
-        setStyleData(style);
+        setStyle(style);
     };
     return (
         <Container>
-            <Img src={styleData.img} Width={"90%"} Height={"90%"} />
+            <Img src={style.img} Width={"90%"} Height={"90%"} />
             <Formik
                 className="Form"
-                initialValues={Valores}
-                validate={(v) => ValidacionesAddCar(v, styleData.cantidad)}
+                initialValues={ValoresForm()}
+                validate={(v) => ValidacionesAddCar(v, style.cantidad)}
                 onSubmit={(values, { resetForm }) => {
-                    let p = { ...styleData, cantidad:values.cantidad};
-                    console.log(p);
-                    AgregarCarrito(p, Product.nombre)
-                    console.log('Formulario enviado');
+                    AgregarCarrito()
+                    navigate('/UserShop')
                     Volver()
                     resetForm();
                 }}>
                 <Form className="Form">
-                    <PrintDataProduct styleData={styleData} Data={Product} handleButtonClick={handleButtonClick}/>
-                    <Buttons Volver={Volver}/>
+                    <PrintDataProduct handleButtonClick={handleButtonClick} Product={Product} styleData={style} Styles={Styles} />
+                    <Buttons />
                 </Form>
             </Formik>
         </Container>

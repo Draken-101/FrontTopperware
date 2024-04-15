@@ -1,10 +1,10 @@
 export const Inputs = {
     fields: [
         {
-            label: "Usuario",
-            valor: "user",
-            placeholder: "Ej. Yady",
-            type: "text",
+            label: "E-mail",
+            valor: "email",
+            placeholder: "Ej. Yady@gmail.com",
+            type: "email",
           },
           {
             label: "Contraseña",

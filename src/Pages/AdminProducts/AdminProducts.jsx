@@ -55,7 +55,6 @@ export function AdminProducts() {
                 })];
                 break;
         }
-        console.log(claveActual);
         setProducts([...Styles.filter((e) => e.getClave() === claveActual)]);
     }
     const BuscarProducto = (value, type) => {
