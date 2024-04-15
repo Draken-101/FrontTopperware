@@ -9,7 +9,6 @@ import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
 import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
 import { useState } from "react";
 import { CalcularTotalVenta } from "../../../../Datos/Datos.Entrepreneurs";
-import { uploadImg } from "../../../../fireBase/config";
 export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
@@ -31,7 +30,6 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
             initialValues={ValoresAddEntrepreneurs}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={ async (values, { resetForm }) => {
-                const urlImg = await uploadImg(imgFile, values.numeroCliente);
                 const Tip = {
                     tip: TipActual,
                     semana1: values.semana1 || 0,
@@ -44,7 +42,7 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                     apellidos: values.apellidos,
                     tips:[Tip],
                     totalVenta: CalcularTotalVenta([Tip]),
-                    img: urlImg || "/assets/Img/Minnie.jpg"
+                    img: imgFile || "/assets/Img/Minnie.jpg"
                 })
                 setImg(null)
                 resetForm();

@@ -20,16 +20,6 @@ function App() {
   const [products, setProducts] = useState([...Products()]);
   const [productsStyles, setProductsStyles] = useState([...ProductsStyles()]);
   const [fetchTrigger, setFetchTrigger] = useState(false);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        localStorage.setItem('Entrepreneurs', JSON.stringify(await getEntrepreneurs()));
-      } catch (error) {
-        console.error('Error al obtener datos:', error);
-      }
-    };
-    fetchData();
-  }, [fetchTrigger]);
   document.title = "Topperware";
   return (
     <BrowserRouter>
@@ -38,7 +28,7 @@ function App() {
         <Route path="/UserShop" element={ <UserShop Products={products} ProductsStyles={productsStyles} EntrepreneurTop1={entrepreneurTop1}/> }/>
         <Route path="/Product/:claveProduct" element={ <ProductInfo AgregarCarrito={(product) => setCar( car.car.push(product))} EntrepreneurTop1={entrepreneurTop1} Products={products} Styles={productsStyles}/> }/>
         <Route path="/AdminProducts" element={<AdminProducts  />} />
-        <Route path={'/AdminEntrepreneurs'} element={<AdminEntrepreneurs tipActual={tipActual} makeFetch={() => setFetchTrigger(fetchTrigger ? false : true)} />}/>
+        <Route path={'/AdminEntrepreneurs'} element={<AdminEntrepreneurs tipActual={tipActual} />}/>
         <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
