@@ -1,6 +1,3 @@
-export function ValoresForm() {
-    return { cantidad: 0 }
-}
 
 export const tienda = {
     pageName: "Tienda",

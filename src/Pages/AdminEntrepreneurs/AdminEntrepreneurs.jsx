@@ -65,7 +65,7 @@ export function AdminEntrepreneurs({ tipActual }) {
                             <FormAddEntrepreneur
                                 TipActual={tipActual}
                                 AddEntrepreneur={async (entrepreneur) => {
-                                    let res = await usePost('http://localhost:3000/api/emprendedoras', localStorage.getItem('token'), entrepreneur);
+                                    let res = await usePost('http://localhost:3000/api/emprendedoras', entrepreneur);
                                     !res ? navigate('/Login') : console.log(res.message);
                                     setEntrepreneurs(ordenarEntrepreneurs([...entrepreneursBuscar, entrepreneur]));
                                 }} />} />

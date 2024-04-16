@@ -1,12 +1,12 @@
-export async function usePost(url, token, body) {
+export async function usePost(url, body) {
     try {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-access-token': token
+                'x-access-token':  localStorage.getItem('token')
             },
-            body: JSON.stringify(body)
+            body: body
         });
         let data = await response.json();
         if (!response.ok) {

@@ -6,7 +6,6 @@ import { PrintDataProduct } from '../Molecules/PrintDataProduct';
 import { Buttons } from '../Molecules/Buttons';
 import { ValidacionesAddCar } from '../../Datos/Datos.ValidacionesAddCar';
 import { useNavigate } from 'react-router-dom';
-import { ValoresForm } from '../../Datos/Datos.Valores';
 const Container = styled.div`
     display: grid;
     grid-template-columns: 40vw 58vw;
@@ -40,7 +39,7 @@ export function Info({ AgregarCarrito, Styles, Product }) {
             <Img src={style.img} Width={"90%"} Height={"90%"} />
             <Formik
                 className="Form"
-                initialValues={ValoresForm()}
+                initialValues={{cantidad: 0}}
                 validate={(v) => ValidacionesAddCar(v, style.cantidad)}
                 onSubmit={(values, { resetForm }) => {
                     AgregarCarrito()

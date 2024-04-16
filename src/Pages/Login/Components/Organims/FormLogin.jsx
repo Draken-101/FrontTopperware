@@ -27,11 +27,10 @@ export function FormLogin() {
                     validate={(v) => Validaciones(v)}
                     onSubmit={async (values, { resetForm }) => {
                         let token = await getToken(values.email, values.password);
-                        console.log(token.message);
                         setMessageErrorSesion('')
                         if (token.error) {
-                            console.log(token.message);
-                            setMessageErrorSesion(token.message);
+                            console.log( token.message);
+                            setMessageErrorSesion( token.message);
                         } else {
                             localStorage.setItem('token', token.token);
                             navigate('/AdminEntrepreneurs')
