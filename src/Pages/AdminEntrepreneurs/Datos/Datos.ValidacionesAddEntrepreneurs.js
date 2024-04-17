@@ -11,8 +11,6 @@ export function ValidacionesAddEntrepreneurs(valores) {
     }
     if (!valores.numeroCliente) {
         errores.numeroCliente = 'Por favor ingresa un numero de cliente.'
-    } else if(Entrepreneurs.find((entrepreneur) => entrepreneur.numeroCliente === valores.numeroCliente)){
-        errores.numeroCliente = 'Numero de cliente ya existente.'
     }
     return errores;
 }

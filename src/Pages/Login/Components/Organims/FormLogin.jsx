@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import './FormLogin.styl'
 import { FormContent } from '../Molecules/FormContent';
-import { ErrorMessage, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { Valores } from '../../Datos/Datos.Valores'
 import { Validaciones } from '../../Datos/Datos.Validaciones';
 import { LoginLogo } from '../../../../Components/Molecules/LoginLogo';

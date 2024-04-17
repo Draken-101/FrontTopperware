@@ -3,7 +3,6 @@ import { DataCard } from '../Atoms/DataCard';
 import './CardEntrepreneur.styl'
 import { ButtonEditCard } from '../../../../Components/Atoms/ButtonEditCard';
 import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
-import { useEffect, useState } from 'react';
 const Container = styled.div`
     background-color: rgba(231, 185, 188, 1);
     width: calc( ( 75vw - 5vw ) / 4 );
@@ -15,33 +14,23 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardEntrepreneur({Editar, EntrepreneurData, handleButtonClick, clickedButton, Top }) {
-    const [newUrlPreview, setNewUrlPreview] = useState("")
+export function CardEntrepreneur({ Editar, EntrepreneurData, handleButtonClick, clickedButton, Top }) {
 
-    useEffect(()=>{
-        console.log( EntrepreneurData)
-    }, [])
-
-
-    return (<>
-    
-            <Container
+    return (
+        <Container
             key={EntrepreneurData.numeroCliente}
             className={`Card`}
-            Fondo={ EntrepreneurData.img}>
+            Fondo={EntrepreneurData.img}>
             <Fondo>
                 <TopExistenciaCard title={"Top"} count={Top} />
-                <ButtonEditCard onClick={()=> {
+                <ButtonEditCard onClick={() => {
                     Editar(EntrepreneurData);
                     handleButtonClick(Top);
                 }}
-                clicked={Top == clickedButton}
+                    clicked={Top == clickedButton}
                 />
                 <DataCard Data={EntrepreneurData} />
             </Fondo>
         </Container>
-        <div className="dwwa">
-        </div>
-    </>
     )
 }

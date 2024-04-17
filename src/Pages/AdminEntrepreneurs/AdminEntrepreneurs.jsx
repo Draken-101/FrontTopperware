@@ -10,29 +10,57 @@ import { FormEditEntrepreneur } from "./Components/Organims/FormEditEntrepreneur
 import { SearchBar } from "../../Components/Molecules/SearchBar";
 import { buscarEntrepreneur, editarEntrepreneur, getEntrepreneurs, ordenarEntrepreneurs, removeEntrepreneur, updateEntrepreneur } from "../../Datos/Datos.Entrepreneurs";
 import { Btns } from "./Datos/Datos.Valores";
-import { usePost } from "../../Fetching/usePost";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { usePut } from "../../Fetching/usePut";
 import { useDelete } from "../../Fetching/useDelete";
-export function AdminEntrepreneurs({ tipActual }) {
-    const [clickedButton, setClickedButton] = useState('Add');
+import { Tip } from "../../Datos/Datos.Tips";
+export function AdminEntrepreneurs() {
+    const [clickedButton, setClickedButton] = useState(null);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [entrepreneurs, setEntrepreneurs] = useState([]);
-    const [entrepreneursBuscar, setEntrepreneursBuscar] = useState([]);
+    let entrepreneursBuscar;
     const [entrepreneurEdit, setEntrepreneurEdit] = useState(null);
-    const [fetchTrigger, setFetchTrigger] = useState(false);
+    const [fetchTrigger, setFetchTrigger] = useState(true);
     const navigate = useNavigate();
+    const tipActual = Tip(); 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setEntrepreneursBuscar(ordenarEntrepreneurs([...await getEntrepreneurs()]));
-                setEntrepreneurs([...await getEntrepreneurs()]);
+                const fetchedEntrepreneurs = await getEntrepreneurs();
+                const sortedEntrepreneurs = ordenarEntrepreneurs(fetchedEntrepreneurs);
+                setEntrepreneurs(sortedEntrepreneurs);
+                setClickedButton('Add');
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
         };
         fetchData();
     }, [fetchTrigger]);
+
+    const handleUpdate = async (entrepreneur, numeroCliente) => {
+        try {
+            let res = await usePut(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, entrepreneur);
+            !res ? navigate('/Login') : console.log(res.message);
+            setEntrepreneurEdit(null);
+            setClickedButton('Add');
+            setFetchTrigger(prev => !prev); // Invierte el valor de fetchTrigger
+        } catch (error) {
+            console.error('Error al actualizar:', error);
+        }
+    };
+
+    const handleDelete = async (numeroCliente) => {
+        try {
+            let res = await useDelete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`);
+            !res ? navigate('/Login') : console.log(res.message);
+            setEntrepreneurEdit(null);
+            setClickedButton('Add');
+            setFetchTrigger(prev => !prev);
+        } catch (error) {
+            console.error('Error al eliminar:', error);
+        }
+    };
+
     return (
         <>
             <HeaderAdmin
@@ -40,7 +68,7 @@ export function AdminEntrepreneurs({ tipActual }) {
                 icon={"/assets/Icons/icons8-usuario-femenino-en-círculo-96.png"}
                 Nav={<NavEntrepreneurs />}
             />
-            <SearchBar Buscar={ (value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))} SearchButtons={Btns} Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeFormAdd={() => setEntrepreneurEdit(null)} clickedButton={clickedButton} />} />
+            <SearchBar Buscar={(value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))} SearchButtons={Btns} Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeFormAdd={() => setEntrepreneurEdit(null)} clickedButton={clickedButton} />} />
             <div className="ContentAdmin">
                 <CardsEntrepreneurs Editar={(entrepreneur) => setEntrepreneurEdit(editarEntrepreneur(entrepreneur, tipActual))} Entrepreneurs={entrepreneurs} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
@@ -49,29 +77,14 @@ export function AdminEntrepreneurs({ tipActual }) {
                         entrepreneurEdit ?
                             <FormEditEntrepreneur
                                 TipActual={tipActual}
-                                Update={async (entrepreneur, numeroCliente) => {
-                                    let res = await usePut(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, entrepreneur);
-                                    !res ? navigate('/Login') : console.log(res.message);
-                                    setEntrepreneurEdit(null);
-                                    setClickedButton('Add');
-                                    setFetchTrigger(!fetchTrigger);
-                                }}
-                                DeleteUser={async (numeroCliente) => {
-                                    let res = await useDelete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`);
-                                    !res ? navigate('/Login') : console.log(res.message);
-                                    setEntrepreneurEdit(null);
-                                    setClickedButton('Add');
-                                    setFetchTrigger(!fetchTrigger);
-                                }}
+                                Update={() => handleUpdate}
+                                DeleteUser={() => handleDelete}
                                 Entrepreneur={entrepreneurEdit.user} Tip={entrepreneurEdit.tip} />
                             :
                             <FormAddEntrepreneur
                                 TipActual={tipActual}
-                                AddEntrepreneur={async (entrepreneur) => {
-                                    let res = await usePost('http://localhost:3000/api/emprendedoras', entrepreneur);
-                                    !res ? navigate('/Login') : console.log(res.message);
-                                    setFetchTrigger(!fetchTrigger);
-                                }} />} />
+                                AddEntrepreneur={() => setFetchTrigger(!fetchTrigger)} />
+                    } />
             </div>
         </>
     )
