@@ -31,22 +31,19 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
             initialValues={ValoresAddEntrepreneurs}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={async (values, { resetForm }) => {
-                const formData = FormData();
-                const Tip = {
-                    tip: TipActual,
-                    semana1: values.semana1 || 0,
-                    semana2: values.semana2 || 0,
-                    semana3: values.semana3 || 0
-                };
-                formData("nombres", values.nombres);
-                formData("numeroCliente", values.numeroCliente);
-                formData("apellidos", values.apellidos);
-                formData("tips", JSON.stringify([Tip]));
-                formData("totalVenta", `${(values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0)}`)
+                const formData = new FormData();
+                formData.append("nombres", values.nombres);
+                formData.append("numeroCliente", values.numeroCliente);
+                formData.append("apellidos", values.apellidos);
+                formData.append("tip", `${TipActual}`);
+                formData.append("semana1", `${(values.semana1 || 0)}`);
+                formData.append("semana2", `${(values.semana2 || 0)}`);
+                formData.append("semana3", `${(values.semana3 || 0)}`);
+                formData.append("totalVenta", `${(values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0)}`)
                 if (imgFile) {
-                    formData(img, imgFile)
+                    formData.append("img", imgFile, values.numeroCliente)
                 } else {
-                    formData("img","/assets/Img/Minnie.jpg");
+                    formData.append("img","/assets/Img/Minnie.jpg");
                 }
                 AddEntrepreneur(formData);
                 setImg(null)

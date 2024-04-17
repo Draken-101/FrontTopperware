@@ -19,7 +19,6 @@ function App() {
   const [tipActual, setTipActual] = useState(Tip);
   const [products, setProducts] = useState([...Products()]);
   const [productsStyles, setProductsStyles] = useState([...ProductsStyles()]);
-  const [fetchTrigger, setFetchTrigger] = useState(false);
   document.title = "Topperware";
   return (
     <BrowserRouter>

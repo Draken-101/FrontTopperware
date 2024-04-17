@@ -13,24 +13,26 @@ import { Btns } from "./Datos/Datos.Valores";
 import { usePost } from "../../Fetching/usePost";
 import { json, useNavigate } from "react-router-dom";
 import { usePut } from "../../Fetching/usePut";
+import { useDelete } from "../../Fetching/useDelete";
 export function AdminEntrepreneurs({ tipActual }) {
-    const [clickedButton, setClickedButton] = useState(0);
+    const [clickedButton, setClickedButton] = useState('Add');
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [entrepreneurs, setEntrepreneurs] = useState([]);
     const [entrepreneursBuscar, setEntrepreneursBuscar] = useState([]);
     const [entrepreneurEdit, setEntrepreneurEdit] = useState(null);
+    const [fetchTrigger, setFetchTrigger] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setEntrepreneursBuscar(await getEntrepreneurs());
-                setEntrepreneurs(await getEntrepreneurs());
+                setEntrepreneursBuscar(ordenarEntrepreneurs([...await getEntrepreneurs()]));
+                setEntrepreneurs([...await getEntrepreneurs()]);
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
         };
         fetchData();
-    }, []);
+    }, [fetchTrigger]);
     return (
         <>
             <HeaderAdmin
@@ -38,7 +40,7 @@ export function AdminEntrepreneurs({ tipActual }) {
                 icon={"/assets/Icons/icons8-usuario-femenino-en-círculo-96.png"}
                 Nav={<NavEntrepreneurs />}
             />
-            <SearchBar Buscar={ async (value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))} SearchButtons={Btns} Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeFormAdd={() => setEntrepreneurEdit(null)} clickedButton={clickedButton} />} />
+            <SearchBar Buscar={ (value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))} SearchButtons={Btns} Buttons={<ButtonAdd handleButtonClick={handleButtonClick} SeeFormAdd={() => setEntrepreneurEdit(null)} clickedButton={clickedButton} />} />
             <div className="ContentAdmin">
                 <CardsEntrepreneurs Editar={(entrepreneur) => setEntrepreneurEdit(editarEntrepreneur(entrepreneur, tipActual))} Entrepreneurs={entrepreneurs} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
@@ -48,17 +50,18 @@ export function AdminEntrepreneurs({ tipActual }) {
                             <FormEditEntrepreneur
                                 TipActual={tipActual}
                                 Update={async (entrepreneur, numeroCliente) => {
-                                    let res = await usePut(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, localStorage.getItem('token'), entrepreneur);
+                                    let res = await usePut(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, entrepreneur);
                                     !res ? navigate('/Login') : console.log(res.message);
-                                    makeFetch();
-                                    setEntrepreneurs(ordenarEntrepreneurs(updateEntrepreneur(entrepreneur, entrepreneursBuscar)));
                                     setEntrepreneurEdit(null);
                                     setClickedButton('Add');
+                                    setFetchTrigger(!fetchTrigger);
                                 }}
-                                DeleteUser={() => {
-                                    setEntrepreneurs(ordenarEntrepreneurs(removeEntrepreneur(entrepreneurEdit.user, entrepreneursBuscar)));
+                                DeleteUser={async (numeroCliente) => {
+                                    let res = await useDelete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`);
+                                    !res ? navigate('/Login') : console.log(res.message);
                                     setEntrepreneurEdit(null);
                                     setClickedButton('Add');
+                                    setFetchTrigger(!fetchTrigger);
                                 }}
                                 Entrepreneur={entrepreneurEdit.user} Tip={entrepreneurEdit.tip} />
                             :
@@ -67,7 +70,7 @@ export function AdminEntrepreneurs({ tipActual }) {
                                 AddEntrepreneur={async (entrepreneur) => {
                                     let res = await usePost('http://localhost:3000/api/emprendedoras', entrepreneur);
                                     !res ? navigate('/Login') : console.log(res.message);
-                                    setEntrepreneurs(ordenarEntrepreneurs([...entrepreneursBuscar, entrepreneur]));
+                                    setFetchTrigger(!fetchTrigger);
                                 }} />} />
             </div>
         </>

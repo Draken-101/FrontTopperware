@@ -1,12 +1,11 @@
-export async function usePut(url, body) {
+export async function useDelete(url) {
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
-                'token': localStorage.getItem('token')
-            },
-            body: JSON.stringify(body)
+                'token':  localStorage.getItem('token')
+            }
         });
         let data = await response.json();
         if (!response.ok) {
@@ -15,6 +14,6 @@ export async function usePut(url, body) {
         }
         return data;
     } catch (error) {
-        console.error('Error en la solicitud PUT:', error);
+        console.error('Error en la solicitud DELETE:', error);
     }
 }
