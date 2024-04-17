@@ -31,36 +31,24 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
             initialValues={ValoresAddEntrepreneurs}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={async (values, { resetForm }) => {
+                const formData = FormData();
                 const Tip = {
                     tip: TipActual,
                     semana1: values.semana1 || 0,
                     semana2: values.semana2 || 0,
                     semana3: values.semana3 || 0
                 };
+                formData("nombres", values.nombres);
+                formData("numeroCliente", values.numeroCliente);
+                formData("apellidos", values.apellidos);
+                formData("tips", JSON.stringify([Tip]));
+                formData("totalVenta", `${(values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0)}`)
                 if (imgFile) {
-                    var reader = new FileReader()
-                    reader.readAsDataURL(imgFile)
-                    reader.onload = async () => {
-                        var rawLog = reader.result.split(',')[1];
-                        var dataSend = { dataReq: { data: rawLog, name: values.numeroCliente, type: imgFile.type }, fname: values.numeroCliente };
-                        await fetch('https://script.google.com/macros/s/AKfycbw9Pe0yfaizyVNrbQc5c5p1muvatK9RIRGA-s9cRS2YXGT__l_PoF_4Qf4dWLx0mu8LGA/exec',
-                            { method: "POST", body: JSON.stringify(dataSend) })
-                            .then(res => res.json()).then((res) => {
-                                setImgFile(res.json().url)
-                                console.log(res.json().url)
-                            }).catch(error => console.log(error))
-                    }
+                    formData(img, imgFile)
                 } else {
-                    setImgFile('/assets/Img/Minnie.jpg')
+                    formData("img","/assets/Img/Minnie.jpg");
                 }
-                AddEntrepreneur(JSON.parse({
-                    nombres: values.nombres,
-                    numeroClient: values.numeroCliente,
-                    apellidos: values.apellidos,
-                    tips: [Tip],
-                    totalVenta: CalcularTotalVenta([Tip]),
-                    img: imgFile
-                }))
+                AddEntrepreneur(formData);
                 setImg(null)
                 resetForm();
                 console.log('Formulario enviado');
