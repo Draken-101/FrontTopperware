@@ -4,26 +4,39 @@ import { InputsGenerator } from "../../../../Components/Molecules/InputsGenerato
 import { InputsAddProduct } from "../../Data/Datos.InputsAddProduct";
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
 import { ValidacionesAddProduct } from "../../Data/Datos.ValidacionesAddProduct";
-import { Product } from "../../../../Datos/Datos.Products";
-import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
-import { useState } from "react";
-import { InputsAddProductStyle } from "../../Data/Datos.InputsAddProductStyle";
-import { ProductStyle } from "../../../../Datos/Datos.ProductsStyles";
 import { ValoresAddProduct } from "../../Data/Datos.ValoresAddProduct";
-export function FormAddProduct({ AddProduct, TypeCards, ClaveActual, Valores }) {
+import axios from "axios";
+import { Add } from "../../Data/Datos.Valores";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import BackHandIcon from '@mui/icons-material/BackHand';
+export function FormAddProduct({ AddProduct }) {
     return (
         <Formik
             initialValues={ValoresAddProduct('', '', '')}
             validate={(v) => ValidacionesAddProduct(v)}
-            onSubmit={(values, { resetForm }) => {
-                let newProduct = new Product(
-                    values.clave,
-                    values.nombre,
-                    0,
-                    values.tipo
-                )
-                AddProduct(newProduct);
-
+            onSubmit={ async (values, { resetForm }) => {
+                let newProduct = JSON.stringify({
+                    clave: values.clave,
+                    nombre: values.nombre,
+                    cantidad: 0,
+                    tipo: values.tipo
+                })
+                let headers = {
+                    'Content-Type': 'application/json',
+                    'token': localStorage.getItem('token')
+                }
+                await axios.post('http://localhost:3000/api/products', newProduct, {
+                    headers: headers
+                } )
+                .then(res => {
+                    if(res.data.error){
+                        navigate('/Login')
+                    } else if (res.data.existe) {
+                        AddProduct(Add('Delete', res.data.message, () => <BackHandIcon/>))
+                    } else {
+                        AddProduct(Add('Add', res.data.message, () => <CheckCircleIcon/>))
+                    } 
+                })
                 resetForm();
                 console.log('Formulario enviado');
             }}>

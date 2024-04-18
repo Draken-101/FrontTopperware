@@ -1,6 +1,14 @@
 export function ValidacionesAddEntrepreneurs(valores) {
     let errores = {};
-    let Entrepreneurs = JSON.parse(localStorage.getItem('Entrepreneurs'));
+    if (valores.semana1 < 0) {
+        errores.semana1 = 'Por favor ingresa un numero positivo.'
+    }
+    if (valores.semana2 < 0) {
+        errores.semana2 = 'Por favor ingresa un numero positivo.'
+    }
+    if (valores.semana3 < 0) {
+        errores.semana3 = 'Por favor ingresa un numero positivo.'
+    }
     if (!valores.nombres) {
         errores.nombres = 'Por favor ingresa un nombre o tus nombres.'
     }

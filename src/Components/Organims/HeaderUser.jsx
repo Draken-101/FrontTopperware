@@ -5,10 +5,9 @@ import { Nav } from "../Molecules/Nav";
 import { useState } from "react";
 
 export function HeaderUser({Icon, Data, Entrepreneur, path}){
-    const [entrepreneur, setEntrepreneur] = useState({...Entrepreneur});
     return(
         <Header>
-            <DataTop1 Entrepreneur={entrepreneur}/>
+            <DataTop1 Entrepreneur={Entrepreneur}/>
             <IconPage Icon={Icon}/>
             <Nav Data={Data} path={path} />
         </Header>

@@ -1,11 +1,11 @@
 import { ButtonIcon } from "../Atoms/ButtonIcon";
 
-export function ButtonAdd({handleButtonClick, SeeFormAdd, clickedButton}){
+export function ButtonAdd({handleButtonClick, SeeForm, clickedButton}){
     return(
         <ButtonIcon onClick={()=>{
             if(clickedButton !== "Add"){
                 handleButtonClick('Add'); 
-                SeeFormAdd()
+                SeeForm()
             } else {
                 handleButtonClick('');
             }

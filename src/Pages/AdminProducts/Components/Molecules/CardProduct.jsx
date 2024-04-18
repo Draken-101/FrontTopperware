@@ -4,6 +4,7 @@ import { ButtonEditCard } from '../../../../Components/Atoms/ButtonEditCard';
 import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
 import { DataCardProduct } from '../Atoms/DataCardProduct';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
     background-color: rgba(250, 193, 255, 1);
     width: calc( ( 75vw - 5vw ) / 4 );
@@ -14,38 +15,43 @@ const Container = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProduct({ Fondos, SeeProductStyles, Editar, ProductData, handleButtonClick, clickedButton }) {
-    const [imgFondo, setImgFondo] = useState(null);
+
+export const CardProduct = ({ Fondos, Editar, ProductData, handleButtonClick, clickedButton }) => {
+    const navigate = useNavigate();
+    const [imgFondo, setImgFondo] = useState('https://cdn-icons-png.flaticon.com/512/1809/1809992.png');
+
     useEffect(() => {
-        if (Fondos[0] === undefined) {
-            setImgFondo('https://cdn-icons-png.flaticon.com/512/1809/1809992.png')
+        if (Fondos.length === 0) {
+            setImgFondo('https://cdn-icons-png.flaticon.com/512/1809/1809992.png');
+        } else if (Fondos.length === 1) {
+            setImgFondo(Fondos[0]);
         } else {
-            const FondoCard = [...Fondos];
             let currentIndex = 1;
-            setImgFondo(FondoCard[0]);
             const intervalId = setInterval(() => {
-                setImgFondo(FondoCard[currentIndex]);
-                currentIndex = (currentIndex + 1) % FondoCard.length;
-            }, (Math.random() * (20000 - 10000) + 10000));
+                console.log(Fondos[currentIndex]);
+                setImgFondo(Fondos[currentIndex]);
+                currentIndex = (currentIndex + 1) % Fondos.length;
+            }, Math.random() * (20000 - 10000) + 10000);
 
             return () => clearInterval(intervalId);
         }
     }, [ProductData]);
+
+    const handleCardClick = () => {
+        navigate(`/AdminStyles/${ProductData.clave}`);
+    };
+
+    const handleEditButtonClick = () => {
+        Editar(ProductData);
+        handleButtonClick(ProductData.clave);
+    };
+
     return (
-        <Container
-            className={`Card Product`}
-            Img={imgFondo}>
-            <div
-                onClick={() => SeeProductStyles(ProductData.clave)}
-                className='FondoCardProduct' />
-            <TopExistenciaCard title={"Existencias"} count={ProductData.cantidad} />
-            <ButtonEditCard onClick={() => {
-                Editar(ProductData);
-                handleButtonClick(ProductData.clave);
-            }}
-                clicked={ProductData.clave === clickedButton}
-            />
-            <DataCardProduct onClick={() => OnClick} Data={ProductData} />
+        <Container className="Card Product" Img={imgFondo}>
+            <div onClick={handleCardClick} className="FondoCardProduct" />
+            <TopExistenciaCard title="Existencias" count={ProductData.cantidad} />
+            <ButtonEditCard onClick={handleEditButtonClick} clicked={ProductData.clave === clickedButton} />
+            <DataCardProduct Data={ProductData} />
         </Container>
-    )
-}
+    );
+};

@@ -5,6 +5,7 @@ import { AdminProducts } from "./Pages/AdminProducts/AdminProducts";
 import { UserTop } from "./Pages/UserTop/UserTop";
 import { UserShop } from "./Pages/UserShop/UserShop";
 import { ProductInfo } from "./Pages/Product/ProductInfo";
+import { AdminStyles } from "./Pages/AdminStyles/AdminStyles";
 function App() {
   document.title = "Topperware";
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/UserShop" element={ <UserShop/> }/>
         <Route path="/Product/:claveProduct" element={ <ProductInfo /> }/>
         <Route path="/AdminProducts" element={<AdminProducts  />} />
+        <Route path="/AdminStyles/:clave" element={<AdminStyles  />} />
         <Route path='/AdminEntrepreneurs' element={<AdminEntrepreneurs />}/>
         <Route path="/Login" element={<Login />} />
       </Routes>

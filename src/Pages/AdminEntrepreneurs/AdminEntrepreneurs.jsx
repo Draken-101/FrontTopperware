@@ -9,11 +9,12 @@ import { FormAddEntrepreneur } from "./Components/Organims/FormAddEntrepreneur";
 import { FormEditEntrepreneur } from "./Components/Organims/FormEditEntrepreneur";
 import { SearchBar } from "../../Components/Molecules/SearchBar";
 import { buscarEntrepreneur, editarEntrepreneur, getEntrepreneurs, ordenarEntrepreneurs, removeEntrepreneur, updateEntrepreneur } from "../../Datos/Datos.Entrepreneurs";
-import { Btns } from "./Datos/Datos.Valores";
+import { Add, Btns } from "./Datos/Datos.Valores";
 import { useNavigate } from "react-router-dom";
-import { usePut } from "../../Fetching/usePut";
-import { useDelete } from "../../Fetching/useDelete";
 import { Tip } from "../../Datos/Datos.Tips";
+import axios from "axios";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { AlertComponent } from "../../Components/Organims/AlertComponent";
 export function AdminEntrepreneurs() {
     const [clickedButton, setClickedButton] = useState(null);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
@@ -21,8 +22,9 @@ export function AdminEntrepreneurs() {
     let entrepreneursBuscar;
     const [entrepreneurEdit, setEntrepreneurEdit] = useState(null);
     const [fetchTrigger, setFetchTrigger] = useState(true);
+    const [alert, setAlert] = useState(null);
     const navigate = useNavigate();
-    const tipActual = Tip(); 
+    const tipActual = Tip();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,32 +39,27 @@ export function AdminEntrepreneurs() {
         fetchData();
     }, [fetchTrigger]);
 
-    const handleUpdate = async (entrepreneur, numeroCliente) => {
-        try {
-            let res = await usePut(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, entrepreneur);
-            !res ? navigate('/Login') : console.log(res.message);
-            setEntrepreneurEdit(null);
-            setClickedButton('Add');
-            setFetchTrigger(prev => !prev); // Invierte el valor de fetchTrigger
-        } catch (error) {
-            console.error('Error al actualizar:', error);
-        }
-    };
-
     const handleDelete = async (numeroCliente) => {
         try {
-            let res = await useDelete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`);
-            !res ? navigate('/Login') : console.log(res.message);
+            let headers = {
+                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                'token': localStorage.getItem('token')
+            }
+            await axios.delete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, { headers: headers })
+                .then(res => {
+                    console.log(res);
+                    res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon/>));
+                });
             setEntrepreneurEdit(null);
             setClickedButton('Add');
-            setFetchTrigger(prev => !prev);
+            setFetchTrigger(!fetchTrigger);
         } catch (error) {
             console.error('Error al eliminar:', error);
         }
     };
-
     return (
         <>
+            <AlertComponent alert={alert} />
             <HeaderAdmin
                 Title={"Administracion de Emprendedoras"}
                 icon={"/assets/Icons/icons8-usuario-femenino-en-círculo-96.png"}
@@ -77,13 +74,21 @@ export function AdminEntrepreneurs() {
                         entrepreneurEdit ?
                             <FormEditEntrepreneur
                                 TipActual={tipActual}
-                                Update={() => handleUpdate}
-                                DeleteUser={() => handleDelete}
+                                Update={(alert) => {
+                                    setAlert(alert);
+                                    setFetchTrigger(!fetchTrigger);
+                                    setEntrepreneurEdit(null);
+                                    setClickedButton('Add');
+                                }}
+                                DeleteUser={(numeroCliente) => handleDelete(numeroCliente)}
                                 Entrepreneur={entrepreneurEdit.user} Tip={entrepreneurEdit.tip} />
                             :
                             <FormAddEntrepreneur
                                 TipActual={tipActual}
-                                AddEntrepreneur={() => setFetchTrigger(!fetchTrigger)} />
+                                AddEntrepreneur={(alert) => {
+                                    setAlert(alert);
+                                    setFetchTrigger(!fetchTrigger);
+                                }} />
                     } />
             </div>
         </>

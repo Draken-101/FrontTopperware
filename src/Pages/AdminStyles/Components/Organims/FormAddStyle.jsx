@@ -1,19 +1,18 @@
 import { Form, Formik } from "formik";
-import { ValoresAddEntrepreneurs } from "../../Datos/Datos.ValoresAddEntrepreneurs";
-import './FormAddEntrepreneur.styl'
+import './FormAddProducts.styl'
 import { InputsGenerator } from "../../../../Components/Molecules/InputsGenerator";
-import { InputsAddEntrepreneurs } from "../../Datos/Datos.InputsAddEntrepreneurs";
-import { InputsAddEntrepreneursTip } from "../../Datos/Datos.InputsAddEntrepreneursTip";
-import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
 import { ButtonPurple } from "../../../../Components/Atoms/ButtonPurple";
-import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
+import { ValidacionesAddProduct } from "../../Data/Datos.ValidacionesAddProduct";
+import { InputAddProfile } from "../../../../Components/Molecules/InputAddProfile";
 import { useState } from "react";
+import { InputsAddProductStyle } from "../../Data/Datos.InputsAddProductStyle";
+import { ValoresAddProductStyle } from "../../Data/Datos.ValoresAddProductStyle";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BackHandIcon from '@mui/icons-material/BackHand';
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Add } from "../../Datos/Datos.Valores";
-export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
+import { Add } from "../../Data/Datos.Valores";
+export function FormAddStyle({ AddStyle, ClaveActual }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const navigate = useNavigate();
@@ -32,19 +31,16 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
     }
     return (
         <Formik
-            initialValues={ValoresAddEntrepreneurs}
-            validate={(v) => ValidacionesAddEntrepreneurs(v)}
-            onSubmit={async (values, { resetForm }) => {
+            initialValues={ValoresAddProductStyle('', '', '', '', '', )}
+            validate={(v) => ValidacionesAddProduct(v)}
+            onSubmit={ async (values, { resetForm }) => {
                 const formData = new FormData();
-                formData.append("nombres", values.nombres);
-                formData.append("numeroCliente", values.numeroCliente);
-                formData.append("apellidos", values.apellidos);
-                formData.append("tip", TipActual);
-                formData.append("semana1", values.semana1 || 0);
-                formData.append("semana2", values.semana2 || 0);
-                formData.append("semana3", values.semana3 || 0);
-                formData.append("totalVenta", (values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0))
-                console.log(imgFile)
+                formData.append("nombre", values.nombre);
+                formData.append("clave", `${ClaveActual}-${values.nombre}`);
+                formData.append("cantidad", values.cantidad);
+                formData.append("precio", values.precio);
+                formData.append("categoria", values.categoria);
+                formData.append("descripcion", values.descripcion);
                 if (imgFile) {
                     formData.append("img", imgFile, imgFile.name)
                 } else {
@@ -55,13 +51,13 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                             'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                             'token':  localStorage.getItem('token')
                         }
-                    let res = await axios.post('http://localhost:3000/api/emprendedoras', formData, {headers: headers});
+                    let res = await axios.post('http://localhost:3000/api/estilos', formData, {headers: headers});
                     if(res.data.error){
                         navigate('/Login')
                     } else if (res.data.existe) {
-                        AddEntrepreneur(Add('Delete', res.data.message, () => <BackHandIcon/>))
+                        AddStyle(Add('Delete', res.data.message, () => <BackHandIcon/>))
                     } else {
-                        AddEntrepreneur(Add('Add', res.data.message, () => <CheckCircleIcon/>))
+                        AddStyle(Add('Add', res.data.message, () => <CheckCircleIcon/>))
                     } 
                 } catch (error) {
                     console.log('Error en la solicitud POST:', error);
@@ -70,10 +66,8 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                 resetForm();
                 console.log('Formulario enviado');
             }}>
-            <Form className="FormAdminControlsEntrepreneur">
-                <InputsGenerator Inputs={InputsAddEntrepreneurs} />
-                <h2>Tip {TipActual}</h2>
-                <InputsGenerator Inputs={InputsAddEntrepreneursTip} />
+            <Form className="FormAdminControlsProducts">
+                <InputsGenerator Inputs={InputsAddProductStyle} />
                 <h2> Agregar foto </h2>
                 <InputAddProfile Change={change} Img={img} />
                 <div className="B-Form">

@@ -18,7 +18,7 @@ export function Top({ Entepreneurs }){
     return(
         <Container>
                 {
-                    Entepreneurs.map((data) => 
+                    Entepreneurs?.map((data) => 
                         <CardTop EntrepreneurData={data}/>
                     )
                 }

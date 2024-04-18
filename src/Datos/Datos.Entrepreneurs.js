@@ -8,6 +8,8 @@
 //     this.img = img;
 // }
 
+import axios from "axios";
+
 export const updateEntrepreneur = (newEntrepreneur, Entrepreneurs) => {
     return [...Entrepreneurs.filter((entrepreneur) => {
         if (entrepreneur.numeroCliente === newEntrepreneur.numeroCliente) {
@@ -55,7 +57,7 @@ export const editarEntrepreneur = (entrepreneur, actualTip) => {
 }
 
 export function ordenarEntrepreneurs(Entrepreneurs) {
-    Entrepreneurs.sort((a, b) => b.totalVenta - a.totalVenta)
+    Entrepreneurs?.sort((a, b) => b.totalVenta - a.totalVenta)
     return [...Entrepreneurs.map((entrepreneur, top) => {
         top += 1;
         entrepreneur.top = top;
@@ -86,10 +88,12 @@ export const buscarEntrepreneur = (value, type, Entrepreneurs) => {
     }
 }
 
-import { getData } from '../Fetching/getData';
-// import Entrepreneurs from './Entrepreneurs.json';
 export const getEntrepreneurs = async () => {
-    const entrepreneurs = await getData('http://localhost:3000/api/emprendedoras');
-    const entrepreneurOrdenados = ordenarEntrepreneurs(entrepreneurs);
-    return [...entrepreneurOrdenados];
+    try {
+        const entrepreneurs = await axios.get('http://localhost:3000/api/emprendedoras');
+        const entrepreneurOrdenados = ordenarEntrepreneurs(entrepreneurs.data);
+        return entrepreneurOrdenados;
+    } catch (error) {
+        return error;
+    }
 }

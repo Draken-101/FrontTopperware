@@ -1,28 +1,30 @@
-export class Product {
-    constructor(clave, nombre, cantidad, tipo) {
-        this.clave = clave;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.tipo = tipo;
-    }
-    
-        // "clave": "VJ8W9E",
-        // "nombre": "Eco twist",
-        // "cantidad": 4,
-        // "tipo":"Bote"
+import axios from "axios";
 
-    updateProduct(clave, nombre, tipo ) {
-        this.clave = clave;
-        this.nombre = nombre;
-        this.tipo = tipo;
-    }
-    updateCantidad(cantidad){
-        this.cantidad = cantidad;
-    }
-    getClave(){
-        return this.clave;
-    }
-}
+// export class Product {
+//     constructor(clave, nombre, cantidad, tipo) {
+//         this.clave = clave;
+//         this.nombre = nombre;
+//         this.cantidad = cantidad;
+//         this.tipo = tipo;
+//     }
+    
+//         // "clave": "VJ8W9E",
+//         // "nombre": "Eco twist",
+//         // "cantidad": 4,
+//         // "tipo":"Bote"
+
+//     updateProduct(clave, nombre, tipo ) {
+//         this.clave = clave;
+//         this.nombre = nombre;
+//         this.tipo = tipo;
+//     }
+//     updateCantidad(cantidad){
+//         this.cantidad = cantidad;
+//     }
+//     getClave(){
+//         return this.clave;
+//     }
+// }
 
 export const buscarProduct = (value, type, Products) => {
     if (value === "") {
@@ -38,9 +40,12 @@ export const buscarProduct = (value, type, Products) => {
     } 
 }
 
-import P from './Products.json';
-export const Products = () => {
-    //                                              clave,         nombre,         cantidad,         tipo
-    let P2 = [...P.map((product) => product)];
-    return P2;
+export const Products = async () => {
+    try {
+        const res = await axios.get('http://localhost:3000/api/products');
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
 }

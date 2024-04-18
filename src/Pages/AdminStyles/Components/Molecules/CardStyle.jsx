@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import './CardProduct.styl'
 import { ButtonEditCard } from '../../../../Components/Atoms/ButtonEditCard';
 import { TopExistenciaCard } from '../../../../Components/Atoms/TopExistenciaCard';
 import { DataCardProductStyle } from '../Atoms/DataCardProductStyle';
@@ -14,7 +13,7 @@ const Fondo = styled.div`
     display: flex;
     align-items: end;
 `;
-export function CardProductStyle({Editar, ProductData, handleButtonClick, clickedButton }) {
+export function CardStyle({Editar, ProductData, handleButtonClick, clickedButton }) {
     return (
         <Container
             className={`Card`}
