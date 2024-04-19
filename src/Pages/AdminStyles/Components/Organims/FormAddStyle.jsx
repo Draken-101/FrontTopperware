@@ -35,7 +35,7 @@ export function FormAddStyle({ AddStyle, ClaveActual }) {
             validate={(v) => ValidacionesAddProduct(v)}
             onSubmit={ async (values, { resetForm }) => {
                 const formData = new FormData();
-                formData.append("nombre", values.nombre);
+                formData.append("nombre", values.nombre || "");
                 formData.append("clave", `${ClaveActual}-${values.nombre}`);
                 formData.append("cantidad", values.cantidad);
                 formData.append("precio", values.precio);

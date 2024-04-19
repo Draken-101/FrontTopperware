@@ -59,7 +59,7 @@ export function FormEditStyle({ Style, DeleteStyle, Update, claveProduct }) {
                             'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                             'token':  localStorage.getItem('token')
                         }
-                    let res = await axios.put(`http://localhost:3000/api/estilos/${Style.clave}`, formData, {headers: headers});
+                    let res = await axios.put(`http://localhost:3000/api/estilos/${Style.clave}/${Style.cantidad}`, formData, {headers: headers});
                     if(res.data.error){
                         navigate('/Login')
                     } else if (res.data.existe) {
@@ -82,7 +82,7 @@ export function FormEditStyle({ Style, DeleteStyle, Update, claveProduct }) {
                     <ButtonPurple type="submit" className="EditBtn" >
                         Modificar
                     </ButtonPurple>
-                    <ButtonPinkRed onClick={() => DeleteStyle(Style.clave)} type="button" className="DeleteBtn">
+                    <ButtonPinkRed onClick={() => DeleteStyle(Style.clave, Style.cantidad)} type="button" className="DeleteBtn">
                         Eliminar
                     </ButtonPinkRed>
                 </div>

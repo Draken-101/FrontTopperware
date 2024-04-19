@@ -64,13 +64,13 @@ export function AdminStyles() {
         }
         setStyles([...Styles.filter((e) => e.getClave() === clave)]);
     }
-    const handleDelete = async (clave) => {
+    const handleDelete = async (clave, cantidad) => {
         try {
             let headers = {
                 'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                 'token': localStorage.getItem('token')
             }
-            await axios.delete(`http://localhost:3000/api/estilos/${clave}`, { headers: headers })
+            await axios.delete(`http://localhost:3000/api/estilos/${clave}/${cantidad}`, { headers: headers })
                 .then(res => {
                     console.log(res);
                     res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
@@ -106,7 +106,7 @@ export function AdminStyles() {
                                     setStylesEdit(null);
                                     setFetchTrigger(!fetchTrigger);
                                 }}
-                                DeleteStyle={(clave) => handleDelete(clave)} 
+                                DeleteStyle={(clave, cantidad) => handleDelete(clave, cantidad)} 
                                 Style={stylesEdit.style} claveProduct={clave} />
                             :
                             <FormAddStyle
