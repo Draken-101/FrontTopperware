@@ -40,7 +40,7 @@ export const buscarProduct = (value, type, Products) => {
     } 
 }
 
-export const Products = async () => {
+export const getProducts = async () => {
     try {
         const res = await axios.get('http://localhost:3000/api/products');
         console.log(res);

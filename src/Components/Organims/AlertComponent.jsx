@@ -31,17 +31,17 @@ export function AlertComponent({ alert }) {
     }, [alert])
     return (
         <Container>
-        <Snackbar
-          className="Snackbar"
-          open={open}
-          autoHideDuration={5000}
-          onClose={() => setOpen(false)}
-        >
-            <div className={alert ? alert.type : ''}>
-            {alert ? alert.icon() : ''}
-            {alert ? alert.title : ''}
-            </div>
-        </Snackbar>
+            <Snackbar
+                className="Snackbar"
+                open={open}
+                autoHideDuration={5000}
+                onClose={() => setOpen(false)}
+            >
+                <div className={alert ? alert.type : ''}>
+                    {alert ? alert.icon() : ''}
+                    {alert ? alert.title : ''}
+                </div>
+            </Snackbar>
         </Container>
     )
 }

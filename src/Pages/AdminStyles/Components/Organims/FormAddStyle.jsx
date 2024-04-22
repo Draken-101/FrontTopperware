@@ -12,7 +12,7 @@ import BackHandIcon from '@mui/icons-material/BackHand';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Add } from "../../Data/Datos.Valores";
-export function FormAddStyle({ AddStyle, ClaveActual }) {
+export function FormAddStyle({ AddStyle, ClaveActual, onOffCarga }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const navigate = useNavigate();
@@ -31,9 +31,9 @@ export function FormAddStyle({ AddStyle, ClaveActual }) {
     }
     return (
         <Formik
-            initialValues={ValoresAddProductStyle('', '', '', '', '', )}
+            initialValues={ValoresAddProductStyle('', '', '', '', '',)}
             validate={(v) => ValidacionesAddProduct(v)}
-            onSubmit={ async (values, { resetForm }) => {
+            onSubmit={async (values, { resetForm }) => {
                 const formData = new FormData();
                 formData.append("nombre", values.nombre || "");
                 formData.append("clave", `${ClaveActual}-${values.nombre}`);
@@ -48,20 +48,24 @@ export function FormAddStyle({ AddStyle, ClaveActual }) {
                 }
                 try {
                     let headers = {
-                            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                            'token':  localStorage.getItem('token')
-                        }
-                    let res = await axios.post('http://localhost:3000/api/estilos', formData, {headers: headers});
-                    if(res.data.error){
+                        'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                        'token': localStorage.getItem('token')
+                    }
+                    onOffCarga(true);
+                    let res = await axios.post('http://localhost:3000/api/estilos', formData, { headers: headers });
+                    onOffCarga(false);
+                    if (res.data.error) {
                         navigate('/Login')
                     } else if (res.data.existe) {
-                        AddStyle(Add('Delete', res.data.message, () => <BackHandIcon/>))
+                        AddStyle(Add('Delete', res.data.message, () => <BackHandIcon />))
                     } else {
-                        AddStyle(Add('Add', res.data.message, () => <CheckCircleIcon/>))
-                    } 
+                        AddStyle(Add('Add', res.data.message, () => <CheckCircleIcon />))
+                    }
                 } catch (error) {
+                    navigate('/Login');
                     console.log('Error en la solicitud POST:', error);
                 }
+
                 setImg(null)
                 resetForm();
                 console.log('Formulario enviado');

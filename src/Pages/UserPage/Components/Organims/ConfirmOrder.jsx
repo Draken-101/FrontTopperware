@@ -1,6 +1,6 @@
 import './ConfirmOrder.styl'
 import { LoginLogo } from '../../../../Components/Molecules/LoginLogo';
-import { ProductShoppingCard } from '../Molecules/ProductShoppingCard';
+import { ProductShoppingCard } from '../../../ShoppingCar/Components/Molecules/ProductShoppingCard';
 import { useEffect, useState } from 'react';
 import { Total } from '../Molecules/Total';
 import { ButtonsOrder } from '../Molecules/ButtonsOrder';

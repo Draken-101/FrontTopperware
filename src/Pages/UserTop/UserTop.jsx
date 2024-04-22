@@ -7,14 +7,17 @@ import { Btns, tienda } from './Datos/Datos.Valores';
 import { buscarEntrepreneur, getEntrepreneurs } from '../../Datos/Datos.Entrepreneurs';
 export function UserTop() {
     const [entrepreneurs, setEntrepreneurs] = useState([]);
-    const [EntrepreneurTop1, setEntrepreneurTop1] = useState({});
-    let entrepreneursBuscar;
+    const [entrepreneursBuscar, setEntrepreneursBuscar] = useState([]);
+    const [entrepreneurTop1, setEntrepreneurTop1] = useState({});
+    const numeroCliente = localStorage.getItem('emprendedora');
     useEffect(() => {
         const fetchData = async () => {
             try {
-                entrepreneursBuscar = await getEntrepreneurs();
-                setEntrepreneurTop1(entrepreneursBuscar.find((entrepreneur) => entrepreneur.top == 1));
-                setEntrepreneurs(entrepreneursBuscar);
+                const fetchedEntrepreneurs = await getEntrepreneurs();
+                setEntrepreneursBuscar(fetchedEntrepreneurs);
+                const fetchedEntrepreneurTop1 = fetchedEntrepreneurs.find( entrepreneur => entrepreneur.top === 1 );
+                setEntrepreneurTop1({...fetchedEntrepreneurTop1});
+                setEntrepreneurs(fetchedEntrepreneurs);
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
@@ -23,7 +26,7 @@ export function UserTop() {
     }, []);
     return (
         <>
-            <HeaderUser Entrepreneur={EntrepreneurTop1} Icon={<IconTop Src={tienda.icon} />} Data={tienda} path={'/UserShop'}/>
+            <HeaderUser Entrepreneur={entrepreneurTop1} Icon={<IconTop Src={tienda.icon} />} Data={tienda} path={'/UserShop'}/>
             <SearchBar Buscar={(value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))} SearchButtons={Btns} />
             <Top Entepreneurs={entrepreneurs} />
         </>

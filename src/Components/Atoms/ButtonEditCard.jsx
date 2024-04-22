@@ -2,8 +2,8 @@ import styled from 'styled-components';
 export const ButtonEditCard = styled.button`
     position: absolute;
     z-index: 4;
-    width: 30%;
-    height: 30%;
+    width: 5vw;
+    height: 5vw;
     bottom: 0;
     right: 0;
     border: ${props => props.clicked ? "0.3vw" : "0.1vw"} solid rgba(87, 0, 155, 0.61);

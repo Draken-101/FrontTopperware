@@ -14,8 +14,8 @@ export const Btns =[
 ]
 
 export const tienda = {
-    pageName: "Tienda",
-    icon: "/assets/Icons/icons8-tienda-96.png",
-    nameButton: "Top",
-    iconButton: "/assets/Icons/icons8-corona-96.png"
+    pageName: "Top",
+    icon: "/assets/Icons/icons8-corona-96.png",
+    nameButton: "Tienda",
+    iconButton: "/assets/Icons/icons8-tienda-96.png"
 }

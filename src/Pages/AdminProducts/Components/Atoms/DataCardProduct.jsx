@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 const Container = styled.div`
     width: 100%;
-    height: 30% !important;
+    height: 5vw !important;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -26,7 +26,7 @@ const Container = styled.div`
         }
     }
     .name{
-        font-size: 1.5vw !important;
+        font-size: 1.4vw !important;
         font-weight: 500 !important;
     }
 `;

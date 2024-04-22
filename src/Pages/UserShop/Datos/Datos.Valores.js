@@ -1,4 +1,4 @@
-export const Btns =[
+export const BtnsUserShop =[
     {
         type: "clave de producto",
         icon: "/assets/Icons/IconHash.svg"

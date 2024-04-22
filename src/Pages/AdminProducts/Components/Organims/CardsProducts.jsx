@@ -1,7 +1,7 @@
 
 import './CardsProducts.styl'
 import { CardProduct } from '../Molecules/CardProduct';
-export function CardsProducts({ Styles, Editar, Products, handleButtonClick, clickedButton }) {
+export function CardsProducts({ Styles, Editar, Products, handleButtonClick, clickedButton, openForm, Form }) {
     return (
         <div className='ContainerCardsAdminEntrepreneurs'>
             {
@@ -11,7 +11,8 @@ export function CardsProducts({ Styles, Editar, Products, handleButtonClick, cli
                         if (estilo.clave.split('-')[0] === data.clave)
                             return estilo.img;
                     })]
-                    return <CardProduct Fondos={Fondos} Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                    const newFondos = [...Fondos.filter((img) => img !== undefined)];
+                    return <CardProduct openForm={openForm} Form={Form} Fondos={newFondos} Editar={Editar} ProductData={data} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 })
             }
         </div>

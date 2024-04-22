@@ -22,7 +22,7 @@ export function Shop({ Styles, Products }) {
                 Products?.map((data, index) =>
                     <CardProduct 
                         key={data.clave}
-                        ProductData={data} Styles={[...Styles.filter((styles) => styles.getClave() === data.clave )]}
+                        ProductData={data} 
                         Fondos={[...Styles?.filter(style => {
                             return style.getClave() === data.clave;
                         }).map(style => style.img)]} />

@@ -45,7 +45,7 @@ export function InputSearchBar({ Buscar, Btns }) {
         <Div className='InputSearchBar'>
             <Input ref={inputRef} placeholder={clickedButton ? `Buscar por ${clickedButton}` : "Buscar por nombre"} onChange={(e) => Buscar(e.target.value, clickedButton)} />
             {
-                Btns.map((Btn) => 
+                Btns?.map((Btn) => 
                     <Button
                         className={clickedButton === Btn.type ? 'active' : ''}
                         Img = {Btn.icon}

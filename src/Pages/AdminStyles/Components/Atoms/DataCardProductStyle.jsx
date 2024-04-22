@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 const Container = styled.div`
-    height: 30% !important;
+    height: 5vw !important;
     display: flex;
     flex-direction: column;
     background-color: rgba(87, 0, 155, 0.61);

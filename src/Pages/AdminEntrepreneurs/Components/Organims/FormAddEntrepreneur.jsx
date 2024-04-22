@@ -13,7 +13,7 @@ import BackHandIcon from '@mui/icons-material/BackHand';
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { Add } from "../../Datos/Datos.Valores";
-export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
+export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const navigate = useNavigate();
@@ -38,13 +38,13 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                 const formData = new FormData();
                 formData.append("nombres", values.nombres);
                 formData.append("numeroCliente", values.numeroCliente);
+                formData.append("phone", values.phone.replace(/\s+/g, ''));
                 formData.append("apellidos", values.apellidos);
                 formData.append("tip", TipActual);
                 formData.append("semana1", values.semana1 || 0);
                 formData.append("semana2", values.semana2 || 0);
                 formData.append("semana3", values.semana3 || 0);
-                formData.append("totalVenta", (values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0))
-                console.log(imgFile)
+                formData.append("totalVenta", (values.semana1 || 0) + (values.semana2 || 0) + (values.semana3 || 0));
                 if (imgFile) {
                     formData.append("img", imgFile, imgFile.name)
                 } else {
@@ -61,16 +61,16 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual }) {
                     } else if (res.data.existe) {
                         AddEntrepreneur(Add('Delete', res.data.message, () => <BackHandIcon/>))
                     } else {
+                        resetForm();
                         AddEntrepreneur(Add('Add', res.data.message, () => <CheckCircleIcon/>))
                     } 
                 } catch (error) {
                     console.log('Error en la solicitud POST:', error);
                 }
                 setImg(null)
-                resetForm();
                 console.log('Formulario enviado');
             }}>
-            <Form className="FormAdminControlsEntrepreneur">
+            <Form className={`FormAdminControlsEntrepreneur ${openForm ? 'visible' : ''}`}>
                 <InputsGenerator Inputs={InputsAddEntrepreneurs} />
                 <h2>Tip {TipActual}</h2>
                 <InputsGenerator Inputs={InputsAddEntrepreneursTip} />

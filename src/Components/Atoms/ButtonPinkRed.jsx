@@ -11,6 +11,7 @@ export const ButtonPinkRed = styled.button`
     font-size: ${props => props.Size || "2vw"};
     font-weight: normal;
     letter-spacing: ${props => props.LetterSpacing };
+    opacity: ${props => props.open ? 0 : 1};
     &:hover{
         filter: drop-shadow(0.5vw 0.5vw 0vw rgba(0, 0, 0, 0.3)) ;
         transform: translate( -.5vw, -.5vw);

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Label } from '../../../../Components/Atoms/Label';
+import { Label } from '../Atoms/Label';
 const Container = styled.div`
     display: flex;
     justify-content: space-around;

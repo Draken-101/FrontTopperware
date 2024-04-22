@@ -9,7 +9,7 @@ import axios from "axios";
 import { Add } from "../../Data/Datos.Valores";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BackHandIcon from '@mui/icons-material/BackHand';
-export function FormAddProduct({ AddProduct }) {
+export function FormAddProduct({ AddProduct, openForm, onOffCarga }) {
     return (
         <Formik
             initialValues={ValoresAddProduct('', '', '')}
@@ -25,10 +25,11 @@ export function FormAddProduct({ AddProduct }) {
                     'Content-Type': 'application/json',
                     'token': localStorage.getItem('token')
                 }
+                onOffCarga(true)
                 await axios.post('http://localhost:3000/api/products', newProduct, {
                     headers: headers
                 } )
-                .then(res => {
+                .then((res) => {
                     if(res.data.error){
                         navigate('/Login')
                     } else if (res.data.existe) {
@@ -36,11 +37,14 @@ export function FormAddProduct({ AddProduct }) {
                     } else {
                         AddProduct(Add('Add', res.data.message, () => <CheckCircleIcon/>))
                     } 
-                })
+                }).catch((error) =>{
+                    navigate('/Login');
+                });
+                onOffCarga(false);
                 resetForm();
                 console.log('Formulario enviado');
             }}>
-            <Form className="FormAdminControlsProducts">
+            <Form className={`FormAdminControlsProducts ${openForm ? 'visible' : ''}`}>
                 <InputsGenerator Inputs={InputsAddProduct} />
                 <div className="B-Form">
                     <ButtonPurple type="submit">

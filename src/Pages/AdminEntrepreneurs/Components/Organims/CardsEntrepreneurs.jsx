@@ -1,11 +1,11 @@
 import { CardEntrepreneur } from '../Molecules/CardEntrepreneur';
 import './CardsEntrepreneurs.styl'
-export function CardsEntrepreneurs({ Editar, Entrepreneurs, handleButtonClick, clickedButton }) {
+export function CardsEntrepreneurs({ Editar, Entrepreneurs, handleButtonClick, clickedButton, Form, openForm }) {
     return (
-        <div className='ContainerCardsAdminEntrepreneurs'>
+        <div className={`ContainerCardsAdminEntrepreneurs`}>
             {
                 Entrepreneurs.map((entrepreneur) => 
-                    <CardEntrepreneur key={entrepreneur.numeroCliente} Editar={Editar} Top={entrepreneur.top} EntrepreneurData={entrepreneur} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                    <CardEntrepreneur openForm={openForm} Form={Form} key={entrepreneur.numeroCliente} Editar={Editar} Top={entrepreneur.top} EntrepreneurData={entrepreneur} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 )
             }
         </div>

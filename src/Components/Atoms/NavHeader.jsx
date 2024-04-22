@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const NavHeaderAdmin = styled.nav`
+export const NavHeader = styled.nav`
     width: calc(47.5% - 1vw) ;
     height: 100%;
     padding-right: 1vw;

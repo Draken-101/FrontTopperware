@@ -56,14 +56,6 @@ export const editarEntrepreneur = (entrepreneur, actualTip) => {
     };
 }
 
-export function ordenarEntrepreneurs(Entrepreneurs) {
-    Entrepreneurs?.sort((a, b) => b.totalVenta - a.totalVenta)
-    return [...Entrepreneurs.map((entrepreneur, top) => {
-        top += 1;
-        entrepreneur.top = top;
-        return entrepreneur
-    }, 0)]
-}
 
 export function getNombreCompleto(entrepreneur) {
     return `${entrepreneur.nombres} ${entrepreneur.apellidos}`.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -91,8 +83,7 @@ export const buscarEntrepreneur = (value, type, Entrepreneurs) => {
 export const getEntrepreneurs = async () => {
     try {
         const entrepreneurs = await axios.get('http://localhost:3000/api/emprendedoras');
-        const entrepreneurOrdenados = ordenarEntrepreneurs(entrepreneurs.data);
-        return entrepreneurOrdenados;
+        return [...entrepreneurs.data];
     } catch (error) {
         return error;
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavEntrepreneurs } from "./Components/Molecules/NavEntrepreneurs";
+import { NavAdmin } from "./Components/Molecules/NavAdmin";
 import { HeaderAdmin } from "../../Components/Organims/HeaderAdmin";
 import { AdminControls } from "../../Components/Organims/AdminControls";
 import { SearchBar } from "../../Components/Molecules/SearchBar";
@@ -10,26 +10,29 @@ import { FormAddStyle } from "./Components/Organims/FormAddStyle";
 import { useNavigate, useParams } from "react-router-dom";
 import { AlertComponent } from "../../Components/Organims/AlertComponent";
 import { Add, Btns } from "./Data/Datos.Valores";
-import { ProductsStyles } from "../../Datos/Datos.ProductsStyles";
+import { getStyles } from "../../Datos/Datos.Styles";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from "axios";
+import { FondoCarga } from "../../Components/Organims/FondoCarga";
 export function AdminStyles() {
+    const [open, setOpen] = useState(false);
     let { clave } = useParams()
     const [clickedButton, setClickedButton] = useState(null);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [styles, setStyles] = useState([]);
-    let stylesBuscar;
+    const [stylesBuscar, setStylesBuscar] = useState([]);
     const [stylesEdit, setStylesEdit] = useState(null);
     const [fetchTrigger, setFetchTrigger] = useState(true);
     const [alert, setAlert] = useState(null);
+    const [carga, setCarga] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             try {
-                stylesBuscar = await ProductsStyles();
-                stylesBuscar = [...stylesBuscar.filter((style) => style.clave.split('-')[0] === clave)]
-                setStyles(stylesBuscar)
-                setClickedButton('Add');
+                let fetchedStyles = await getStyles();
+                let stylesFound = fetchedStyles.filter((style) => style.clave.split('-')[0] === clave);
+                setStylesBuscar(stylesFound);
+                setStyles(stylesFound)
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
@@ -64,55 +67,78 @@ export function AdminStyles() {
         }
         setStyles([...Styles.filter((e) => e.getClave() === clave)]);
     }
-    const handleDelete = async (clave, cantidad) => {
-        try {
-            let headers = {
-                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                'token': localStorage.getItem('token')
-            }
-            await axios.delete(`http://localhost:3000/api/estilos/${clave}/${cantidad}`, { headers: headers })
-                .then(res => {
-                    console.log(res);
-                    res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
-                });
-            setStylesEdit(null);
-            setClickedButton('Add');
-            setFetchTrigger(!fetchTrigger);
-        } catch (error) {
-            console.error('Error al eliminar:', error);
+    const handleDelete = async (clave) => {
+        let headers = {
+            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+            'token': localStorage.getItem('token')
         }
+        setCarga(true);
+        await axios.delete(`http://localhost:3000/api/estilos/${clave}`, { headers: headers })
+            .then(res => {
+                setCarga(false);
+                console.log(res);
+                res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
+            }).catch(error => {
+                setCarga(false);    
+                navigate('/Login');
+                console.error('Error al eliminar:', error);
+            });
+        setStylesEdit(null);
+        setClickedButton('Add');
+        setFetchTrigger(!fetchTrigger);
     };
     return (
         <>
+            <FondoCarga carga={carga} />
             <AlertComponent alert={alert} />
             <HeaderAdmin
                 Title={"Administracion de Productos"}
                 icon={"/assets/Icons/icons8-productos-96.png"}
-                Nav={<NavEntrepreneurs />}
+                Nav={<NavAdmin />}
             />
-            <SearchBar Buscar={BuscarStyle} SearchButtons={Btns}
+            <SearchBar
+                Buscar={BuscarStyle}
+                SearchButtons={Btns}
                 Buttons={
-                    <ButtonsFormEdit handleButtonClick={(id) => handleButtonClick(id)} SeeForm={() => setStylesEdit(null)} clickedButton={clickedButton} />
+                    <ButtonsFormEdit
+                        open={open}
+                        closeForm={() => {
+                            setOpen(false);
+                            setClickedButton(null);
+                        }}
+                        handleButtonClick={handleButtonClick}
+                        clickedButton={clickedButton}
+                        SeeFormAdd={() => {
+                            setStylesEdit(null);
+                            setOpen(true);
+                        }} />
                 } />
-            <div className="ContentAdmin">
-                <CardsProducts Styles={styles} Editar={(product) => Editar(product)} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+            <div className={`ContentAdmin ${open ? 'openFormAdd' : ''}`}>
+                <CardsProducts openForm={() => setOpen(true)} Form={open} Styles={styles} Editar={(product) => Editar(product)} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
+                    openForm={open}
                     title={stylesEdit ? "Editar Estilo" : "Agregar Estilo"}
                     Content={
                         stylesEdit ?
                             <FormEditStyle
-                                Update={(alert) => {
+                                onOffCarga={(value) => setCarga(value)}
+                                Alert={(alert) => {
                                     setAlert(alert);
+                                }}
+                                Update={() => {
                                     setStylesEdit(null);
                                     setFetchTrigger(!fetchTrigger);
                                 }}
-                                DeleteStyle={(clave, cantidad) => handleDelete(clave, cantidad)} 
+                                DeleteStyle={(clave) => handleDelete(clave)}
                                 Style={stylesEdit.style} claveProduct={clave} />
                             :
                             <FormAddStyle
+                                onOffCarga={(value) => setCarga(value)}
                                 ClaveActual={clave}
-                                AddStyle={(alert) => {
+                                Alert={(alert) => {
                                     setAlert(alert);
+                                }}
+                                AddStyle={() => {
                                     setFetchTrigger(!fetchTrigger);
                                 }} />
                     } />

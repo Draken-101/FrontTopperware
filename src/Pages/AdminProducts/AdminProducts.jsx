@@ -1,39 +1,41 @@
 import { useEffect, useState } from "react";
 import './AdminProducts.styl'
-import { NavEntrepreneurs } from "./Components/Molecules/NavEntrepreneurs";
-import { Products } from "../../Datos/Datos.Products";
+import { NavAdmin } from "./Components/Molecules/NavAdmin";
+import { getProducts } from "../../Datos/Datos.Products";
 import { HeaderAdmin } from "../../Components/Organims/HeaderAdmin";
 import { AdminControls } from "../../Components/Organims/AdminControls";
 import { FormAddProduct } from "./Components/Organims/FormAddProduct";
-import { ButtonAdd } from "../../Components/Molecules/ButtonAdd";
 import { FormEditProduct } from "./Components/Organims/FormEditProduct";
 import { SearchBar } from "../../Components/Molecules/SearchBar";
 import { CardsProducts } from "./Components/Organims/CardsProducts";
 import { useNavigate } from "react-router-dom";
-import { Tip } from "../../Datos/Datos.Tips";
 import { AlertComponent } from "../../Components/Organims/AlertComponent";
 import { Add, Btns } from "./Data/Datos.Valores";
-import { ProductsStyles } from "../../Datos/Datos.ProductsStyles";
+import { getStyles } from "../../Datos/Datos.Styles";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from "axios";
+import { ButtonsAdminControls } from "./Components/Molecules/ButtonsAdminControls";
+import { FondoCarga } from "../../Components/Organims/FondoCarga";
 export function AdminProducts() {
+    const [open, setOpen] = useState(false);
     const [clickedButton, setClickedButton] = useState(null);
     const handleButtonClick = (buttonId) => setClickedButton(buttonId);
     const [products, setProducts] = useState([]);
     const [styles, setStyles] = useState([]);
-    let productsBuscar;
+    const [productsBuscar, setProductsBuscar] = useState([]);
     const [productEdit, setProductEdit] = useState(null);
-    const [fetchTrigger, setFetchTrigger] = useState(true);
+    const [fetchTrigger, setFetchTrigger] = useState(false);
+    const [carga, setCarga] = useState(false);
     const [alert, setAlert] = useState(null);
     const navigate = useNavigate();
-    const tipActual = Tip();
     useEffect(() => {
         const fetchData = async () => {
             try {
-                productsBuscar = await Products();
-                setStyles(await ProductsStyles())
-                setProducts(productsBuscar);
-                setClickedButton('Add');
+                let fetchedProducts = await getProducts();
+                let fetchedStyles = await getStyles();
+                setStyles([...fetchedStyles])
+                setProducts([...fetchedProducts]);
+                setProductsBuscar([...fetchedProducts])
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
@@ -67,44 +69,58 @@ export function AdminProducts() {
         setProducts([...Products]);
     }
     const handleDelete = async (clave) => {
-        try {
-            let headers = {
-                'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                'token': localStorage.getItem('token')
-            }
-            await axios.delete(`http://localhost:3000/api/products/${clave}`, { headers: headers })
-                .then(res => {
-                    console.log(res);
-                    res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
-                });
-            setProductEdit(null);
-            setClickedButton('Add');
-            setFetchTrigger(!fetchTrigger);
-        } catch (error) {
-            console.error('Error al eliminar:', error);
+        let headers = {
+            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+            'token': localStorage.getItem('token')
         }
+        await axios.delete(`http://localhost:3000/api/products/${clave}`, { headers: headers })
+            .then(res => {
+                console.log(res);
+                res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
+            }).catch(error => {
+                navigate('/Login');
+                console.error('Error al eliminar:', error);
+            });;
+        setProductEdit(null);
+        setClickedButton('Add');
+        setFetchTrigger(!fetchTrigger);
     };
     return (
         <>
+            <FondoCarga carga={carga} />
             <AlertComponent alert={alert} />
             <HeaderAdmin
                 Title={"Administracion de Productos"}
                 icon={"/assets/Icons/icons8-productos-96.png"}
-                Nav={<NavEntrepreneurs />}
+                Nav={<NavAdmin />}
             />
             <SearchBar Buscar={BuscarProducto} SearchButtons={Btns}
-                Buttons={
-                    <ButtonAdd handleButtonClick={(id) => handleButtonClick(id)} SeeFormAdd={() => setProductEdit(null)} clickedButton={clickedButton} />
-                } />
-            <div className="ContentAdmin">
-                <CardsProducts Styles={styles} Editar={(product) => Editar(product)} Products={products} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
+                Buttons={<ButtonsAdminControls
+                    open={open}
+                    closeForm={() => {
+                        setOpen(false);
+                        setClickedButton(null);
+                    }}
+                    handleButtonClick={handleButtonClick}
+                    clickedButton={clickedButton}
+                    SeeFormAdd={() => {
+                        setProductEdit(null);
+                        setOpen(true);
+                    }} />} />
+            <div className={`ContentAdmin ${open ? 'openFormAdd' : ''}`}>
+                <CardsProducts openForm={() => setOpen(true)} Form={open} Styles={styles} Editar={(product) => Editar(product)} Products={products} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
+                    openForm={open}
                     title={productEdit ? "Editar Producto" : "Agregar Producto"}
                     Content={
                         productEdit ?
                             <FormEditProduct
-                                Update={(alert) => {
+                                onOffCarga={(value) => setCarga(value)}
+                                openForm={open}
+                                Alert={(alert) => {
                                     setAlert(alert);
+                                }}
+                                Update={() => {
                                     setFetchTrigger(!fetchTrigger);
                                     setProductEdit(null);
                                 }}
@@ -112,6 +128,8 @@ export function AdminProducts() {
                                 Product={productEdit.product} Tip={productEdit.claveProduct} />
                             :
                             <FormAddProduct
+                                onOffCarga={(value) => setCarga(value)}
+                                openForm={open}
                                 AddProduct={(alert) => {
                                     setAlert(alert);
                                     setFetchTrigger(!fetchTrigger);

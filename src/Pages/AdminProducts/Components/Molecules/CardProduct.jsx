@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
     background-color: rgba(250, 193, 255, 1);
-    width: calc( ( 75vw - 5vw ) / 4 );
-    height: calc( ( 75vw - 5vw ) / 4 );
+    width: calc( ( ${props => props.Form ? 75 : 100}vw - 5vw ) / 4 );
+    height: calc( ( ${props => props.Form ? 75 : 100}vw - 5vw ) / 4 );
     background-image: url(${props => props.Img});
     cursor: pointer;
     position: relative;
@@ -16,7 +16,7 @@ const Container = styled.div`
     align-items: end;
 `;
 
-export const CardProduct = ({ Fondos, Editar, ProductData, handleButtonClick, clickedButton }) => {
+export const CardProduct = ({ Fondos, Editar, ProductData, handleButtonClick, clickedButton, openForm, Form }) => {
     const navigate = useNavigate();
     const [imgFondo, setImgFondo] = useState('https://cdn-icons-png.flaticon.com/512/1809/1809992.png');
 
@@ -26,12 +26,13 @@ export const CardProduct = ({ Fondos, Editar, ProductData, handleButtonClick, cl
         } else if (Fondos.length === 1) {
             setImgFondo(Fondos[0]);
         } else {
+            setImgFondo(Fondos[0]);
             let currentIndex = 1;
             const intervalId = setInterval(() => {
                 console.log(Fondos[currentIndex]);
                 setImgFondo(Fondos[currentIndex]);
                 currentIndex = (currentIndex + 1) % Fondos.length;
-            }, Math.random() * (20000 - 10000) + 10000);
+            }, Math.random() * (10000 - 5000) + 5000);
 
             return () => clearInterval(intervalId);
         }
@@ -47,10 +48,14 @@ export const CardProduct = ({ Fondos, Editar, ProductData, handleButtonClick, cl
     };
 
     return (
-        <Container className="Card Product" Img={imgFondo}>
+        <Container Form={Form} className="Card Producto" Img={imgFondo}>
             <div onClick={handleCardClick} className="FondoCardProduct" />
-            <TopExistenciaCard title="Existencias" count={ProductData.cantidad} />
-            <ButtonEditCard onClick={handleEditButtonClick} clicked={ProductData.clave === clickedButton} />
+            <TopExistenciaCard title="Estilos" count={ProductData.cantidad} />
+            <ButtonEditCard onClick={() => {
+                openForm()
+                Editar(ProductData)
+                handleEditButtonClick()
+            }} clicked={ProductData.clave === clickedButton} />
             <DataCardProduct Data={ProductData} />
         </Container>
     );

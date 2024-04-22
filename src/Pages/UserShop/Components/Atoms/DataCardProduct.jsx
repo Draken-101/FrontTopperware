@@ -32,6 +32,7 @@ export function DataCardProduct({Data, StylesCount}){
     return(
         <Container>
             <span className='name'> {Data.nombre} </span>
+            <span> #{Data.clave} </span>
             <span> {StylesCount} estilos diferentes </span>
         </Container>
     )
