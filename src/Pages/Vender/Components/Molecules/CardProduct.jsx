@@ -9,56 +9,53 @@ const Container = styled.div`
     background-color: rgba(255, 247, 243, 1);
     width: 100%;
     height: 5vw;
-    display: flex;
+    display: grid;
+    grid-template-columns: 5vw 30% 30% 5% 13.5% 7% 7%;
     align-items: center;
+    justify-items: center;
     img{
         object-fit: cover;
         width: 5vw;
         height: 5vw;
     }
     label{
+        align-items: center;
+        width: calc(100% - 2vw);
+        height: 2.8vw;
+        font-size: 1.3vw;
         padding: 0vw 1vw;
-        border-right: 0.15vw solid;
+        border-right: 0.15vw solid rgba(136, 0, 139, 0.21);
     }
-    .ClaveP{
-        width: fit-content;
+    .center{
+        justify-content: center;
     }
-    .CantidadP{
-        width: fit-content;
-    }
-    .CantidadVentaP{
-        width: fit-content;
-    }
-    button{
-        margin-inline: 1vw;
+    .CardProductbutton{
         width: 2.8vw;
         height: 2.8vw;
-        &:last-child{
-            margin-left:0vw;
-        }
+        margin: 0%;
     }
 `;
-export function CardProduct({ Product }) {
+export function CardProduct({ Product, Edit, Delete }) {
 
     return (
         <Container>
-            <img src={'https://vir-to.s3.us-east-2.amazonaws.com/imgsEntrepreneurs/d23da2ed2'} alt="" />
+            <img src={Product.img} alt="" />
+            <Label >
+                {Product.nombre}
+            </Label>
             <Label>
-                Nombre
+                {Product.clave}
             </Label>
-            <Label className='ClaveP'>
-                Clave
+            <Label className='center'>
+                {Product.cantidad}
             </Label>
-            <Label className='CantidadP'>
-                1
+            <Label className='center'>
+                ${Product.precio * Product.cantidad}
             </Label>
-            <Label className='CantidadVentaP'>
-                $000.00
-            </Label>
-            <ButtonPurple>
+            <ButtonPurple className='CardProductbutton' onClick={() => Edit(Product)}>
                 <EditIcon fontSize="large"/>
             </ButtonPurple>
-            <ButtonPinkRed>
+            <ButtonPinkRed className='CardProductbutton' onClick={() => Delete(Product.clave)}>
                 <DeleteIcon fontSize="large"/>
             </ButtonPinkRed>
         </Container>

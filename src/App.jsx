@@ -8,6 +8,7 @@ import { ProductInfo } from "./Pages/Product/ProductInfo";
 import { AdminStyles } from "./Pages/AdminStyles/AdminStyles";
 import { ShoppingCar } from "./Pages/ShoppingCar/ShoppingCar";
 import { Vender } from "./Pages/Vender/Vender";
+import { Ticket } from "./Pages/Ticket/Ticket";
 function App() {
   document.title = "Topperware";
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/AdminStyles/:clave" element={<AdminStyles  />} />
         <Route path='/AdminEntrepreneurs' element={<AdminEntrepreneurs />}/>
         <Route path="/Login" element={<Login />} />
+        <Route path="/Ticket" element={<Ticket/>} />
         <Route path="/Vender" element={<Vender />} />
       </Routes>
     </BrowserRouter>

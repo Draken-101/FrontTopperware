@@ -18,13 +18,13 @@ const Container = styled.div`
         max-height: calc(100% - 4vw);
     }
 `;
-export function ContentProducts({Buscar, Products}){
+export function ContentProducts({Buscar, Styles, Edit, Delete}){
     return(
         <Container>
             <SearchBar Buscar={Buscar} SearchButtons={Btns} Vender={true}/>
             <div className='ProductsList'>
                 {
-                    Products?.map((product) => <CardProduct Product={product}/>)
+                    Styles?.map((product) => <CardProduct Product={product} Edit={Edit} Delete={Delete}/>)
                 }
                 
             </div>
