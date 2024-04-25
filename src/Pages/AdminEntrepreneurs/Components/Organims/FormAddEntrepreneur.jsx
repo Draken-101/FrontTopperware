@@ -13,7 +13,7 @@ import BackHandIcon from '@mui/icons-material/BackHand';
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { Add } from "../../Datos/Datos.Valores";
-export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm }) {
+export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm, onOffCarga }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const navigate = useNavigate();
@@ -35,6 +35,7 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm }) {
             initialValues={ValoresAddEntrepreneurs}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={async (values, { resetForm }) => {
+                onOffCarga(true)
                 const formData = new FormData();
                 formData.append("nombres", values.nombres);
                 formData.append("numeroCliente", values.numeroCliente);
@@ -55,7 +56,7 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm }) {
                             'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                             'token':  localStorage.getItem('token')
                         }
-                    let res = await axios.post('http://localhost:3000/api/emprendedoras', formData, {headers: headers});
+                    let res = await axios.post('http://3.135.157.51:27017/api/emprendedoras', formData, {headers: headers});
                     if(res.data.error){
                         navigate('/Login')
                     } else if (res.data.existe) {
@@ -67,6 +68,7 @@ export function FormAddEntrepreneur({ AddEntrepreneur, TipActual, openForm }) {
                 } catch (error) {
                     console.log('Error en la solicitud POST:', error);
                 }
+                onOffCarga(false)
                 setImg(null)
                 console.log('Formulario enviado');
             }}>

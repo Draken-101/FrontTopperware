@@ -73,7 +73,7 @@ export function AdminProducts() {
             'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
             'token': localStorage.getItem('token')
         }
-        await axios.delete(`http://localhost:3000/api/products/${clave}`, { headers: headers })
+        await axios.delete(`http://3.135.157.51:27017/api/products/${clave}`, { headers: headers })
             .then(res => {
                 console.log(res);
                 res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));

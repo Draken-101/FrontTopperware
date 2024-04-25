@@ -31,7 +31,7 @@ export function FormEditProduct({ Product, DeleteProduct, Alert, Update, onOffCa
                         'token': localStorage.getItem('token')
                     }
                     onOffCarga(true);
-                    await axios.put(`http://localhost:3000/api/products/${Product.clave}`, newProduct, {
+                    await axios.put(`http://3.135.157.51:27017/api/products/${Product.clave}`, newProduct, {
                         headers: headers
                     })
                         .then(res => {

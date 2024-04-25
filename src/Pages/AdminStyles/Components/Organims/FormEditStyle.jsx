@@ -70,7 +70,7 @@ export function FormEditStyle({ Style, DeleteStyle, Update, claveProduct, onOffC
                             'token': localStorage.getItem('token')
                         }
                         onOffCarga(true);
-                        let res = await axios.put(`http://localhost:3000/api/estilos/${Style.clave}/${Style.nombre}`, formData, { headers: headers });
+                        let res = await axios.put(`http://3.135.157.51:27017/api/estilos/${Style.clave}/${Style.nombre}`, formData, { headers: headers });
                         onOffCarga(false);
                         if (res.status === 401) {
                             navigate('/Login')

@@ -26,7 +26,7 @@ export function FormAddProduct({ AddProduct, openForm, onOffCarga }) {
                     'token': localStorage.getItem('token')
                 }
                 onOffCarga(true)
-                await axios.post('http://localhost:3000/api/products', newProduct, {
+                await axios.post('http://3.135.157.51:27017/api/products', newProduct, {
                     headers: headers
                 } )
                 .then((res) => {

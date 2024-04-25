@@ -42,7 +42,7 @@ export const buscarProduct = (value, type, Products) => {
 
 export const getProducts = async () => {
     try {
-        const res = await axios.get('http://localhost:3000/api/products');
+        const res = await axios.get('http://3.135.157.51:27017/api/products');
         console.log(res);
         return res.data;
     } catch (error) {

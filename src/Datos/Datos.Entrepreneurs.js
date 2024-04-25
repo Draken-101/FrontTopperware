@@ -82,7 +82,7 @@ export const buscarEntrepreneur = (value, type, Entrepreneurs) => {
 
 export const getEntrepreneurs = async () => {
     try {
-        const entrepreneurs = await axios.get('http://localhost:3000/api/emprendedoras');
+        const entrepreneurs = await axios.get('http://3.135.157.51:27017/api/emprendedoras');
         return [...entrepreneurs.data];
     } catch (error) {
         return error;

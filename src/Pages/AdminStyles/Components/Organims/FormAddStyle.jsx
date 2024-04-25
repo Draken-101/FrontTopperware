@@ -52,7 +52,7 @@ export function FormAddStyle({ AddStyle, ClaveActual, onOffCarga }) {
                         'token': localStorage.getItem('token')
                     }
                     onOffCarga(true);
-                    let res = await axios.post('http://localhost:3000/api/estilos', formData, { headers: headers });
+                    let res = await axios.post('http://3.135.157.51:27017/api/estilos', formData, { headers: headers });
                     onOffCarga(false);
                     if (res.data.error) {
                         navigate('/Login')

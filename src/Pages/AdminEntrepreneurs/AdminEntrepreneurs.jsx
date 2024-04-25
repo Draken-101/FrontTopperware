@@ -15,6 +15,7 @@ import axios from "axios";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { AlertComponent } from "../../Components/Organims/AlertComponent";
 import { ButtonsAdminControls } from "./Components/Molecules/ButtonsAdminControls";
+import { FondoCarga } from "../../Components/Organims/FondoCarga";
 export function AdminEntrepreneurs() {
     const [open, setOpen] = useState(false);
     const [clickedButton, setClickedButton] = useState(null);
@@ -26,6 +27,7 @@ export function AdminEntrepreneurs() {
     const [alert, setAlert] = useState(null);
     const navigate = useNavigate();
     const tipActual = getTipActual();
+    const [carga, setCarga] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -45,7 +47,7 @@ export function AdminEntrepreneurs() {
                 'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                 'token': localStorage.getItem('token')
             }
-            await axios.delete(`http://localhost:3000/api/emprendedoras/${numeroCliente}`, { headers: headers })
+            await axios.delete(`http://3.135.157.51:27017/api/emprendedoras/${numeroCliente}`, { headers: headers })
                 .then(res => {
                     console.log(res);
                     res.data.error ? navigate('/Login') : setAlert(Add('Delete', res.data.message, () => <DeleteForeverIcon />));
@@ -59,6 +61,7 @@ export function AdminEntrepreneurs() {
     };
     return (
         <>
+            <FondoCarga carga={carga} />
             <AlertComponent alert={alert} />
             <HeaderAdmin
                 Title={"Administracion de Emprendedoras"}
@@ -68,7 +71,7 @@ export function AdminEntrepreneurs() {
             <SearchBar
                 Buscar={(value, type) => setEntrepreneurs(buscarEntrepreneur(value, type, entrepreneursBuscar))}
                 SearchButtons={Btns}
-                Buttons={<ButtonsAdminControls 
+                Buttons={<ButtonsAdminControls
                     open={open}
                     closeForm={() => {
                         setOpen(false);
@@ -80,7 +83,7 @@ export function AdminEntrepreneurs() {
                         setEntrepreneurEdit(null);
                         setOpen(true);
                     }} />} />
-            <div className={`ContentAdmin ${ open ? 'openFormAdd' : ''}`}>
+            <div className={`ContentAdmin ${open ? 'openFormAdd' : ''}`}>
                 <CardsEntrepreneurs openForm={() => setOpen(true)} Form={open} Editar={(entrepreneur) => setEntrepreneurEdit(editarEntrepreneur(entrepreneur, tipActual))} Entrepreneurs={entrepreneurs} handleButtonClick={handleButtonClick} clickedButton={clickedButton} />
                 <AdminControls
                     openForm={open}
@@ -88,6 +91,8 @@ export function AdminEntrepreneurs() {
                     Content={
                         entrepreneurEdit ?
                             <FormEditEntrepreneur
+                            
+                            onOffCarga={(value) => setCarga(value)}
                                 Alert={(alert) => {
                                     setAlert(alert);
                                 }}
@@ -102,6 +107,10 @@ export function AdminEntrepreneurs() {
                                 Entrepreneur={entrepreneurEdit.user} Tip={entrepreneurEdit.tip} />
                             :
                             <FormAddEntrepreneur
+                            onOffCarga={(value) => setCarga(value)}
+                                Alert={(alert) => {
+                                    setAlert(alert);
+                                }}
                                 openForm={open}
                                 TipActual={tipActual}
                                 AddEntrepreneur={(alert) => {

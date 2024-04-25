@@ -73,7 +73,7 @@ export function AdminStyles() {
             'token': localStorage.getItem('token')
         }
         setCarga(true);
-        await axios.delete(`http://localhost:3000/api/estilos/${clave}`, { headers: headers })
+        await axios.delete(`http://3.135.157.51:27017/api/estilos/${clave}`, { headers: headers })
             .then(res => {
                 setCarga(false);
                 console.log(res);

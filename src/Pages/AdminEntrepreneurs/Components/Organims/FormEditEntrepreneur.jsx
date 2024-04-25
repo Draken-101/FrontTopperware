@@ -14,7 +14,7 @@ import { Add } from "../../Datos/Datos.Valores";
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import BackHandIcon from '@mui/icons-material/BackHand';
 import { ValidacionesAddEntrepreneurs } from "../../Datos/Datos.ValidacionesAddEntrepreneurs";
-export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Update, Alert, Tip, openForm }) {
+export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Update, Alert, Tip, openForm, onOffCarga }) {
     const [img, setImg] = useState(null);
     const [imgFile, setImgFile] = useState(null);
     const navigate = useNavigate();
@@ -38,6 +38,7 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
             initialValues={ValoresEditEntrepreneurs(Entrepreneur, Tip)}
             validate={(v) => ValidacionesAddEntrepreneurs(v)}
             onSubmit={async (values, { resetForm }) => {
+                onOffCarga(true)
                 if (values.nombres === Entrepreneur.nombres
                     && values.apellidos === Entrepreneur.apellidos
                     && values.email === Entrepreneur.email
@@ -70,7 +71,7 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
                             'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
                             'token': localStorage.getItem('token')
                         }
-                        await axios.put(`http://localhost:3000/api/emprendedoras/${Entrepreneur.numeroCliente}`, formData, { headers: headers })
+                        await axios.put(`http://3.135.157.51:27017/api/emprendedoras/${Entrepreneur.numeroCliente}`, formData, { headers: headers })
                             .then(res => {
                                 if (res.status !== 200) {
                                     navigate('/Login')
@@ -86,6 +87,7 @@ export function FormEditEntrepreneur({ Entrepreneur, TipActual, DeleteUser, Upda
                     } catch (error) {
                         console.log('Error en la solicitud PUT:', error);
                     }
+                    onOffCarga(false);
                     console.log('Formulario enviado');
                 }
             }}>
